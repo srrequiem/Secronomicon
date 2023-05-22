@@ -1,0 +1,26 @@
+site_name: Secronomicón
+site_description: 'Descripción'
+theme:
+  name: material
+  language: es
+  palette: 
+    - scheme: default
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.sections
+    #- navigation.expand
+
+extra_css:
+  - extra.css
+
+markdown_extensions:
+  - tables
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
