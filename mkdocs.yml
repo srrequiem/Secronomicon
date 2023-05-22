@@ -1,11 +1,17 @@
 site_name: Secronomicón
 site_description: 'Libro de notas donde encontrarás cada truco/técnica/guía de hacking que he aprendido y recolectado de CTFS, aplicaciones reales, lectura de writeups y noticias.'
+repo_url: https://github.com/srrequiem/Secronomicon
+repo_name: srrequiem/Secronomicon
+edit_uri: edit/main/docs/
 theme:
   name: material
   language: es
   palette: 
     - scheme: slate
+  icon:
+    repo: fontawesome/brands/github
   features:
+    - content.action.view
     - content.code.copy
     - navigation.top
     - navigation.sections

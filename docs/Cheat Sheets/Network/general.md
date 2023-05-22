@@ -1,19 +1,21 @@
-# Host discovery
+# General
 
-## Ping Sweep
+## Host discovery
 
-### Windows
+### Ping Sweep
 
-#### Powershell
+#### Windows
 
-##### Opción 1
+##### Powershell
+
+###### Opción 1
 
 ```powershell
 # Ejecutar en límea de comandos o como script
 1..255 | % {echo "172.16.2.$_"; ping -n 1 -w 100 172.16.2.$_} | Select-String ttl
 ```
 
-##### Opción 2
+###### Opción 2
 
 ```bash
 # Pendiente sólo imprimir True
@@ -28,28 +30,28 @@ $ips | ForEach-Object {
 }
 ```
 
-#### MSDOS
+##### MSDOS
 
 ```powershell
 for /L %a in (1,1,254) do @start /b ping 192.168.0.%a -w 100 -n 2 >nul
 arp -a
 ```
 
-### Linux
+#### Linux
 
-#### Bash
+##### Bash
 
-##### Opción 1
+###### Opción 1
 
 ```bash
 fping -a -g X.X.X.0/24 2>/dev/null # Opción 1
 ```
 
-##### Opción 2
+###### Opción 2
 
 ```bash
-#!/bin/bash
-# host_discovery.sh
+##!/bin/bash
+## host_discovery.sh
 subnet="10.10.110."
 for ip in {0..254}; do
   timeout 1 bash -c "ping -c 1 $subnet$ip" &> /dev/null && echo "[+] Host found $subnet$ip" &
@@ -63,14 +65,14 @@ bash host_discovery.sh
 bash host_discovery.sh 2>/dev/null
 ```
 
-##### Opción 3
+###### Opción 3
 
 ```bash
 subnet="10.10.110." && for ip in {0..254}; do ping -c 1 -t 1 $subnet$ip  > /dev/null && echo "[+] Host found $subnet$ip"; done
 ```
 
 
-#### Nmap
+##### Nmap
 
 ```bash
 nmap -sL 10.10.110.0/24 # List Scan
@@ -80,18 +82,18 @@ nmap -sA 10.10.110.0/24 # TCP ACK Ping
 nmap -PE 10.10.110.0/24 # ICMP Echo Ping
 ```
 
-# Port scanning
+## Port scanning
 
-## TCP
+### TCP
 
-### Netcat
+#### Netcat
 
 ```bash
 netcat -v -z -n -w 1 <ip> 1-65535 > host.nc 2>&1
 grep -v "refused" host.nc
 ```
 
-### Bash
+#### Bash
 
 ```bash
 host=<ip>
@@ -107,15 +109,15 @@ for port in {1..65535}; do
 done
 ```
 
-### Nmap a través de pivote
+#### Nmap a través de pivote
 
 ```bash
 seq 1 65535 | xargs -P 500 -I {} proxychains nmap -sT -Pn -p{} -open -T5 -v -n <ip> 2>&1 | grep "tcp open"
 ```
 
-# MAC Address
+## MAC Address
 
-## Cambio de MAC Address
+### Cambio de MAC Address
 
 1. Deshabilitar interfaz
 
