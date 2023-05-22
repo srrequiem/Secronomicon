@@ -1,5 +1,0 @@
-# Índice
-
-- Linux.
-- Windows.
-  - []().

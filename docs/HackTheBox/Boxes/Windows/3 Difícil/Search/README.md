@@ -4,7 +4,7 @@ Write-up de la máquina Search de [HackTheBox](hackthebox.com).
 
 ![Cover de Search](images/cover.png)
 
-## Tabla de Contenido <!-- omit from toc -->
+## Índice <!-- omit from toc -->
 
 - [Introducción](#introducción)
   - [Técnicas vistas / Tags](#técnicas-vistas--tags)

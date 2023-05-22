@@ -9,7 +9,6 @@ theme:
     - content.code.copy
     - navigation.top
     - navigation.sections
-    #- navigation.expand
 
 extra_css:
   - extra.css
