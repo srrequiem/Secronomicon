@@ -1,4 +1,4 @@
-# OSCP Buffer Overflow Cheat Sheet
+# OSCP BOF Cheat Sheet
 
 | Fuzzing |  |
 |---|---|

@@ -1,14 +1,13 @@
 site_name: Secronomicón
-site_description: 'Descripción'
+site_description: 'Libro de notas donde encontrarás cada truco/técnica/guía de hacking que he aprendido y recolectado de CTFS, aplicaciones reales, lectura de writeups y noticias.'
 theme:
   name: material
   language: es
   palette: 
-    - scheme: default
-      toggle:
-        icon: material/brightness-4
-        name: Switch to light mode
+    - scheme: slate
   features:
+    - content.code.copy
+    - navigation.top
     - navigation.sections
     #- navigation.expand
 
