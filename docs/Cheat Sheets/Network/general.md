@@ -50,8 +50,8 @@ fping -a -g X.X.X.0/24 2>/dev/null # Opción 1
 ###### Opción 2
 
 ```bash
-##!/bin/bash
-## host_discovery.sh
+#!/bin/bash
+# host_discovery.sh
 subnet="10.10.110."
 for ip in {0..254}; do
   timeout 1 bash -c "ping -c 1 $subnet$ip" &> /dev/null && echo "[+] Host found $subnet$ip" &

@@ -14,9 +14,24 @@ chisel server -p 8000 --reverse
 
 | Comando | Descripción |
 |---|---|
-| `chisel client 10.10.14.3:8000 R:80:127.0.0.1:80` | Listen on Kali 80, forward to localhost port 80 on client |
-| `chisel client 10.10.14.3:8000 R:4444:10.10.10.240:80` | Listen on Kali 4444, forward to 10.10.10.240 port 80 |
-| `chisel client 10.10.14.3:8000 R:socks` | Create SOCKS5 listener on 1080 on Kali, proxy through client |
+| `chisel client 10.10.14.3:8000 R:80:127.0.0.1:80` | Escuchar en Kali 80, redireccionar a localhost puerto 80 en el cliente |
+| `chisel client 10.10.14.3:8000 R:4444:10.10.10.240:80` | Escuchar en Kali 4444, redireccionar a 10.10.10.240 puerto 80 |
+| `chisel client 10.10.14.3:8000 R:socks` | Crea un listener SOCKS5 en Kali (por default 1080), proxy a través de cliente |
+| `chisel client 10.10.14.3:8000 R:1081:socks` | Crea un listener SOCKS5 en 1081 en Kali, proxy a través de cliente (configuración útil para múltiples clientes) |
+
+### Proxychains
+
+Configuración para múltiples clientes
+
+```bash
+# ...
+dynamic_chain
+#strict_chain
+# ...
+[ProxyList]
+socks5	127.0.0.1 1081
+socks5	127.0.0.1 1080
+```
 
 ## SSH + Proxychains
 

@@ -12,6 +12,7 @@ theme:
     repo: fontawesome/brands/github
   features:
     - content.action.view
+    - content.action.edit
     - content.code.copy
     - navigation.top
     - navigation.sections
