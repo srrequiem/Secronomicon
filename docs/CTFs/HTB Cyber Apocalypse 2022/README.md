@@ -6,7 +6,7 @@ tags:
   - Binary Analysis (IDA)
   - Microsoft Windows Event Logs Analysis (evtx)+
   - NTUSER.dat Analysis
-  - GTFOBin (zip)
+  - GTFOBins (zip)
 ---
 
 # HTB Cyber Apocalypse CTF 2022 <!-- omit from toc -->
@@ -14,8 +14,6 @@ tags:
 Cyber Apocalypse CTF 2022 - Intergalactic Chase
 
 ![Cover de CTF](images/cover.jpg)
-
-tags: ["XSS", "JWT", "md-to-pdf", "IDA", "evtx", "NTUSER.dat", "zip", "GTFOBins"]
 
 ## Índice <!-- omit from toc -->
 
@@ -511,7 +509,7 @@ drwxr-sr-x    6 ctf      ctf           4096 May 18 22:55 wqVpR4QLSsuu5QiWRqhPNLu
 
 ##### Composición
 
-Como parte del ejercicio "post-reto" se extrajo el código correspondiente al reto ([`artifacts.py`](#artifactspy) y [`clear.py`](#clearpy)).
+Como parte del ejercicio "post-reto" se extrajo el código correspondiente al reto (`artifacts.py` y clear.py).
 
 ```python title="artifacts.py" linenums="1"
 #!/usr/bin/python3
