@@ -16,7 +16,6 @@ theme:
     - navigation.top
     - navigation.sections
     - navigation.tracking
-    - navigation.expand
 
 extra_css:
   - extra.css
