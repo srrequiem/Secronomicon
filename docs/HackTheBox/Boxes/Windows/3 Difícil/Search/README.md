@@ -23,7 +23,6 @@ Write-up de la máquina Search de [HackTheBox](hackthebox.com).
 ## Índice <!-- omit from toc -->
 
 - [Introducción](#introducción)
-  - [Técnicas vistas / Tags](#técnicas-vistas--tags)
   - [Estadísticas](#estadísticas)
 - [Reconocimiento](#reconocimiento)
   - [Escaneo de host](#escaneo-de-host)
@@ -50,21 +49,6 @@ Write-up de la máquina Search de [HackTheBox](hackthebox.com).
 
 
 ## Introducción
-
-### Técnicas vistas / Tags
-
-- Information Leakage - Password in picture
-- RPC Enumeration (rpcclient)
-- Ldap Enumeration (ldapdomaindump)
-- Bloodhound Enumeration
-- Kerberoasting Attack (GetUserSPNs.py)
-- SMB Password Spray Attack (Crackmapexec)
-- Unprotecting password-protected Excel (Remove Protection)
-- Playing with pfx certificates
-- Gaining access to Windows PowerShell Web Access
-- Abusing ReadGMSAPassword privilege
-- Abusing GenericAll privilege (Resetting a user's password)
-- Gaining access with wmiexec
 
 ### Estadísticas
 

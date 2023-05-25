@@ -1,19 +1,66 @@
-# Estadísticas
+---
+tags:
+  - SQL Injection [SQLI] - Error Based
+  - Advanced Bash Scripting (EXTRA)
+  - SQLI to RCE (Into Outfile - PHP File Creation)
+  - ConPtyShell (Fully Interactive Reverse Shell for Windows)
+  - Playing with ScriptBlocks and PSCredential to execute commands as another user
+  - AppLocker Bypass
+  - WinPEAS Enumeration
+  - Service ImagePath Hijacking (Privilege Escalation)
+---
+
+# Control <!-- omit from toc -->
+
+Write-up de la máquina Control de [HackTheBox](https://hackthebox.com).
+
+![Cover de Control](images/cover.png)
+
+## Índice <!-- omit from toc -->
+
+- [Introducción](#introducción)
+  - [Estadísticas](#estadísticas)
+- [Reconocimiento](#reconocimiento)
+  - [Escaneo de host](#escaneo-de-host)
+    - [Escaneo completo de puertos](#escaneo-completo-de-puertos)
+    - [Escaneo específico](#escaneo-específico)
+- [Enumeración](#enumeración)
+  - [Servicios](#servicios)
+    - [http - 80](#http---80)
+      - [Manual](#manual)
+      - [ffuf](#ffuf)
+- [Explotación](#explotación)
+  - [Inyección SQL](#inyección-sql)
+    - [Ejecución](#ejecución)
+  - [RCE](#rce)
+- [Post Explotación](#post-explotación)
+  - [Enumeración](#enumeración-1)
+  - [Escalación de privilegios](#escalación-de-privilegios)
+    - [nt authority\\iusr → hector](#nt-authorityiusr--hector)
+    - [hector → nt authority\\system](#hector--nt-authoritysystem)
+      - [Usando powershell](#usando-powershell)
+      - [Usando cmd](#usando-cmd)
+- [Notas adicionales](#notas-adicionales)
+- [Referencias](#referencias)
+
+## Introducción
+
+### Estadísticas
 
 | Característica | Descripción |
 |---|---|
-| Nombre | [Control](https://www.hackthebox.com/home/machines/profile/218) |
+| Nombre | [Control](https://app.hackthebox.com/machines/Control) |
 | OS | Windows |
 | Dificultad oficial | Hard |
-| Dificultad de comunidad | ![Dificultad](images/difficulty.png) |
+| Dificultad de comunidad | ![Dificultad](images/diff.png) |
 | Puntos | 40 |
-| Creadores | [TRX](https://www.hackthebox.com/home/users/profile/31190) |
+| Creadores | [TRX](https://app.hackthebox.com/users/31190) |
 
-# Reconocimiento
+## Reconocimiento
 
-## Escaneo de host
+### Escaneo de host
 
-### Escaneo completo de puertos
+#### Escaneo completo de puertos
 
 ```bash
 └─$ sudo nmap -sS --min-rate 5000 -vvv -opèn -p- -n -Pn -oG nmap/all_ports_ss $TARGET
@@ -44,7 +91,7 @@ Nmap done: 1 IP address (1 host up) scanned in 26.48 seconds
            Raw packets sent: 131084 (5.768MB) | Rcvd: 60 (2.496KB)
 ```
 
-### Escaneo específico
+#### Escaneo específico
 
 ```bash
 └─$ nmap -sCV -p 80,135,3306,49666,49667 -n -Pn -oN nmap/targeted $TARGET
@@ -75,13 +122,13 @@ Service detection performed. Please report any incorrect results at https://nmap
 Nmap done: 1 IP address (1 host up) scanned in 61.09 seconds
 ```
 
-# Enumeración
+## Enumeración
 
-## Servicios
+### Servicios
 
-### http - 80
+#### http - 80
 
-#### Manual
+##### Manual
 
 Visualmente no se identificó nada relevante, dado que en su mayoría los textos contienen `Lorem ipsum` salvo algunas rutas expuestas mediante a la interacción con parte de la interfaz. Visualizando así un error en la ruta `admin.php` después de dar click al botón de Login.
 
@@ -113,7 +160,7 @@ Después de varias iteraciones, buscando un identificador válido (26) se puede 
 
 ![ID válido](images/enum_5.png)
 
-#### ffuf
+##### ffuf
 
 Para complementar lo obtenido se buscaron rutas adicionales por medio de:
 
@@ -123,11 +170,11 @@ ffuf -c -ic -u http://10.10.10.167/FUZZ -w /usr/share/seclists/Discovery/Web-Con
 
 ![Rutas adicionales encontradas](images/enum_6.png)
 
-# Explotación
+## Explotación
 
-## Inyección SQL
+### Inyección SQL
 
-### Ejecución
+#### Ejecución
 
 Teniendo en cuenta la tecnología empleada y parte de los parámetros usados, se buscó explotar una inyección SQL haciendo uso de `sqlmap`, utilizando:
 
@@ -166,7 +213,7 @@ manager:l3tm3!n
 hector:l33th4x0rhector
 ```
 
-## RCE
+### RCE
 
 Después de obtener las credenciales y buscar emplearlas con los servicios expuestos en la máquina (mysql únicamente dado que no se cuenta con `smb` o algún otro servicio en donde se pudieran haber usado) [se buscó la forma](https://kayran.io/blog/web-vulnerabilities/sqli-to-rce/) para que mediante la inyección SQL se para pudiera lograr la ejecución remota de código mediante la escritura de un script en php, haciendo uso de instrucciones como `INTO OUTFILE` o `INTO DUMPFILE`.
 
@@ -214,17 +261,17 @@ Logrando así acceso de una manera más interactiva.
 
 ![Reverse shell](images/exploit_8.png)
 
-# Post Explotación
+## Post Explotación
 
-## Enumeración
+### Enumeración
 
 Al buscar atar cabos sueltos respecto a lo indicado en el código fuente del sitio, se pudo visualizar que en el contenido del script de `admin.php` se hace un filtrado de cabeceras indicado por `HTTP_X_FORWARDED_FOR` buscando la IP indicada `192.168.4.28`. A lo que por consiguiente si se añadiera la cabecera `X-Forwarded-For: 192.168.4.28` a las peticiones realizadas se visualizaría el contenido de `admin.php`, logrando así un bypass de la validación.
 
 ![Validación de cabeceras](images/post_14.png)
 
-## Escalación de privilegios
+### Escalación de privilegios
 
-### nt authority\iusr &rarr; hector
+#### nt authority\iusr &rarr; hector
 
 Habiendo identificado que existe el usuario `hector` en el sistema operativo por medio del listado de directorios de `c:\users`, se dispuso a buscar la manera de ejecutar comandos mediante las credenciales obtenidas.
 
@@ -273,7 +320,7 @@ Obteniendo así una segunda revershell pero en esta ocasión como el usuario `he
 
 ![Reverse shell como hector](images/post_4.png)
 
-### hector &rarr; nt authority\system
+#### hector &rarr; nt authority\system
 
 Buscando obtener información relevante para escalar como administrador, se ejecutó [winPEAS](https://github.com/carlospolop/PEASS-ng/tree/master/winPEAS), identificando que se cuenta con un gran número de registros a los cuales se tiene acceso completo.
 
@@ -329,7 +376,7 @@ Dando como resultado la lista de los servicios buscados.
 
 Obteniendo lo anterior se puede modificar la propiedad `ImagePath` del servicio y ejecutar lo que se desee una vez que el servicio sea iniciado. Se puede lograr este comportamiento tanto como haciendo uso de cmd como de powershell.
 
-#### Usando powershell
+##### Usando powershell
 
 Mediante powershell habría que:
 
@@ -370,7 +417,7 @@ Para así ejecutar el binario indicado.
 
 ![Reverse shell como nt authority\system](images/post_13.png)
 
-#### Usando cmd
+##### Usando cmd
 
 Mediante cmd se realizaría el mismo procedimiento con respectivos cambios en los comandos debido que powershell configura alias en algunos comandos, por lo que, se ejecutaría:
 
@@ -392,13 +439,13 @@ Mediante cmd se realizaría el mismo procedimiento con respectivos cambios en lo
    sc start seclogon
    ```
 
-# Notas adicionales
+## Notas adicionales
 
 Mientras resolvía la máquina encontré diversos problemas para ejecutar el mismo binario de netcat, ya hubiera sido si lo cargaba directamente a la máquina o lo ejecutaba a través del cliente smb, logré solucionarlo empleando otra subida de netcat mediante el usuario obtenido conforme iba realizando la escalación de privilegios.
 
 Dado que durante el proceso de resolución personalmente busco lo equivalente a comparar respuestas en una evaluación por lo que, suelo leer write-ups y ver walkthroughs de otros usuarios principalmente de [0xdf](https://0xdf.gitlab.io/) e [IppSec](https://www.youtube.com/c/ippsec), noté que ambos hicieron referencia a [AppLocker](https://docs.microsoft.com/en-us/windows/security/threat-protection/windows-defender-application-control/applocker/what-is-applocker) ya que el mismo problema se presentó. Después de buscar más información al respecto, encontré que existen rutas en Windows las cuales suelen estar libres de estas restricciones, encontrando varias listas de estas rutas en [repositorios de github](https://github.com/api0cradle/UltimateAppLockerByPassList) dándole motivo al uso de la ruta `C:\Windows\System32\spool\drivers\color` que se emplea en los write-ups.
 
-# Referencias
+## Referencias
 
 - [SQL Injection](https://teckk2.github.io/web-pentesting/2018/02/07/SQL-Injection-(Login-Form-User).html).
 - [CrackStation](https://crackstation.net/).

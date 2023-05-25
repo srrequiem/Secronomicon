@@ -1,19 +1,74 @@
-# Estadísticas
+---
+tags:
+  - Abusing Oracle Database
+  - Oracle Database Attacking Tool (ODAT) Installation
+  - Oracle DB Exploitation - Identifying valid SIDs (sidguesser)
+  - Oracle DB Exploitation - Discovering valid credentials (passwordguesser)
+  - Oracle DB Exploitation - Attempting a remote file read
+  - Oracle DB Exploitation - Attempting a remote file upload
+  - Oracle DB Exploitation - Attempting execution of a previously uploaded binary file
+  - Memdump
+  - Volatility
+  - Abusing SeImpersonatePrivilege
+---
+
+# Silo <!-- omit from toc -->
+
+Write-up de la máquina Silo de [HackTheBox](https://hackthebox.com).
+
+![Cover de Silo](images/cover.png)
+
+## Índice <!-- omit from toc -->
+
+- [Introducción](#introducción)
+  - [Estadísticas](#estadísticas)
+- [Reconocimiento](#reconocimiento)
+  - [Escaneo de host](#escaneo-de-host)
+    - [Escaneo completo de puertos](#escaneo-completo-de-puertos)
+    - [Escaneo específico](#escaneo-específico)
+- [Enumeración](#enumeración)
+  - [Servicios](#servicios)
+    - [Microsoft IIS - 80](#microsoft-iis---80)
+    - [Oracle TNS Listener - 1521](#oracle-tns-listener---1521)
+      - [hydra](#hydra)
+- [Explotación](#explotación)
+  - [No intencionada](#no-intencionada)
+    - [Obtención de credenciales](#obtención-de-credenciales)
+      - [Pasos previos | Preparación](#pasos-previos--preparación)
+      - [Ejecución](#ejecución)
+    - [RCE](#rce)
+      - [Pasos previos | Preparación](#pasos-previos--preparación-1)
+      - [Ejecución](#ejecución-1)
+  - [Intencionada](#intencionada)
+    - [RCE](#rce-1)
+      - [Pasos previos | Preparación](#pasos-previos--preparación-2)
+      - [Ejecución](#ejecución-2)
+- [Post Explotación](#post-explotación)
+  - [Enumeración](#enumeración-1)
+  - [Escalación de privilegios](#escalación-de-privilegios)
+    - [Método 1 - Juicy Potato](#método-1---juicy-potato)
+    - [Método 2 - Memdump](#método-2---memdump)
+- [Referencias](#referencias)
+
+
+## Introducción
+
+### Estadísticas
 
 | Característica | Descripción |
 |---|---|
 | Nombre | [Silo](https://www.hackthebox.com/home/machines/profile/131) |
 | OS | Windows |
 | Dificultad oficial | Medium |
-| Dificultad de comunidad | ![Dificultad](images/difficulty.png) |
+| Dificultad de comunidad | ![Dificultad](images/diff.png) |
 | Puntos | 30 |
-| Creadores | [egre55](https://www.hackthebox.com/home/users/profile/1190) |
+| Creadores | [egre55](https://app.hackthebox.com/users/1190) |
 
-# Reconocimiento
+## Reconocimiento
 
-## Escaneo de host
+### Escaneo de host
 
-### Escaneo completo de puertos
+#### Escaneo completo de puertos
 
 ```bash
 └─$ sudo nmap -sS --min-rate 5000 -vvv -open -p- -n -Pn -oG nmap/all_ports_ss $TARGET
@@ -63,7 +118,7 @@ Nmap done: 1 IP address (1 host up) scanned in 13.27 seconds
            Raw packets sent: 65634 (2.888MB) | Rcvd: 65535 (2.621MB)
 ```
 
-### Escaneo específico
+#### Escaneo específico
 
 ```bash
 └─$ nmap -sCV -p 80,135,139,445,1521,5985,47001,49152,49153,49154,49155,49159,49160,49161,49162 -n -Pn -oN nmap/targeted $TARGET
@@ -113,23 +168,23 @@ Service detection performed. Please report any incorrect results at https://nmap
 Nmap done: 1 IP address (1 host up) scanned in 127.10 seconds
 ```
 
-# Enumeración
+## Enumeración
 
-## Servicios
+### Servicios
 
-### Microsoft IIS - 80
+#### Microsoft IIS - 80
 
 Se expone la página por default de Microsoft IIS y al hacer uso de herramientas de fuzzing no se tuvo éxito al buscar algún directorio relevante, sin embargo, para el método intencionado de resolución es importante tener a consideración.
 
 ![Página default IIS](images/enum_1.png)
 
-### Oracle TNS Listener - 1521
+#### Oracle TNS Listener - 1521
 
 Después de revisar acerca de la [metodología empleada](https://book.hacktricks.xyz/network-services-pentesting/1521-1522-1529-pentesting-oracle-listener) para este servicio, se buscó obtener información relevante respecto la versión, estatus, etc, haciendo uso de `tnscmd10g` sin éxito alguno.
 
 Posteriormente, en la metodología se mencionan los SID (Identificadores de Servicio, esencialmente pueden ser reconocidos como los nombres de las bases de datos), los cuales dependiendo de la instalación realizada pueden existir uno o más SIDs por defecto. Al no poder obtenerlos mediante `tnscmd10g`, se sugiere que realice fuerza bruta de los comúnes para identificar los existentes.
 
-#### hydra
+##### hydra
 
 Haciendo uso de:
 
@@ -145,19 +200,19 @@ Con el conjunto de diccionarios que ofrece [hacktricks](https://book.hacktricks.
 
 ![Fuerza bruta de SIDs](images/enum_2.png)
 
-# Explotación
+## Explotación
 
 *Nota: Después de resolver la máquina se suele verificar el proceso con otras fuentes, identificando de esta manera que existen 2 caminos a resolver la máquina una intencionada y una no intencionada, una más directa por no decir fácil que la otra. Primero se expondrá el método por el cuál se resolvió inicialmente y posteriormente la resolución intencionada.*
 
-## No intencionada
+### No intencionada
 
-### Obtención de credenciales
+#### Obtención de credenciales
 
-#### Pasos previos | Preparación
+##### Pasos previos | Preparación
 
 Haciendo uso de [ODAT](https://github.com/quentinhardy/odat) se obtuvieron credenciales de un usuario disponible, por medio de un módulo que la herramienta ofrece. Inicialmente se requiere la instalación descrita en el repositorio aunque por lo que respecta en kali, basta con clonar el repositorio.
 
-#### Ejecución
+##### Ejecución
 
 Como parte inicial se ejecutó un "Ave María" invocando todos los módulos que la herramienta ofrece para visualizar si de esta manera se identificaba algo que pudiera servir, para ello, la herramienta solicita un SID válido a ocupar, siendo `XE` el SID con información útil (identificándolo después de ejecutar el comando con cada uno de los SIDs). Haciendo uso de:
 
@@ -169,13 +224,13 @@ Como parte inicial se ejecutó un "Ave María" invocando todos los módulos que 
 
 Posteriormente se identificó que el módulo encargado de hacer este proceso es `passwordguesser` el cual simplemente sustituiría a `all` del comando.
 
-### RCE
+#### RCE
 
-#### Pasos previos | Preparación
+##### Pasos previos | Preparación
 
 Posteriormente, al revisar los módulos disponibles se identificó que tanto el módulo `dbmsscheduler` como el módulo `externaltable` ofrecen capacidad de ejecutar comandos. Que al intentar usarlos no se permitió su ejecución debido a la falta de privilegios, sin embargo, se encontró que mediante la bandera `--sysdba` existe la posibilidad de "escalar" estos privilegios o impersonar un rol superior al que se tenía.
 
-#### Ejecución
+##### Ejecución
 
 Obteniendo así, una vez ejecutada la reverse shell, acceso directamente como administrador.
 
@@ -199,15 +254,15 @@ Obteniendo así, una vez ejecutada la reverse shell, acceso directamente como ad
 
 ![Reverse shell](images/exploit_2.png)
 
-## Intencionada
+### Intencionada
 
 Si bien odat permite la lectura, escritura y ejecución de archivos, todo lo que realiza en estos procesos no resulta tan "transparente" por lo que para entender un poco acerca de Oracle se realizo parte del mismo proceso por medio de SQL directamente.
 
 *Nota: Se da por hecho que se realizo el descubrimiento de los SIDs y de las credenciales válidas, dado que `scott:tiger` son credenciales por default.*
 
-### RCE
+#### RCE
 
-#### Pasos previos | Preparación
+##### Pasos previos | Preparación
 
 Como parte de la [instalación de odat](https://github.com/quentinhardy/odat#installation-optional-for-development-version), se realiza la instalación del cliente sql para conectarse a la base de datos de Oracle.
 
@@ -219,7 +274,7 @@ sqlplus64 scott/tiger@10.10.10.82:1521/XE as sysdba
 
 ![Conexión con cliente Oracle](images/exploit_3.png)
 
-#### Ejecución
+##### Ejecución
 
 Oracle ocupa su propia sintaxis por lo que con el siguiente pedazo de código se buscó obtener el contenido del archivo por defecto del servidor. Buscando obtener respuesta por medio del prompt configurando primeramente `set serveroutput ON` para su visualización.
 
@@ -266,9 +321,9 @@ Código de página empleado:
 
 ![Webshell en aspx](images/exploit_7.png)
 
-# Post Explotación
+## Post Explotación
 
-## Enumeración
+### Enumeración
 
 Se identificó que entre los privilegios disponibles del usuario obtenido se encuentra habilitado `SeImpersonatePrivilege` lo que lleva a un camino de escalación de privilegios por medio de Rotten o JuicyPotato.
 
@@ -294,9 +349,9 @@ link password:
 
 ![Problema de interpretación de caracteres](images/post_2.png)
 
-## Escalación de privilegios
+### Escalación de privilegios
 
-### Método 1 - Juicy Potato
+#### Método 1 - Juicy Potato
 
 Habiendo encontrado los privilegios relacionados con este método de escalación, sólo restaría probar su ejecución mediante el [binario](https://github.com/ohpe/juicy-potato/releases) y con las opciones utilizadas para entablar una reverse shell con permisos elevados `NT AUTHORITY\SYSTEM`. Ejecutando:
 
@@ -312,7 +367,7 @@ Con lo que respecta a los argumentos utilizados, el binario mismo da la descripc
 
 Con lo que respecta a la práctica los argumentos `-t` y `-l` no representa algo sustancial el cambiar valores. Y en donde `-p` (programa a ejecutar) y `-a` (argumentos a utilizar por el programa señalado) se usaron a partir de las herramientas usadas en pasos anteriores.
 
-### Método 2 - Memdump
+#### Método 2 - Memdump
 
 Con la copia de memoria descargada, se puede hacer uso de [volatility](https://www.volatilityfoundation.org/releases) para analizarla. Buscando antes que todo un perfil acorde al perteneciente al dumpeo de memoria, por medio de:
 
@@ -344,7 +399,7 @@ impacket-psexec Administrator@10.10.10.82 -hashes :9e730375b7cbcebf74ae46481e07b
 
 ![Acceso como Administrator](images/post_8.png)
 
-# Referencias
+## Referencias
 
 - [Hack Tricks - Pentesting Oracle TNS Listener](https://book.hacktricks.xyz/network-services-pentesting/1521-1522-1529-pentesting-oracle-listener).
 - [odat.py](https://github.com/quentinhardy/odat).

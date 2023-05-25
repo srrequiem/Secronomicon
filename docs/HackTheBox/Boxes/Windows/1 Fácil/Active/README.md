@@ -1,19 +1,55 @@
-# Estadísticas
+---
+tags:
+    -  SMB Enumeration
+    -  Abusing GPP Passwords
+    -  Decrypting GPP Passwords - gpp-decrypt
+    -  Kerberoasting Attack (GetUserSPNs.py) [Privilege Escalation]
+---
+
+# Active <!-- omit from toc -->
+
+Write-up de la máquina Active de [HackTheBox](https://hackthebox.com).
+
+![Cover de Active](images/cover.png)
+
+## Índice <!-- omit from toc -->
+
+- [Introducción](#introducción)
+  - [Estadísticas](#estadísticas)
+- [Reconocimiento](#reconocimiento)
+  - [Escaneo de host](#escaneo-de-host)
+    - [Escaneo completo de puertos](#escaneo-completo-de-puertos)
+    - [Escaneo específico](#escaneo-específico)
+- [Enumeración](#enumeración)
+  - [Servicios](#servicios)
+    - [smb - 445](#smb---445)
+      - [Manual](#manual)
+- [Explotación](#explotación)
+  - [Descrifrado de GPP](#descrifrado-de-gpp)
+    - [Ejecución](#ejecución)
+  - [Kerberoasting](#kerberoasting)
+    - [Ejecución](#ejecución-1)
+  - [Credenciales obtenidas](#credenciales-obtenidas)
+
+
+## Introducción
+
+### Estadísticas
 
 | Característica | Descripción |
 |---|---|
-| Nombre | [Active](https://www.hackthebox.com/home/machines/profile/148) |
+| Nombre | [Active](https://app.hackthebox.com/machines/Active) |
 | OS | Windows |
 | Dificultad oficial | Easy |
-| Dificultad de comunidad | ![Dificultad](images/difficulty.png) |
+| Dificultad de comunidad | ![Dificultad](images/diff.png) |
 | Puntos | 20 |
-| Creadores | [eks](https://www.hackthebox.com/home/users/profile/302) & [mrb3n](https://www.hackthebox.com/home/users/profile/2984) |
+| Creadores | [eks](https://app.hackthebox.com/users/302) & [mrb3n](https://app.hackthebox.com/users/2984) |
 
-# Reconocimiento
+## Reconocimiento
 
-## Escaneo de host
+### Escaneo de host
 
-### Escaneo completo de puertos
+#### Escaneo completo de puertos
 
 ```bash
 ❯ nmap -T5 -vvv -open -p- -n -Pn -oG nmap/allPorts $TARGET
@@ -78,7 +114,7 @@ Read data files from: /usr/bin/../share/nmap
 Nmap done: 1 IP address (1 host up) scanned in 28.62 seconds
 ```
 
-### Escaneo específico
+#### Escaneo específico
 
 ```bash
 ❯ nmap -sCV -p 53,88,135,139,389,445,464,593,636,3268,3269,5722,9389,49152,49153,49154,49155,49157,49158,49165,49166,49167 -n -Pn -oN nmap/targeted $TARGET
@@ -126,13 +162,13 @@ Service detection performed. Please report any incorrect results at https://nmap
 Nmap done: 1 IP address (1 host up) scanned in 70.52 seconds
 ```
 
-# Enumeración
+## Enumeración
 
-## Servicios
+### Servicios
 
-### smb - 445
+#### smb - 445
 
-#### Manual
+##### Manual
 
 Se identificaron folders compartidos haciendo uso de `smbclient` de los cuales se permitia el acceso anónimo al share de `Replication`.
 
@@ -156,19 +192,19 @@ Contenido de `Groups.xml`:
 </Groups>
 ```
 
-# Explotación
+## Explotación
 
-## Descrifrado de GPP
+### Descrifrado de GPP
 
-### Ejecución
+#### Ejecución
 
 Al identificar qué tipo de credencial es la que se encuentra en `Groups.xml` se identificó una vulnerabilidad relacionada con las [Group Policy Preferences](https://www.rapid7.com/blog/post/2016/07/27/pentesting-in-the-real-world-group-policy-pwnage/), dado el leak de la llave y suponiendo que la máquina no se encuentra parchada se puede descifrar la contraseña haciendo uso de `gpp-decrypt`.
 
 ![Resultado de gpp-decrypt](images/exploit_1.png)
 
-## Kerberoasting
+### Kerberoasting
 
-### Ejecución
+#### Ejecución
 
 Dados los puertos abiertos que tiene la máquina se puede intuir que la máquina objetivo es un Domain Controller, contemplado esto y que se cuenta con credenciales se puede hacer uso de `impacket-GetUserSPNs` para buscar conseguir un hash de alguna otra cuenta que permita el acceso a la máquina. Utilizando:
 
@@ -196,7 +232,7 @@ Lo que resultaría en buscar el crackeo del hash obtenido (ejecutándolo en esta
 
 ![Acceso como Administrator](images/exploit_5.png)
 
-## Credenciales obtenidas
+### Credenciales obtenidas
 
 | Alcance | Usuario | Contraseña (hash &rarr; pass) | Fuente |
 |-|-|-|-|
