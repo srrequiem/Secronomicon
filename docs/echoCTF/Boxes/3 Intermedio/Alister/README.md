@@ -345,5 +345,5 @@ Para posteriormente autenticarse como usuario `root` con la contraseña asignada
 2. (system: 1300 pts) `/etc/passwd`.
 3. (system: 1300 pts) `/etc/shadow`.
 4. (env: 900 pts) `strings /proc/1/environ | grep ETSCTF_`.
-5.  (root: 1500 pts) `/root`
+5.  (root: 1500 pts) `/root`.
 
