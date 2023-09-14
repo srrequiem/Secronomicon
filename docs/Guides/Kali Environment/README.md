@@ -1,22 +1,85 @@
 # Kali-Environment
 
-## Instalación utilerías
+- TODO: script para realizar setup parcial o completo.
+
+## Reconfiguración de teclado
+
 
 ```bash
-sudo apt update && sudo apt upgrade -y
-sudo apt install -y lsd bat
+sudo dpkg-reconfigure keyboard-configuration
+sudo service keyboard-setup restart
+```
+
+
+## Instalación utilerías
+
+
+```bash
+sudo apt update
+sudo apt install -y lsd bat jq seclists xclip
 ```
 
 - [Oh my tmux](https://github.com/gpakosz/.tmux)
 - [fzf](https://github.com/junegunn/fzf)
 
+
+## Pyenv
+
+
+```bash
+sudo apt install -y build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev python3-openssl git
+curl https://pyenv.run | bash
+```
+
+Buscar en `.zshrc` o `.bashrc` si no se encuentran las siguientes líneas, ponerlas.
+
+```bash
+export PATH="$HOME/.pyenv/bin:$PATH"
+eval "$(pyenv init --path)"
+eval "$(pyenv virtualenv-init -)"
+```
+
+
+## SDKMan
+
+
+```bash
+curl -s "https://get.sdkman.io" | bash
+sdk list java
+sdk install java <version o nombre>
+sdk use <version o nombre> # ysoserial requiere java 8
+```
+
+
+## Navegador
+
+
+- FoxyProxy.
+- Wappalizer.
+- Configuración de certificado de BurpSuite.
+- CookieEditor.
+
+
+## Configuraciones personales
+
+
+```bash
+sudo useradd -m srrequiem
+sudo usermod -a -G sudo srrequiem
+sudo chsh -s /bin/zsh srrequiem
+```
+
+
 ### .tmux.conf.local
+
 
 ```bash
 tmux_conf_copy_to_os_clipboard=true
 ```
 
-## .zshrc
+
+### .zshrc
+
 
 ```bash
 [...]
@@ -96,13 +159,17 @@ eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
 ```
 
+
 ## Scripts para xcfe4 (barra)
+
 
 Click derecho a barra superior: `Panel/Add New Items...` &rarr; `Generic Monitor`
 
 Ubicación: `/home/srrequiem/scripts`
 
+
 ### ethernet.sh
+
 
 ```bash
 #!/bin/sh
@@ -110,7 +177,9 @@ Ubicación: `/home/srrequiem/scripts`
 echo "$(/usr/sbin/ifconfig eth0 | grep "inet " | awk '{print $2}')"
 ```
 
+
 ### vpn.sh
+
 
 ```bash
 #!/bin/sh
@@ -125,7 +194,9 @@ else
 fi
 ```
 
+
 ### target.sh
+
 
 ```bash
 #!/bin/sh
