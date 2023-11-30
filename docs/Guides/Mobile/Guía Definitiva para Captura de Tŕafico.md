@@ -10,7 +10,7 @@ Al tiempo que encontré este método, se me había presentado un caso en dónde 
 
 Sin más que mencionar al respecto, se considerará que se usa un servidor OpenVPN hosteado en una máquina virtual de VMWare en modo NAT, ejemplificando la configuración con el siguiente diagrama:
 
-![]()
+![Pendiente de añadir]()
 
 ### Máquina Virtual
 
