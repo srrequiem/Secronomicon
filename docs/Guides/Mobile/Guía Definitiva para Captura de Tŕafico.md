@@ -1,4 +1,4 @@
-# Guía Definitiva para Captura de Tŕafico
+# Guía Definitiva para Captura de Tráfico
 
 ## OpenVPN
 
@@ -6,7 +6,7 @@ Existen múltiples escenarios en donde se encontrarán diferentes obstáculos qu
 
 Este método lo he ocupado como último recurso a la hora de realizar pruebas de penetración a aplicaciones móviles, en el caso de verme restringido en tiempo, o que me encuentre con protecciones las cuales me esté resultando difícil evadir.
 
-Al tiempo que encontré este método, se me había presentado un caso en dónde no estaba pudiendo capturar el tráfico y había podido identificar que el framework utilizado para la aplicación que estaba evaluando era [Flutter](https://flutter.dev/). Y es que este framework en particular suele evadir de alguna manera las configuraciones establecidas en la sección de proxies de los dispositivos, o al menos eso pude asumir dada la investigación y que al realizar las configuraciones pertinentes para caturar el tráfico, no se mostraban errores relacionados con certificados o comunicaciones cifradas por parte del proxy (BurpSuite).
+Al tiempo que encontré este método, se me había presentado un caso en dónde no estaba pudiendo capturar el tráfico y había podido identificar que el framework utilizado para la aplicación que estaba evaluando era [Flutter](https://flutter.dev/). Y es que este framework en particular suele evadir de alguna manera las configuraciones establecidas en la sección de proxies de los dispositivos, o al menos eso pude asumir dada la investigación y que al realizar las configuraciones pertinentes para capturar el tráfico, no se mostraban errores relacionados con certificados o comunicaciones cifradas por parte del proxy (BurpSuite).
 
 Sin más que mencionar al respecto, se considerará que se usa un servidor OpenVPN hosteado en una máquina virtual de VMWare en modo NAT, ejemplificando la configuración con el siguiente diagrama:
 
@@ -121,7 +121,7 @@ Seleccionar `CONNECT` para realizar la conexión al servidor.
 
 ![iPhone - Conexión a servidor](images/itraffic-iphone_ovpn-4.png)
 
-Se podrá verificar si se realizó la conexión satisfactoriamente si se observa las estadísticas de conexión populada, añadiendo que se podrá ver también el ícono en la barra superior del dispositivo.
+Se podrá verificar si se realizó la conexión satisfactoriamente si se observan datos de salída y de entrada en las estadísticas de conexión, adicionalmente, se podrá ver el ícono de VPN en la barra superior del dispositivo.
 
 ![iPhone - Descarga de archivo .ovpn](images/itraffic-iphone_ovpn-5.png)
 
